@@ -79,17 +79,18 @@ const ProductForm = ({ producto, onClose }) => {
   const toast = useToast();
   const isEdit = !!producto;
   const [form, setForm] = fS(producto || {
-    codigo: '', nombre: '', precio: '', stock: '', laboratorio: 'Inti', categoria: 'Analgésico',
+    codigo: '', nombre: '', precio: '', stock: '', laboratorio: 'Inti', categoria: 'Analgésico', fecha_vencimiento: '2026-08-05', sucursal: 'Central La Paz',
   });
   const set = (k, v) => setForm((f) => ({ ...f, [k]: v }));
 
   const labs = ["Inti", "Bagó", "Vita", "Bayer", "IFA", "Terbol"];
   const cats = ["Analgésico", "Antiinflamatorio", "Antibiótico", "Gastrointestinal", "Antialérgico", "Antidiabético", "Antihipertensivo", "Respiratorio", "Suplemento"];
+  const sucursales = ["Central La Paz", "Sucursal Miraflores", "Sucursal Zona Sur", "Sucursal El Alto"];
 
-  const valid = form.codigo.trim() && form.nombre.trim() && form.precio !== '' && form.stock !== '';
+  const valid = form.codigo.trim() && form.nombre.trim() && form.precio !== '' && form.stock !== '' && form.fecha_vencimiento && form.sucursal;
 
   const save = async () => {
-    if (!valid) { toast('Completa código, nombre, precio y stock', 'warn'); return; }
+    if (!valid) { toast('Completa código, nombre, precio, stock, fecha de vencimiento y sucursal', 'warn'); return; }
     const payload = {
       codigo: form.codigo.trim().toUpperCase(),
       nombre: form.nombre.trim(),
@@ -97,6 +98,8 @@ const ProductForm = ({ producto, onClose }) => {
       stock: parseInt(form.stock),
       laboratorio: form.laboratorio,
       categoria: form.categoria,
+      fecha_vencimiento: form.fecha_vencimiento,
+      sucursal: form.sucursal,
     };
     try {
       if (isEdit) {
@@ -147,6 +150,16 @@ const ProductForm = ({ producto, onClose }) => {
         <div className="field">
           <label className="label">Stock (unidades)</label>
           <input className="input mono" type="number" placeholder="100" value={form.stock} onChange={(e) => set('stock', e.target.value)} />
+        </div>
+        <div className="field">
+          <label className="label">Fecha de Vencimiento</label>
+          <input className="input mono" type="date" value={form.fecha_vencimiento} onChange={(e) => set('fecha_vencimiento', e.target.value)} />
+        </div>
+        <div className="field">
+          <label className="label">Sucursal</label>
+          <select className="select" value={form.sucursal} onChange={(e) => set('sucursal', e.target.value)} disabled={isEdit}>
+            {sucursales.map((s) => <option key={s}>{s}</option>)}
+          </select>
         </div>
         <div className="field" style={{ gridColumn: '1 / -1' }}>
           <label className="label">Categoría</label>
