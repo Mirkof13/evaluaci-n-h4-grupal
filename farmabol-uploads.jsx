@@ -64,7 +64,7 @@ const UploadsScreen = ({ user }) => {
 
         <UShell2.Card title="Archivos almacenados" sub={`${files.length} archivos en total`}>
           {files.length === 0 ? (
-            <div className="empty" style={{ padding: 32 }}><div className="ico"><UI2.File size={20} /></div>Sin archivos aún</div>
+            <div className="empty" style={{ padding: 32 }}><div className="ico"><UI2.Clipboard size={20} /></div>Sin archivos aún</div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {files.map(f => (

@@ -125,7 +125,6 @@ const FarmaSidebar = ({ active, onNav, user }) => {
     { id: 'ventas', label: 'Historial de ventas', icon: 'Activity', roles: ['ADMIN', 'VENDEDOR'] },
     { id: 'transferencias', label: 'Transferencias', icon: 'Refresh', roles: ['ADMIN', 'VENDEDOR'] },
     { id: 'uploads', label: 'Cloud Storage', icon: 'Upload', roles: ['ADMIN', 'VENDEDOR'] },
-    { id: 'arquitectura', label: 'Arquitectura y calidad', icon: 'Layers', roles: ['ADMIN'] },
   ];
   const visible = items.filter((it) => it.roles.includes(user.rol));
 
@@ -228,7 +227,6 @@ const FarmaApp = () => {
   const titles = {
     dashboard: ['Dashboard'], pos: ['Registrar venta'], productos: ['Productos'],
     ventas: ['Historial de ventas'], transferencias: ['Transferencias'], uploads: ['Cloud Storage'],
-    arquitectura: ['Arquitectura y calidad'],
   };
   const crumbs = [user.sucursal, ...(titles[active] || [])];
 
@@ -240,7 +238,6 @@ const FarmaApp = () => {
       case 'ventas': return <window.VentasScreen user={user} />;
       case 'transferencias': return <window.TransferenciasScreen user={user} />;
       case 'uploads': return <window.UploadsScreen user={user} />;
-      case 'arquitectura': return user.rol === 'ADMIN' ? <window.ArquitecturaScreen /> : <window.DashboardScreen user={user} onNav={nav} />;
       default: return <window.DashboardScreen user={user} onNav={nav} />;
     }
   })();
