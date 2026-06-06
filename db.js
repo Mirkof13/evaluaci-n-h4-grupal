@@ -68,6 +68,7 @@ export async function initDatabase() {
       await client.query('DROP TABLE IF EXISTS detalle_ventas CASCADE');
       await client.query('DROP TABLE IF EXISTS ventas CASCADE');
       await client.query('DROP TABLE IF EXISTS productos CASCADE');
+      await client.query('DROP TABLE IF EXISTS comprobantes CASCADE');
       await client.query('DROP TABLE IF EXISTS transferencias CASCADE');
       await client.query('DROP TABLE IF EXISTS usuarios CASCADE');
     }
@@ -135,6 +136,18 @@ export async function initDatabase() {
         destino VARCHAR(100) NOT NULL,
         estado VARCHAR(20) NOT NULL, -- 'PENDIENTE', 'COMPLETADO', 'ERROR'
         mensaje VARCHAR(255)
+      )
+    `);
+
+    // 6. Crear tabla comprobantes (Cloud Storage)
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS comprobantes (
+        id SERIAL PRIMARY KEY,
+        venta_id INT REFERENCES ventas(id) ON DELETE SET NULL,
+        nombre_archivo VARCHAR(255) NOT NULL,
+        url VARCHAR(500) NOT NULL,
+        tipo VARCHAR(50) NOT NULL,
+        fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
 

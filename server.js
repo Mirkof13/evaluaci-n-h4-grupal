@@ -2,7 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
+import multer from 'multer';
 import pool, { initDatabase, query } from './db.js';
 
 dotenv.config();
@@ -13,9 +15,24 @@ const PORT = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Configurar multer para upload de archivos (Cloud Storage local)
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename: (req, file, cb) => {
+    const unique = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, unique + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage });
+
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 // Servir archivos estáticos del frontend
 app.use(express.static(__dirname));
@@ -104,6 +121,18 @@ app.get('/api/state', async (req, res) => {
       };
     });
 
+    // Obtener comprobantes
+    const comprobantesRes = await query('SELECT id, venta_id, nombre_archivo, url, tipo, fecha FROM comprobantes ORDER BY fecha DESC');
+    const comprobantes = comprobantesRes.rows.map(c => {
+      const dt = new Date(c.fecha);
+      const yyyy = dt.getFullYear();
+      const mm = String(dt.getMonth() + 1).padStart(2, '0');
+      const dd = String(dt.getDate()).padStart(2, '0');
+      const hh = String(dt.getHours()).padStart(2, '0');
+      const min = String(dt.getMinutes()).padStart(2, '0');
+      return { ...c, fecha: `${yyyy}-${mm}-${dd} ${hh}:${min}` };
+    });
+
     // Obtener transferencias
     const transferenciasRes = await query('SELECT id, fecha, codigo, nombre, cantidad, origen, destino, estado, mensaje FROM transferencias ORDER BY id DESC');
     const transferencias = transferenciasRes.rows.map(t => {
@@ -124,7 +153,8 @@ app.get('/api/state', async (req, res) => {
       usuarios: usuariosRes.rows,
       productos,
       ventas,
-      transferencias
+      transferencias,
+      comprobantes
     });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener el estado.', error: err.message });
@@ -438,12 +468,52 @@ app.get('/api/transferencias/status/:id', async (req, res) => {
 });
 
 // ----------------------------------------------------------------
-// 5. Restablecer Base de Datos (Tweaks Reset)
+// 5b. Cloud Storage — Upload/Download de comprobantes
+// ----------------------------------------------------------------
+app.post('/api/comprobantes/upload', upload.single('archivo'), async (req, res) => {
+  try {
+    const { venta_id, tipo } = req.body;
+    const archivo = req.file;
+    if (!archivo) return res.status(400).json({ message: 'No se envió ningún archivo.' });
+
+    const url = `/uploads/${archivo.filename}`;
+    const result = await query(
+      'INSERT INTO comprobantes (venta_id, nombre_archivo, url, tipo) VALUES ($1, $2, $3, $4) RETURNING *',
+      [venta_id || null, archivo.filename, url, tipo || 'comprobante']
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    res.status(500).json({ message: 'Error al subir archivo.', error: err.message });
+  }
+});
+
+app.get('/api/comprobantes', async (req, res) => {
+  try {
+    const result = await query('SELECT * FROM comprobantes ORDER BY fecha DESC');
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener comprobantes.', error: err.message });
+  }
+});
+
+app.get('/api/comprobantes/venta/:ventaId', async (req, res) => {
+  try {
+    const result = await query('SELECT * FROM comprobantes WHERE venta_id = $1 ORDER BY fecha DESC', [req.params.ventaId]);
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener comprobantes.', error: err.message });
+  }
+});
+
+// ----------------------------------------------------------------
+// 6. Restablecer Base de Datos (Tweaks Reset)
 // ----------------------------------------------------------------
 app.post('/api/reset', async (req, res) => {
   try {
     // Eliminar las tablas existentes para forzar su recreación
     await query('DROP TABLE IF EXISTS detalle_ventas CASCADE');
+    await query('DROP TABLE IF EXISTS comprobantes CASCADE');
     await query('DROP TABLE IF EXISTS transferencias CASCADE');
     await query('DROP TABLE IF EXISTS ventas CASCADE');
     await query('DROP TABLE IF EXISTS productos CASCADE');

@@ -7,7 +7,8 @@ let state = {
   usuarios: [],
   productos: [],
   ventas: [],
-  transferencias: []
+  transferencias: [],
+  comprobantes: []
 };
 
 let loaded = false;
