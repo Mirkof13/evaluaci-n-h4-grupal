@@ -18,7 +18,8 @@ const POSScreen = ({ user }) => {
   const [lastSale, setLastSale] = pS(null);
 
   const productos = s.productos.filter((p) =>
-    q === '' || p.nombre.toLowerCase().includes(q.toLowerCase()) || p.codigo.toLowerCase().includes(q.toLowerCase())
+    p.sucursal === user.sucursal &&
+    (q === '' || p.nombre.toLowerCase().includes(q.toLowerCase()) || p.codigo.toLowerCase().includes(q.toLowerCase()))
   );
 
   const addToCart = (p) => {
@@ -241,6 +242,131 @@ const VentasScreen = ({ user }) => {
 };
 
 // ============================================================
+// Transferencias entre sucursales (Message Queue)
+// ============================================================
+const TransferenciasScreen = ({ user }) => {
+  const store = window.useStore();
+  const s = store.get();
+  const toast = window.useToast();
+  const isAdmin = user.rol === 'ADMIN';
+
+  const [codigo, setCodigo] = pS('');
+  const [cantidad, setCantidad] = pS(1);
+  const [destino, setDestino] = pS('');
+  const [loading, setLoading] = pS(false);
+  const [polling, setPolling] = pS(false);
+  const pollingRef = React.useRef(null);
+
+  const sucursales = ['Central La Paz', 'Sucursal Miraflores', 'Sucursal Zona Sur', 'Sucursal El Alto']
+    .filter(s => s !== user.sucursal);
+
+  const transferencias = s.transferencias || [];
+
+  // Poll para actualizar estado de transferencias pendientes
+  React.useEffect(() => {
+    if (polling) {
+      pollingRef.current = setInterval(async () => {
+        await store.reloadState();
+        const hasPending = store.get().transferencias.some(t => t.estado === 'PENDIENTE');
+        if (!hasPending) { setPolling(false); }
+      }, 2000);
+    }
+    return () => { if (pollingRef.current) clearInterval(pollingRef.current); };
+  }, [polling]);
+
+  const iniciarTransferencia = async () => {
+    if (!codigo || !cantidad || !destino) { toast('Completa todos los campos', 'warn'); return; }
+    try {
+      setLoading(true);
+      const res = await store.transferirProducto(codigo, parseInt(cantidad), user.sucursal, destino);
+      toast(`Transferencia #${res.id} encolada exitosamente`, 'ok');
+      setCodigo('');
+      setCantidad(1);
+      setDestino('');
+      setPolling(true);
+    } catch (err) {
+      toast(err.message || 'Error al iniciar transferencia', 'danger');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <PShell.PageHeader
+        title="Transferencias entre sucursales"
+        sub={<span>Origen: <strong>{user.sucursal}</strong> · La cola asíncrona procesa las transferencias en segundo plano (Message Queue)</span>}
+      />
+
+      {isAdmin && (
+        <PShell.Card title="Nueva transferencia" sub="Enviar stock a otra sucursal" style={{ marginBottom: 14 }}>
+          <div className="grid-3" style={{ gap: 12 }}>
+            <div className="field">
+              <label className="label">Código de producto</label>
+              <input className="input mono" placeholder="PARA-500" value={codigo} onChange={e => setCodigo(e.target.value)} />
+            </div>
+            <div className="field">
+              <label className="label">Cantidad</label>
+              <input className="input mono" type="number" min="1" value={cantidad} onChange={e => setCantidad(e.target.value)} />
+            </div>
+            <div className="field">
+              <label className="label">Sucursal destino</label>
+              <select className="select" value={destino} onChange={e => setDestino(e.target.value)}>
+                <option value="">Seleccionar...</option>
+                {sucursales.map(s => <option key={s}>{s}</option>)}
+              </select>
+            </div>
+          </div>
+          <button className="btn primary" style={{ marginTop: 12 }} onClick={iniciarTransferencia} disabled={loading}>
+            <PI.Check size={14} /> {loading ? 'Encolando...' : 'Iniciar transferencia'}
+          </button>
+        </PShell.Card>
+      )}
+
+      <PShell.Card
+        title="Historial de transferencias"
+        sub={`${transferencias.length} registros · ${transferencias.filter(t => t.estado === 'PENDIENTE').length} pendientes`}
+      >
+        <table className="table">
+          <thead>
+            <tr>
+              <th>#</th><th>Fecha</th><th>Código</th><th>Producto</th>
+              <th>Cant.</th><th>Origen</th><th>Destino</th><th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transferencias.map(t => (
+              <tr key={t.id}>
+                <td className="mono muted">#{t.id}</td>
+                <td className="muted mono" style={{ fontSize: 12 }}>{t.fecha}</td>
+                <td className="mono" style={{ color: 'var(--accent)' }}>{t.codigo}</td>
+                <td>{t.nombre}</td>
+                <td className="num">{t.cantidad}</td>
+                <td className="muted" style={{ fontSize: 12 }}>{t.origen}</td>
+                <td className="muted" style={{ fontSize: 12 }}>{t.destino}</td>
+                <td>
+                  {t.estado === 'COMPLETADO' && <span className="chip ok" style={{ fontSize: 11 }}><PI.Check size={11} /> Completado</span>}
+                  {t.estado === 'PENDIENTE' && <span className="chip warn" style={{ fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 4 }}><span className="spinner" /> Pendiente</span>}
+                  {t.estado === 'ERROR' && <span className="chip danger" style={{ fontSize: 11 }}><PI.X size={11} /> {t.mensaje ? 'Error' : 'Error'}</span>}
+                </td>
+              </tr>
+            ))}
+            {transferencias.length === 0 && (
+              <tr><td colSpan="8"><div className="empty" style={{ padding: 24 }}>No hay transferencias registradas</div></td></tr>
+            )}
+          </tbody>
+        </table>
+        {polling && (
+          <div className="muted-2" style={{ fontSize: 11.5, marginTop: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span className="spinner" /> Actualizando estado de transferencias pendientes...
+          </div>
+        )}
+      </PShell.Card>
+    </>
+  );
+};
+
+// ============================================================
 // Arquitectura y calidad (para defensa / PDF)
 // ============================================================
 const ArquitecturaScreen = () => {
@@ -348,4 +474,5 @@ const ArquitecturaScreen = () => {
 
 window.POSScreen = POSScreen;
 window.VentasScreen = VentasScreen;
+window.TransferenciasScreen = TransferenciasScreen;
 window.ArquitecturaScreen = ArquitecturaScreen;

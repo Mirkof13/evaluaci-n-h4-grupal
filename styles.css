@@ -1236,3 +1236,17 @@ a { color: inherit; text-decoration: none; }
   color: var(--accent);
   letter-spacing: 0.02em;
 }
+
+/* Spinner animation for pending transfers */
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--border-2);
+  border-top-color: var(--warn);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
