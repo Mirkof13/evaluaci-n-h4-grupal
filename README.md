@@ -1,8 +1,8 @@
-# 🏥 FARMABOL — Sistema de Control de Inventarios y Ventas
+# FARMABOL — Sistema de Control de Inventarios y Ventas
 
 Sistema completo de gestión de inventario y punto de venta para **Farmacias Bolivianas Unidas (FARMABOL)** — 12 sucursales nacionales.
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 FARMABOL/
@@ -12,7 +12,7 @@ FARMABOL/
 ├── farmabol-app.jsx       # Componente principal + Login + Routing
 ├── farmabol-data.jsx      # Store reactivo conectado a la API
 ├── farmabol-screens.jsx   # Pantallas: Dashboard, Productos CRUD
-├── farmabol-screens2.jsx  # Pantallas: POS, Ventas, Arquitectura
+├── farmabol-screens2.jsx  # Pantallas: POS, Ventas, Transferencias, Arquitectura
 ├── farmabol-ui.jsx        # Componentes compartidos: Modal, Toast, Formularios
 ├── farmabol-tweaks.jsx    # Panel de configuración de tema
 ├── icons.jsx              # Iconos SVG inline
@@ -22,15 +22,17 @@ FARMABOL/
 ├── package.json           # Dependencias del proyecto
 ├── .env                   # Variables de entorno (NO subir a Git)
 ├── .gitignore             # Archivos excluidos del repositorio
+├── README.md              # Documentación del proyecto
 ├── ARQUITECTURA.md        # Documentación técnica completa
 └── docs/                  # Diagramas UML SVG
     ├── diagrama-arquitectura.svg
+    ├── diagrama-clases.svg
     ├── diagrama-er.svg
     ├── diagrama-casos-uso.svg
     └── diagrama-secuencia.svg
 ```
 
-## 🚀 Instalación y Ejecución
+## Instalación y Ejecución
 
 ### Requisitos previos
 - **Node.js** v18 o superior
@@ -74,75 +76,83 @@ El sistema creará automáticamente la base de datos `farmabol`, las tablas y lo
 http://localhost:3000
 ```
 
-## 👤 Credenciales de Acceso
+## Credenciales de Acceso
 
 | Rol | Usuario | Contraseña | Permisos |
 |-----|---------|-----------|----------|
-| 👑 **Administrador** | `admin` | `admin123` | CRUD productos, ventas, reportes, arquitectura |
-| 🛒 **Vendedor** | `vendedor` | `venta123` | Registrar ventas, consultar stock |
+| Administrador | `admin` | `admin123` | CRUD productos, ventas, reportes, transferencias, arquitectura |
+| Vendedor | `vendedor` | `venta123` | Registrar ventas, consultar stock, ver transferencias |
 
-## 🗄️ Base de Datos (PostgreSQL)
+## Base de Datos (PostgreSQL)
 
-El sistema gestiona **4 tablas relacionales**:
+El sistema gestiona **5 tablas relacionales**:
 
 | Tabla | Descripción |
 |-------|-------------|
-| `usuarios` | Personal con roles ADMIN/VENDEDOR |
-| `productos` | Catálogo de medicamentos con stock |
+| `usuarios` | Personal con roles ADMIN/VENDEDOR y sucursal asignada |
+| `productos` | Catálogo de medicamentos con stock por sucursal (UNIQUE codigo+sucursal) y fecha de vencimiento |
 | `ventas` | Cabecera de transacciones de venta |
 | `detalle_ventas` | Ítems de cada venta (relación N:M) |
+| `transferencias` | Cola de mensajes para transferencia asíncrona entre sucursales |
 
-## 🌐 API REST — Endpoints
+## API REST — Endpoints
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
 | `POST` | `/api/auth/login` | Autenticación de usuario |
-| `GET` | `/api/state` | Estado completo (productos + ventas) |
+| `GET` | `/api/state` | Estado completo (productos + ventas + transferencias) |
 | `POST` | `/api/productos` | Crear producto (ADMIN) |
 | `PUT` | `/api/productos/:id` | Actualizar producto (ADMIN) |
 | `DELETE` | `/api/productos/:id` | Eliminar producto (ADMIN) |
-| `POST` | `/api/ventas` | Registrar venta (transacción atómica) |
+| `POST` | `/api/ventas` | Registrar venta (transacción atómica con FOR UPDATE) |
+| `POST` | `/api/transferencias` | Encolar transferencia asíncrona (retorna 202 Accepted) |
+| `GET` | `/api/transferencias/status/:id` | Consultar estado de transferencia |
 | `POST` | `/api/reset` | Restablecer datos de demostración |
 
-## 🏛️ Arquitectura
+## Message Queue (Cola de Mensajes Asíncrona)
 
-**Estilo:** Arquitectura por Capas (Layered Architecture)
+El sistema implementa un **middleware de cola en memoria** para procesar transferencias entre sucursales:
+
+1. El admin solicita una transferencia desde el formulario de Transferencias
+2. El backend registra la solicitud con estado `PENDIENTE` y retorna `HTTP 202 Accepted` inmediatamente
+3. La clase `MessageQueue` procesa el trabajo en segundo plano (con retardo simulado de 3 segundos)
+4. El frontend realiza polling cada 2 segundos para actualizar el estado
+5. Al completarse, el stock de origen se descuenta y el de destino se incrementa atómicamente
+
+## Arquitectura
+
+**Estilo:** Arquitectura por Capas (Layered Architecture) con Middleware de Message Queue
 
 ```
-┌─────────────────────────────────┐
-│  Presentación: React 18 (SPA)   │
-├─────────────────────────────────┤
-│  Negocio: Express.js Routes     │
-├─────────────────────────────────┤
-│  Datos: pg Pool + Transacciones │
-├─────────────────────────────────┤
-│  Persistencia: PostgreSQL 18    │
-└─────────────────────────────────┘
+┌───────────────────────────────────────┐
+│  Presentación: React 18 (SPA)         │
+├───────────────────────────────────────┤
+│  Negocio: Express.js Routes           │
+│  + MessageQueue (Cola Asíncrona)      │
+├───────────────────────────────────────┤
+│  Datos: pg Pool + Transacciones ACID  │
+├───────────────────────────────────────┤
+│  Persistencia: PostgreSQL 18           │
+└───────────────────────────────────────┘
 ```
 
-## 🔍 Análisis de Calidad Estática (ESLint)
+## Análisis de Calidad Estática (ESLint)
 
 ```bash
 npm run lint
 ```
-Resultado: **0 errores, 0 advertencias** — Quality Gate: ✅ Passed
+Resultado: **0 errores, 0 advertencias** — Quality Gate: Passed
 
-## 📊 Commits de Refactorización
-
-| Commit | Descripción | Tipo |
-|--------|-------------|------|
-| `ae3d2d2` | `feat: implementar backend Express y conexion a PostgreSQL` | **Código ANTES** (ventas no atómicas) |
-| `6d7d52a` | `refactor: implementar transacciones SQL atomicas y validar stock` | **Código DESPUÉS** (BEGIN/COMMIT/ROLLBACK) |
-
-## 📄 Diagramas UML
+## Diagramas UML
 
 Los diagramas se encuentran en la carpeta [`docs/`](./docs/):
 - [Diagrama de Arquitectura](./docs/diagrama-arquitectura.svg)
+- [Diagrama de Clases](./docs/diagrama-clases.svg)
 - [Diagrama Entidad-Relación](./docs/diagrama-er.svg)
 - [Diagrama de Casos de Uso](./docs/diagrama-casos-uso.svg)
-- [Diagrama de Secuencia — Registro de Venta](./docs/diagrama-secuencia.svg)
+- [Diagrama de Secuencia — Transferencia Asíncrona](./docs/diagrama-secuencia.svg)
 
-## ☁️ Despliegue en la Nube
+## Despliegue en la Nube
 
 Para desplegar en **Render** (gratuito):
 1. Subir el repositorio a GitHub
