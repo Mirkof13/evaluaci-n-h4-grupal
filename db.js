@@ -38,8 +38,8 @@ async function ensureDatabaseExists() {
       console.log(`Base de datos '${dbConfig.database}' creada con éxito.`);
     }
   } catch (err) {
-    console.error('Error al verificar/crear la base de datos:', err.message);
-    console.error('Asegúrate de que PostgreSQL esté corriendo y que tus credenciales en el archivo .env sean correctas.');
+    console.error('Error al verificar/crear la base de datos. Verifique la conexión a PostgreSQL.');
+    console.error('Detalles técnicos:', err.message.replace(/password[^a-z]*/gi, '*** '));
   } finally {
     await testClient.end();
   }
@@ -262,7 +262,7 @@ export async function initDatabase() {
     await client.query('COMMIT');
   } catch (err) {
     await client.query('ROLLBACK');
-    console.error('Error al inicializar la base de datos:', err);
+    console.error('Error al inicializar la base de datos:', err.message.replace(/password[^a-z]*/gi, '*** '));
     throw err;
   } finally {
     client.release();
