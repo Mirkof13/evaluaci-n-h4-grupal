@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: farmabol
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: PGUSER
+        value: postgres
+      - key: PGPASSWORD
+        sync: false
+      - key: PGHOST
+        sync: false
+      - key: PGPORT
+        value: 5432
+      - key: PGDATABASE
+        value: farmabol
+      - key: NODE_VERSION
+        value: 18.18.0
