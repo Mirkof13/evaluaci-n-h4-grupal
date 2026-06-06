@@ -60,7 +60,7 @@ app.post('/api/auth/login', async (req, res) => {
 app.get('/api/state', async (req, res) => {
   try {
     const usuariosRes = await query('SELECT id, usuario, nombre, rol, sucursal FROM usuarios');
-    const productosRes = await query('SELECT id, codigo, nombre, precio, stock, laboratorio, categoria FROM productos ORDER BY id ASC');
+    const productosRes = await query('SELECT id, codigo, nombre, precio, stock, laboratorio, categoria, fecha_vencimiento, sucursal FROM productos ORDER BY id ASC');
     
     // Obtener ventas
     const ventasRes = await query('SELECT id, fecha, vendedor, total FROM ventas ORDER BY id DESC');
@@ -90,17 +90,41 @@ app.get('/api/state', async (req, res) => {
       v.fecha = `${yyyy}-${mm}-${dd} ${hh}:${min}`;
     }
 
-    // Convertir tipos numéricos en productos
-    const productos = productosRes.rows.map(p => ({
-      ...p,
-      precio: parseFloat(p.precio),
-      stock: parseInt(p.stock)
-    }));
+    // Convertir tipos numéricos en productos y formatear fecha de vencimiento
+    const productos = productosRes.rows.map(p => {
+      const dt = new Date(p.fecha_vencimiento);
+      const yyyy = dt.getFullYear();
+      const mm = String(dt.getMonth() + 1).padStart(2, '0');
+      const dd = String(dt.getDate()).padStart(2, '0');
+      return {
+        ...p,
+        precio: parseFloat(p.precio),
+        stock: parseInt(p.stock),
+        fecha_vencimiento: `${yyyy}-${mm}-${dd}`
+      };
+    });
+
+    // Obtener transferencias
+    const transferenciasRes = await query('SELECT id, fecha, codigo, nombre, cantidad, origen, destino, estado, mensaje FROM transferencias ORDER BY id DESC');
+    const transferencias = transferenciasRes.rows.map(t => {
+      const dt = new Date(t.fecha);
+      const yyyy = dt.getFullYear();
+      const mm = String(dt.getMonth() + 1).padStart(2, '0');
+      const dd = String(dt.getDate()).padStart(2, '0');
+      const hh = String(dt.getHours()).padStart(2, '0');
+      const min = String(dt.getMinutes()).padStart(2, '0');
+      return {
+        ...t,
+        fecha: `${yyyy}-${mm}-${dd} ${hh}:${min}`,
+        cantidad: parseInt(t.cantidad)
+      };
+    });
 
     res.json({
       usuarios: usuariosRes.rows,
       productos,
-      ventas
+      ventas,
+      transferencias
     });
   } catch (err) {
     res.status(500).json({ message: 'Error al obtener el estado.', error: err.message });
@@ -111,16 +135,16 @@ app.get('/api/state', async (req, res) => {
 // 3. Productos CRUD (ADMIN)
 // ----------------------------------------------------------------
 app.post('/api/productos', async (req, res) => {
-  const { codigo, nombre, precio, stock, laboratorio, categoria } = req.body;
+  const { codigo, nombre, precio, stock, laboratorio, categoria, fecha_vencimiento, sucursal } = req.body;
   try {
-    const checkRes = await query('SELECT 1 FROM productos WHERE codigo = $1', [codigo]);
+    const checkRes = await query('SELECT 1 FROM productos WHERE codigo = $1 AND sucursal = $2', [codigo, sucursal]);
     if (checkRes.rows.length > 0) {
-      return res.status(400).json({ message: `El código de producto '${codigo}' ya existe.` });
+      return res.status(400).json({ message: `El código de producto '${codigo}' ya existe en la sucursal '${sucursal}'.` });
     }
 
     const insertRes = await query(
-      'INSERT INTO productos (codigo, nombre, precio, stock, laboratorio, categoria) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [codigo.toUpperCase(), nombre, parseFloat(precio), parseInt(stock), laboratorio, categoria]
+      'INSERT INTO productos (codigo, nombre, precio, stock, laboratorio, categoria, fecha_vencimiento, sucursal) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+      [codigo.toUpperCase(), nombre, parseFloat(precio), parseInt(stock), laboratorio, categoria, fecha_vencimiento, sucursal]
     );
 
     const prod = insertRes.rows[0];
@@ -135,11 +159,11 @@ app.post('/api/productos', async (req, res) => {
 
 app.put('/api/productos/:id', async (req, res) => {
   const { id } = req.params;
-  const { codigo, nombre, precio, stock, laboratorio, categoria } = req.body;
+  const { codigo, nombre, precio, stock, laboratorio, categoria, fecha_vencimiento, sucursal } = req.body;
   try {
     const updateRes = await query(
-      'UPDATE productos SET codigo = $1, nombre = $2, precio = $3, stock = $4, laboratorio = $5, categoria = $6 WHERE id = $7 RETURNING *',
-      [codigo.toUpperCase(), nombre, parseFloat(precio), parseInt(stock), laboratorio, categoria, id]
+      'UPDATE productos SET codigo = $1, nombre = $2, precio = $3, stock = $4, laboratorio = $5, categoria = $6, fecha_vencimiento = $7, sucursal = $8 WHERE id = $9 RETURNING *',
+      [codigo.toUpperCase(), nombre, parseFloat(precio), parseInt(stock), laboratorio, categoria, fecha_vencimiento, sucursal, id]
     );
 
     if (updateRes.rows.length === 0) {
@@ -172,10 +196,6 @@ app.delete('/api/productos/:id', async (req, res) => {
 // ----------------------------------------------------------------
 // 4. Registro de Ventas (Código Refactorizado / DESPUÉS de Refactorizar)
 // ----------------------------------------------------------------
-// [✓] MEJORA DE CALIDAD: Este endpoint utiliza transacciones atómicas (BEGIN/COMMIT/ROLLBACK)
-// y SELECT FOR UPDATE para bloquear las filas durante la validación de stock.
-// Si ocurre un error o el stock es insuficiente, la transacción se aborta por completo (ROLLBACK),
-// manteniendo la consistencia de la base de datos sin deducciones de stock huérfanas.
 app.post('/api/ventas', async (req, res) => {
   const { items, vendedor } = req.body;
   
@@ -187,24 +207,28 @@ app.post('/api/ventas', async (req, res) => {
   try {
     await client.query('BEGIN');
     
+    // Obtener la sucursal del vendedor para descontar stock localmente
+    const userRes = await client.query('SELECT sucursal FROM usuarios WHERE nombre = $1', [vendedor]);
+    const sucursal = userRes.rows.length > 0 ? userRes.rows[0].sucursal : 'Central La Paz';
+
     let totalVenta = 0;
     const itemsProcesados = [];
 
-    // 1. Validar stock y bloquear filas para prevenir condiciones de carrera
+    // 1. Validar stock y bloquear filas en la sucursal específica
     for (const it of items) {
       const prodRes = await client.query(
-        'SELECT id, stock, nombre, precio FROM productos WHERE codigo = $1 FOR UPDATE',
-        [it.codigo]
+        'SELECT id, stock, nombre, precio FROM productos WHERE codigo = $1 AND sucursal = $2 FOR UPDATE',
+        [it.codigo, sucursal]
       );
       
       if (prodRes.rows.length === 0) {
-        throw new Error(`El producto con código ${it.codigo} no existe.`);
+        throw new Error(`El producto con código ${it.codigo} no existe en la sucursal ${sucursal}.`);
       }
 
       const prod = prodRes.rows[0];
 
       if (parseInt(prod.stock) < it.cantidad) {
-        throw new Error(`Stock insuficiente para ${prod.nombre}. Disponible: ${prod.stock}, Solicitado: ${it.cantidad}`);
+        throw new Error(`Stock insuficiente para ${prod.nombre} en ${sucursal}. Disponible: ${prod.stock}, Solicitado: ${it.cantidad}`);
       }
 
       const precioReal = parseFloat(prod.precio);
@@ -250,12 +274,177 @@ app.post('/api/ventas', async (req, res) => {
 });
 
 // ----------------------------------------------------------------
+// Queue / Middleware de transferencias asíncronas
+// ----------------------------------------------------------------
+class MessageQueue {
+  constructor() {
+    this.jobs = [];
+    this.processing = false;
+  }
+
+  push(job) {
+    this.jobs.push(job);
+    this.processNext();
+  }
+
+  async processNext() {
+    if (this.processing) return;
+    if (this.jobs.length === 0) return;
+
+    this.processing = true;
+    const job = this.jobs.shift();
+
+    console.log(`[MQ] Procesando transferencia #${job.id} de ${job.codigo} de ${job.origen} a ${job.destino}`);
+    
+    // Simular retardo de procesamiento en segundo plano (3 segundos)
+    setTimeout(async () => {
+      const client = await pool.connect();
+      try {
+        await client.query('BEGIN');
+
+        // Buscar producto de origen y bloquear la fila
+        const originRes = await client.query(
+          'SELECT id, nombre, precio, stock, laboratorio, categoria, fecha_vencimiento FROM productos WHERE codigo = $1 AND sucursal = $2 FOR UPDATE',
+          [job.codigo, job.origen]
+        );
+
+        if (originRes.rows.length === 0) {
+          throw new Error(`El producto con código ${job.codigo} no existe en la sucursal de origen (${job.origen}).`);
+        }
+
+        const originProd = originRes.rows[0];
+        if (parseInt(originProd.stock) < job.cantidad) {
+          throw new Error(`Stock insuficiente en ${job.origen} para ${originProd.nombre}. Disp: ${originProd.stock}, Solicitado: ${job.cantidad}`);
+        }
+
+        // Descontar stock del origen
+        await client.query(
+          'UPDATE productos SET stock = stock - $1 WHERE id = $2',
+          [job.cantidad, originProd.id]
+        );
+
+        // Buscar producto en sucursal destino y bloquear la fila
+        const destRes = await client.query(
+          'SELECT id FROM productos WHERE codigo = $1 AND sucursal = $2 FOR UPDATE',
+          [job.codigo, job.destino]
+        );
+
+        if (destRes.rows.length > 0) {
+          // Aumentar stock si ya existe
+          await client.query(
+            'UPDATE productos SET stock = stock + $1 WHERE id = $2',
+            [job.cantidad, destRes.rows[0].id]
+          );
+        } else {
+          // Si no existe en destino, crear un nuevo registro copiando las características
+          await client.query(
+            `INSERT INTO productos (codigo, nombre, precio, stock, laboratorio, categoria, fecha_vencimiento, sucursal) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+            [
+              job.codigo, 
+              originProd.nombre, 
+              parseFloat(originProd.precio), 
+              job.cantidad, 
+              originProd.laboratorio, 
+              originProd.categoria, 
+              originProd.fecha_vencimiento, 
+              job.destino
+            ]
+          );
+        }
+
+        // Marcar la transferencia como COMPLETADA
+        await client.query(
+          "UPDATE transferencias SET estado = 'COMPLETADO', mensaje = 'Transferencia completada con éxito' WHERE id = $1",
+          [job.id]
+        );
+
+        await client.query('COMMIT');
+        console.log(`[MQ] Transferencia #${job.id} finalizada con éxito.`);
+      } catch (err) {
+        await client.query('ROLLBACK');
+        console.error(`[MQ] Fallo en transferencia #${job.id}:`, err.message);
+        await query(
+          "UPDATE transferencias SET estado = 'ERROR', mensaje = $1 WHERE id = $2",
+          [err.message, job.id]
+        );
+      } finally {
+        client.release();
+        this.processing = false;
+        this.processNext();
+      }
+    }, 3000);
+  }
+}
+
+const transferQueue = new MessageQueue();
+
+// Endpoint para solicitar transferencia (encolar asíncronamente)
+app.post('/api/transferencias', async (req, res) => {
+  const { codigo, cantidad, origen, destino } = req.body;
+  
+  if (!codigo || !cantidad || !origen || !destino) {
+    return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
+  }
+
+  if (origen === destino) {
+    return res.status(400).json({ message: 'Origen y destino deben ser diferentes.' });
+  }
+
+  try {
+    // Buscar nombre del producto
+    const prodRes = await query('SELECT nombre FROM productos WHERE codigo = $1 LIMIT 1', [codigo]);
+    if (prodRes.rows.length === 0) {
+      return res.status(400).json({ message: `El código de producto ${codigo} no existe.` });
+    }
+    const nombre = prodRes.rows[0].nombre;
+
+    // Crear log en cola con estado PENDIENTE
+    const insertRes = await query(
+      "INSERT INTO transferencias (codigo, nombre, cantidad, origen, destino, estado, mensaje) VALUES ($1, $2, $3, $4, $5, 'PENDIENTE', 'Esperando procesamiento en cola asíncrona...') RETURNING id, estado",
+      [codigo, nombre, parseInt(cantidad), origen, destino]
+    );
+
+    const transferId = insertRes.rows[0].id;
+
+    // Enviar a la cola
+    transferQueue.push({
+      id: transferId,
+      codigo,
+      cantidad: parseInt(cantidad),
+      origen,
+      destino
+    });
+
+    // Responder 202 Accepted
+    res.status(202).json({ id: transferId, estado: 'PENDIENTE', message: 'Solicitud de transferencia encolada con éxito.' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error al registrar la transferencia.', error: err.message });
+  }
+});
+
+// Endpoint para consultar estado de una transferencia en particular
+app.get('/api/transferencias/status/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const statusRes = await query('SELECT id, estado, mensaje FROM transferencias WHERE id = $1', [id]);
+    if (statusRes.rows.length === 0) {
+      return res.status(404).json({ message: 'Transferencia no encontrada.' });
+    }
+    res.json(statusRes.rows[0]);
+  } catch (err) {
+    res.status(500).json({ message: 'Error al obtener estado.', error: err.message });
+  }
+});
+
+// ----------------------------------------------------------------
 // 5. Restablecer Base de Datos (Tweaks Reset)
 // ----------------------------------------------------------------
 app.post('/api/reset', async (req, res) => {
   try {
     // Eliminar las tablas existentes para forzar su recreación
     await query('DROP TABLE IF EXISTS detalle_ventas CASCADE');
+    await query('DROP TABLE IF EXISTS transferencias CASCADE');
     await query('DROP TABLE IF EXISTS ventas CASCADE');
     await query('DROP TABLE IF EXISTS productos CASCADE');
     await query('DROP TABLE IF EXISTS usuarios CASCADE');
