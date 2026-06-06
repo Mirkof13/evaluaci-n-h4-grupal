@@ -396,10 +396,55 @@ El frontend está acoplado como archivos estáticos servidos por Express en Rend
 
 ---
 
-## 9. Commits de Refactorización
+## 9. Cloud Storage (Almacenamiento en la Nube)
+
+Para cumplir con el requisito de almacenamiento en la nube, FARMABOL implementa un sistema de subida y descarga de archivos (comprobantes de venta, fotos, códigos QR) utilizando **multer** (middleware de Node.js para manejo de archivos multipart) y almacenamiento local en el directorio `uploads/`.
+
+### Implementación Actual:
+- **Subida de archivos:** `POST /api/comprobantes/upload` — acepta archivos vía `multipart/form-data`.
+- **Listado de archivos:** `GET /api/comprobantes` — retorna todos los archivos almacenados.
+- **Archivos por venta:** `GET /api/comprobantes/venta/:ventaId` — filtra por venta asociada.
+- **Almacenamiento:** Los archivos se guardan en `uploads/` con nombre único (timestamp + random).
+- **Persistencia:** La tabla `comprobantes` en PostgreSQL registra metadatos (nombre, url, tipo, venta asociada).
+
+### Migración a Supabase Storage (producción):
+Para entornos cloud, se recomienda reemplazar el almacenamiento local por Supabase Storage:
+
+```javascript
+// Configuración alternativa usando Supabase Storage
+import { createClient } from '@supabase/supabase-js';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Subir archivo
+const { data } = await supabase.storage
+  .from('farmabol-uploads')
+  .upload(`comprobantes/${Date.now()}-${file.name}`, file);
+
+// Obtener URL pública
+const { data: { publicUrl } } = supabase.storage
+  .from('farmabol-uploads')
+  .getPublicUrl(data.path);
+```
+
+### Captura de evidencia:
+```
+Archivos almacenados en /uploads:
+├── 1685987654321-143284756-factura001.pdf
+├── 1685987654322-948372615-recibo.jpg
+└── 1685987654323-123456789-qr-pago.png
+
+Registros en BD (tabla comprobantes):
+id | venta_id | nombre_archivo                    | url                                     | tipo
+1  | 1        | 16859...-factura001.pdf           | /uploads/16859...-factura001.pdf         | comprobante
+2  | NULL     | 16859...-qr-pago.png              | /uploads/16859...-qr-pago.png            | qr
+```
+
+---
+
+## 10. Commits de Refactorización
 
 | Commit | Descripción |
 |--------|-------------|
 | `bfffabb` | feat: implementar backend Express y conexion a PostgreSQL (Código ANTES) |
 | `2aa35da` | refactor: implementar transacciones SQL atomicas y validar stock con FOR UPDATE (Código DESPUÉS) |
-| Nuevos commits de Hito 4 | Ver repositorio para commits de multi-sucursal, Message Queue, y documentación |
+| Nuevos commits de Hito 4 | Ver repositorio para commits de multi-sucursal, Message Queue, Cloud Storage y documentación |
