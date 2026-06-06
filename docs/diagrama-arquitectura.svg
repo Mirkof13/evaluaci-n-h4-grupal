@@ -1,147 +1,94 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 750" width="100%" height="100%">
-  <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="100%" stop-color="#1e1b4b" />
-    </linearGradient>
-    <linearGradient id="clientGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#0284c7" />
-    </linearGradient>
-    <linearGradient id="serverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#34d399" />
-      <stop offset="100%" stop-color="#059669" />
-    </linearGradient>
-    <linearGradient id="mqGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#f59e0b" />
-      <stop offset="100%" stop-color="#d97706" />
-    </linearGradient>
-    <linearGradient id="dbGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#fb7185" />
-      <stop offset="100%" stop-color="#e11d48" />
-    </linearGradient>
-    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.5" />
-    </filter>
-    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8" />
-    </marker>
-    <marker id="arrowActive" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
-    </marker>
-    <marker id="arrowMq" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b" />
-    </marker>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 650" width="100%" height="100%">
+  <rect width="800" height="650" fill="#ffffff" stroke="#000000" stroke-width="2" />
+  <text x="400" y="35" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold">DIAGRAMA DE ARQUITECTURA — FARMABOL</text>
+  <text x="400" y="55" text-anchor="middle" fill="#333333" font-family="sans-serif" font-size="12">Arquitectura por Capas con Middleware Message Queue</text>
 
-  <rect width="900" height="750" rx="12" fill="url(#bgGrad)" />
-  <rect width="900" height="750" rx="12" fill="none" stroke="#334155" stroke-width="2" />
+  <!-- CAPA 1: Presentación -->
+  <g transform="translate(50, 90)">
+    <rect width="700" height="110" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+    <rect width="700" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
+    <text x="10" y="19" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold">CAPA DE PRESENTACIÓN</text>
+    <text x="690" y="19" text-anchor="end" fill="#333333" font-family="sans-serif" font-size="10">Navegador Web</text>
 
-  <text x="450" y="45" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="bold" letter-spacing="1">
-    DIAGRAMA DE ARQUITECTURA DE SOFTWARE (UML)
-  </text>
-  <text x="450" y="70" text-anchor="middle" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="14">
-    Arquitectura Monolítica por Capas con Message Queue Asíncrona y PostgreSQL
-  </text>
-
-  <!-- CLIENT / VIEW LAYER -->
-  <g transform="translate(50, 110)" filter="url(#dropShadow)">
-    <rect width="800" height="130" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
-    <rect width="800" height="30" rx="8" fill="#0f172a" opacity="0.5" />
-    <text x="20" y="20" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="bold" letter-spacing="0.5">
-      CAPA DE PRESENTACIÓN (CLIENTE)
-    </text>
-    <text x="780" y="20" text-anchor="end" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11">
-      Navegador Web / React SPA
-    </text>
-    <g transform="translate(30, 45)">
-      <rect width="340" height="70" rx="6" fill="#1e1b4b" stroke="#38bdf8" stroke-width="1.5" />
-      <text x="20" y="25" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold">React SPA (Babel Standalone)</text>
-      <text x="20" y="43" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="12">farmabol-app.jsx + screens + ui</text>
-      <text x="20" y="58" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11">Componentes de UI, POS, Dashboard, Transferencias</text>
-      <circle cx="300" cy="35" r="5" fill="#38bdf8" />
-      <ellipse cx="300" cy="35" rx="18" ry="6" fill="none" stroke="#38bdf8" stroke-width="1.2" transform="rotate(30 300 35)" />
-      <ellipse cx="300" cy="35" rx="18" ry="6" fill="none" stroke="#38bdf8" stroke-width="1.2" transform="rotate(90 300 35)" />
-      <ellipse cx="300" cy="35" rx="18" ry="6" fill="none" stroke="#38bdf8" stroke-width="1.2" transform="rotate(150 300 35)" />
+    <g transform="translate(20, 40)">
+      <rect width="300" height="55" fill="#ffffff" stroke="#000000" stroke-width="1" />
+      <text x="10" y="20" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold">React SPA (Babel Standalone)</text>
+      <text x="10" y="38" fill="#333333" font-family="monospace" font-size="10">farmabol-app.jsx · screens · ui</text>
+      <text x="10" y="50" fill="#666666" font-family="sans-serif" font-size="9">Componentes: Dashboard, POS, Transferencias, Uploads</text>
     </g>
-    <g transform="translate(430, 45)">
-      <rect width="340" height="70" rx="6" fill="#18273f" stroke="#0284c7" stroke-width="1.2" />
-      <text x="20" y="25" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold">Diseño y Estilos (Vanilla CSS)</text>
-      <text x="20" y="43" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="12">styles.css &amp; icons.jsx</text>
-      <text x="20" y="58" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11">Paleta de colores premium, variables CSS, micro-animaciones</text>
+    <g transform="translate(360, 40)">
+      <rect width="300" height="55" fill="#ffffff" stroke="#000000" stroke-width="1" />
+      <text x="10" y="20" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold">Diseño y Estilos</text>
+      <text x="10" y="38" fill="#333333" font-family="monospace" font-size="10">styles.css · icons.jsx · shell.jsx</text>
+      <text x="10" y="50" fill="#666666" font-family="sans-serif" font-size="9">Interfaz oscura premium, iconos SVG, layout responsivo</text>
     </g>
   </g>
 
-  <!-- Arrow Presentation to Controller -->
-  <g>
-    <path d="M 450 240 L 450 282" fill="none" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowActive)" stroke-dasharray="4" />
-    <rect x="360" y="247" width="180" height="20" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
-    <text x="450" y="261" text-anchor="middle" fill="#38bdf8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="bold">HTTP POST/GET (JSON REST API)</text>
-  </g>
+  <!-- Flecha -->
+  <line x1="400" y1="200" x2="400" y2="225" stroke="#000000" stroke-width="1.5" />
+  <polygon points="396,222 400,230 404,222" fill="#000000" />
+  <text x="410" y="218" fill="#000000" font-family="sans-serif" font-size="10">HTTP REST JSON</text>
 
-  <!-- SERVER / CONTROLLER LAYER -->
-  <g transform="translate(50, 290)" filter="url(#dropShadow)">
-    <rect width="800" height="170" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
-    <rect width="800" height="30" rx="8" fill="#0f172a" opacity="0.5" />
-    <text x="20" y="20" fill="#34d399" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="bold" letter-spacing="0.5">
-      CAPA DE LÓGICA DE NEGOCIO Y CONTROLADORES
-    </text>
-    <text x="780" y="20" text-anchor="end" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11">
-      Backend Node.js / Express
-    </text>
-    <g transform="translate(30, 45)">
-      <rect width="360" height="50" rx="6" fill="#064e3b" stroke="#34d399" stroke-width="1.5" />
-      <text x="20" y="23" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold">Servidor Express (server.js)</text>
-      <text x="20" y="41" fill="#a7f3d0" font-family="system-ui, -apple-system, sans-serif" font-size="11">Endpoints REST: /api/ventas, /api/productos, /api/transferencias</text>
+  <!-- CAPA 2: Backend -->
+  <g transform="translate(50, 235)">
+    <rect width="700" height="150" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+    <rect width="700" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
+    <text x="10" y="19" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold">CAPA DE LÓGICA DE NEGOCIO (BACKEND)</text>
+    <text x="690" y="19" text-anchor="end" fill="#333333" font-family="sans-serif" font-size="10">Node.js + Express</text>
+
+    <g transform="translate(20, 40)">
+      <rect width="320" height="48" fill="#ffffff" stroke="#000000" stroke-width="1" />
+      <text x="10" y="18" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold">Servidor Express (server.js)</text>
+      <text x="10" y="35" fill="#333333" font-family="monospace" font-size="10">Endpoints REST: /api/ventas, /api/productos, /api/transferencias</text>
+      <text x="10" y="45" fill="#666666" font-family="sans-serif" font-size="9">Autenticación (ADMIN/VENDEDOR) · Transacciones ACID con FOR UPDATE</text>
     </g>
-    <g transform="translate(420, 45)">
-      <rect width="350" height="50" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.2" />
-      <text x="20" y="23" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold">Lógica de Transacción Atómica</text>
-      <text x="20" y="41" fill="#a7f3d0" font-family="system-ui, -apple-system, sans-serif" font-size="11">Validaciones, FOR UPDATE, BEGIN/COMMIT/ROLLBACK</text>
+    <g transform="translate(360, 40)">
+      <rect width="300" height="48" fill="#ffffff" stroke="#000000" stroke-width="1" />
+      <text x="10" y="18" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold">Middleware Message Queue</text>
+      <text x="10" y="35" fill="#333333" font-family="monospace" font-size="10">Clase MessageQueue (cola FIFO en memoria)</text>
+      <text x="10" y="45" fill="#666666" font-family="sans-serif" font-size="9">Procesa transferencias asíncronas con retardo simulado de 3s</text>
     </g>
-    <!-- Message Queue Sub-layer -->
-    <g transform="translate(30, 108)">
-      <rect width="740" height="48" rx="6" fill="#451a03" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 2" />
-      <text x="20" y="20" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="bold">Message Queue (Cola Asíncrona en Memoria)</text>
-      <text x="20" y="36" fill="#f59e0b" font-family="system-ui, -apple-system, sans-serif" font-size="11">Clase MessageQueue — Procesa transferencias en segundo plano (retardo simulado 3s) con rollback automático</text>
+
+    <g transform="translate(20, 100)">
+      <rect width="640" height="35" fill="#f9f9f9" stroke="#000000" stroke-width="0.5" stroke-dasharray="3 3" />
+      <text x="10" y="22" fill="#000000" font-family="sans-serif" font-size="10" font-weight="bold">Validación de Stock · Bloqueo FOR UPDATE · BEGIN/COMMIT/ROLLBACK · Rollback automático en errores</text>
     </g>
   </g>
 
-  <!-- Arrow Controller to DB Adapter -->
-  <g>
-    <path d="M 450 460 L 450 502" fill="none" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrow)" />
-    <text x="460" y="485" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="bold">pg.Pool Client Query</text>
-  </g>
+  <!-- Flecha -->
+  <line x1="400" y1="385" x2="400" y2="410" stroke="#000000" stroke-width="1.5" />
+  <polygon points="396,407 400,415 404,407" fill="#000000" />
+  <text x="410" y="405" fill="#000000" font-family="sans-serif" font-size="10">pg.Pool Query</text>
 
-  <!-- DATABASE & DATA ACCESS LAYER -->
-  <g transform="translate(50, 510)" filter="url(#dropShadow)">
-    <rect width="800" height="200" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
-    <rect width="800" height="30" rx="8" fill="#0f172a" opacity="0.5" />
-    <text x="20" y="20" fill="#fb7185" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="bold" letter-spacing="0.5">
-      CAPA DE PERSISTENCIA Y ACCESO A DATOS
-    </text>
-    <text x="780" y="20" text-anchor="end" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="11">
-      Base de Datos Relacional / PostgreSQL
-    </text>
-    <g transform="translate(30, 45)">
-      <rect width="360" height="140" rx="6" fill="#4c0519" stroke="#fb7185" stroke-width="1.5" />
-      <text x="20" y="23" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold">Adaptador de Base de Datos (db.js)</text>
-      <text x="20" y="43" fill="#fecdd3" font-family="system-ui, -apple-system, sans-serif" font-size="11">Connection Pool &amp; Sembrado Automático</text>
-      <text x="20" y="60" fill="#fecdd3" font-family="system-ui, -apple-system, sans-serif" font-size="11">Tablas:</text>
-      <text x="20" y="77" fill="#f43f5e" font-family="system-ui, -apple-system, sans-serif" font-size="11">• usuarios (roles ADMIN/VENDEDOR)</text>
-      <text x="20" y="94" fill="#f43f5e" font-family="system-ui, -apple-system, sans-serif" font-size="11">• productos (multi-sucursal, UNIQUE codigo+sucursal)</text>
-      <text x="20" y="111" fill="#f43f5e" font-family="system-ui, -apple-system, sans-serif" font-size="11">• ventas + detalle_ventas</text>
-      <text x="20" y="128" fill="#fbbf24" font-family="system-ui, -apple-system, sans-serif" font-size="11">• transferencias (cola de mensajes persistida)</text>
+  <!-- CAPA 3: Persistencia -->
+  <g transform="translate(50, 420)">
+    <rect width="700" height="200" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+    <rect width="700" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
+    <text x="10" y="19" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold">CAPA DE PERSISTENCIA</text>
+    <text x="690" y="19" text-anchor="end" fill="#333333" font-family="sans-serif" font-size="10">PostgreSQL</text>
+
+    <g transform="translate(20, 40)">
+      <rect width="320" height="145" fill="#ffffff" stroke="#000000" stroke-width="1" />
+      <text x="10" y="18" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold">Adaptador BD (db.js)</text>
+      <text x="10" y="35" fill="#333333" font-family="monospace" font-size="10">Connection Pool + Sembrado Automático</text>
+      <text x="10" y="55" fill="#000000" font-family="monospace" font-size="10">Tablas:</text>
+      <text x="10" y="72" fill="#333333" font-family="monospace" font-size="10">• usuarios (ADMIN/VENDEDOR)</text>
+      <text x="10" y="89" fill="#333333" font-family="monospace" font-size="10">• productos (UNIQUE codigo+sucursal)</text>
+      <text x="10" y="106" fill="#333333" font-family="monospace" font-size="10">• ventas + detalle_ventas</text>
+      <text x="10" y="123" fill="#333333" font-family="monospace" font-size="10">• transferencias (cola persistida)</text>
+      <text x="10" y="140" fill="#333333" font-family="monospace" font-size="10">• comprobantes (cloud storage)</text>
     </g>
-    <g transform="translate(420, 45)">
-      <rect width="350" height="140" rx="6" fill="#4c0519" stroke="#e11d48" stroke-width="1.2" />
-      <text x="20" y="23" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold">PostgreSQL Engine</text>
-      <text x="20" y="43" fill="#fecdd3" font-family="system-ui, -apple-system, sans-serif" font-size="11">Transacciones ACID, FOR UPDATE, CHECK</text>
-      <text x="20" y="63" fill="#fecdd3" font-family="system-ui, -apple-system, sans-serif" font-size="11">Clave compuesta: UNIQUE (codigo, sucursal)</text>
-      <path d="M 310 90 C 310 87, 330 87, 330 90 C 330 93, 310 93, 310 90" fill="none" stroke="#fb7185" stroke-width="1.2"/>
-      <path d="M 310 90 L 310 125 C 310 128, 330 128, 330 125 L 330 90" fill="none" stroke="#fb7185" stroke-width="1.2"/>
-      <path d="M 310 100 C 310 103, 330 103, 330 100" fill="none" stroke="#fb7185" stroke-width="1.2"/>
-      <path d="M 310 112 C 310 115, 330 115, 330 112" fill="none" stroke="#fb7185" stroke-width="1.2"/>
+    <g transform="translate(360, 40)">
+      <rect width="300" height="145" fill="#ffffff" stroke="#000000" stroke-width="1" />
+      <text x="10" y="18" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold">PostgreSQL Engine</text>
+      <text x="10" y="35" fill="#333333" font-family="monospace" font-size="10">Transacciones ACID</text>
+      <text x="10" y="52" fill="#333333" font-family="monospace" font-size="10">Restricciones: CHECK, UNIQUE, FK</text>
+      <text x="10" y="69" fill="#333333" font-family="monospace" font-size="10">Clave compuesta: (codigo, sucursal)</text>
+      <text x="10" y="86" fill="#333333" font-family="monospace" font-size="10">Row locking: SELECT ... FOR UPDATE</text>
+      <path d="M 270 105 C 270 102, 290 102, 290 105 C 290 108, 270 108, 270 105" fill="none" stroke="#000000" stroke-width="1"/>
+      <path d="M 270 105 L 270 135 C 270 138, 290 138, 290 135 L 290 105" fill="none" stroke="#000000" stroke-width="1"/>
+      <path d="M 270 115 C 270 118, 290 118, 290 115" fill="none" stroke="#000000" stroke-width="0.5"/>
+      <path d="M 270 125 C 270 128, 290 128, 290 125" fill="none" stroke="#000000" stroke-width="0.5"/>
     </g>
   </g>
 </svg>

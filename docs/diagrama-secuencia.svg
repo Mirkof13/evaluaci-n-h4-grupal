@@ -1,240 +1,147 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1050" width="100%" height="100%">
-  <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="100%" stop-color="#1e1b4b" />
-    </linearGradient>
-    <linearGradient id="actorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#0ea5e9" />
-      <stop offset="100%" stop-color="#0284c7" />
-    </linearGradient>
-    <linearGradient id="frontGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#38bdf8" />
-      <stop offset="100%" stop-color="#0369a1" />
-    </linearGradient>
-    <linearGradient id="backGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#34d399" />
-      <stop offset="100%" stop-color="#059669" />
-    </linearGradient>
-    <linearGradient id="mqGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#fbbf24" />
-      <stop offset="100%" stop-color="#d97706" />
-    </linearGradient>
-    <linearGradient id="dbGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#fb7185" />
-      <stop offset="100%" stop-color="#e11d48" />
-    </linearGradient>
-    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94a3b8" />
-    </marker>
-    <marker id="arrowActive" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#38bdf8" />
-    </marker>
-    <marker id="arrowCreate" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#10b981" />
-    </marker>
-    <marker id="arrowAsync" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#f59e0b" />
-    </marker>
-    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.4" />
-    </filter>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 950" width="100%" height="100%">
+  <rect width="1000" height="950" fill="#ffffff" stroke="#000000" stroke-width="2" />
+  <text x="500" y="35" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold">DIAGRAMA DE SECUENCIA (UML) — TRANSFERENCIA ASÍNCRONA</text>
+  <text x="500" y="55" text-anchor="middle" fill="#333333" font-family="sans-serif" font-size="12">Flujo de Transferencia de Stock entre Sucursales vía Message Queue</text>
 
-  <rect width="1100" height="1050" rx="12" fill="url(#bgGrad)" />
-  <rect width="1100" height="1050" rx="12" fill="none" stroke="#334155" stroke-width="2" />
-
-  <text x="550" y="40" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="bold" letter-spacing="1">
-    DIAGRAMA DE SECUENCIA UML — TRANSFERENCIA ASÍNCRONA (MESSAGE QUEUE)
-  </text>
-  <text x="550" y="65" text-anchor="middle" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="14">
-    Flujo de Transferencia de Stock entre Sucursales con Middleware de Cola en Memoria
-  </text>
-
-  <!-- Lifeline 1: Admin (Actor) -->
-  <g transform="translate(60, 100)">
-    <line x1="40" y1="40" x2="40" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
-    <rect x="-10" y="0" width="100" height="40" rx="5" fill="url(#actorGrad)" filter="url(#dropShadow)" />
-    <text x="40" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">:Admin</text>
+  <!-- Lifelines -->
+  <!-- Admin -->
+  <g transform="translate(50, 90)">
+    <line x1="40" y1="35" x2="40" y2="820" stroke="#000000" stroke-width="0.5" stroke-dasharray="6 4" />
+    <rect width="80" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+    <text x="40" y="20" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold">:Admin</text>
   </g>
 
-  <!-- Lifeline 2: Frontend (React) -->
-  <g transform="translate(230, 100)">
-    <line x1="65" y1="40" x2="65" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
-    <rect x="-10" y="0" width="150" height="40" rx="5" fill="url(#frontGrad)" filter="url(#dropShadow)" />
-    <text x="65" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Frontend (React)</text>
+  <!-- Frontend -->
+  <g transform="translate(220, 90)">
+    <line x1="60" y1="35" x2="60" y2="820" stroke="#000000" stroke-width="0.5" stroke-dasharray="6 4" />
+    <rect width="120" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+    <text x="60" y="20" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold">:Frontend React</text>
   </g>
 
-  <!-- Lifeline 3: server.js (Express) -->
-  <g transform="translate(430, 100)">
-    <line x1="65" y1="40" x2="65" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
-    <rect x="-10" y="0" width="150" height="40" rx="5" fill="url(#backGrad)" filter="url(#dropShadow)" />
-    <text x="65" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">server.js (Express)</text>
+  <!-- Express -->
+  <g transform="translate(410, 90)">
+    <line x1="60" y1="35" x2="60" y2="820" stroke="#000000" stroke-width="0.5" stroke-dasharray="6 4" />
+    <rect width="120" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+    <text x="60" y="20" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold">:server.js</text>
   </g>
 
-  <!-- Lifeline 4: MessageQueue (In-memory Queue) -->
-  <g transform="translate(630, 100)">
-    <line x1="65" y1="40" x2="65" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
-    <rect x="-10" y="0" width="150" height="40" rx="5" fill="url(#mqGrad)" filter="url(#dropShadow)" />
-    <text x="65" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">MessageQueue</text>
+  <!-- MessageQueue -->
+  <g transform="translate(590, 90)">
+    <line x1="60" y1="35" x2="60" y2="820" stroke="#000000" stroke-width="0.5" stroke-dasharray="6 4" />
+    <rect width="120" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+    <text x="60" y="20" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold">:MessageQueue</text>
   </g>
 
-  <!-- Lifeline 5: PostgreSQL -->
-  <g transform="translate(890, 100)">
-    <line x1="50" y1="40" x2="50" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
-    <rect x="-10" y="0" width="130" height="40" rx="5" fill="url(#dbGrad)" filter="url(#dropShadow)" />
-    <text x="55" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">PostgreSQL Engine</text>
+  <!-- PostgreSQL -->
+  <g transform="translate(830, 90)">
+    <line x1="55" y1="35" x2="55" y2="820" stroke="#000000" stroke-width="0.5" stroke-dasharray="6 4" />
+    <rect width="110" height="30" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+    <text x="55" y="20" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="11" font-weight="bold">:PostgreSQL</text>
   </g>
 
   <!-- Activation bars -->
-  <rect x="98" y="150" width="4" height="700" fill="#0ea5e9" opacity="0.3" />
-  <rect x="290" y="150" width="10" height="700" fill="#38bdf8" rx="2" />
-  <rect x="490" y="170" width="10" height="680" fill="#34d399" rx="2" />
-  <rect x="690" y="340" width="10" height="470" fill="#f59e0b" rx="2" />
-  <!-- DB activation bars -->
-  <rect x="935" y="220" width="10" height="30" fill="#f43f5e" rx="2" />
-  <rect x="935" y="430" width="10" height="25" fill="#f43f5e" rx="2" />
-  <rect x="935" y="510" width="10" height="190" fill="#f43f5e" rx="2" />
-  <rect x="935" y="750" width="10" height="25" fill="#f43f5e" rx="2" />
+  <rect x="88" y="135" width="4" height="650" fill="#000000" opacity="0.1" />
+  <rect x="275" y="135" width="10" height="650" fill="#000000" opacity="0.15" />
+  <rect x="465" y="155" width="10" height="630" fill="#000000" opacity="0.15" />
+  <rect x="645" y="330" width="10" height="420" fill="#000000" opacity="0.1" />
+  <rect x="880" y="210" width="10" height="25" fill="#000000" opacity="0.2" />
+  <rect x="880" y="400" width="10" height="25" fill="#000000" opacity="0.2" />
+  <rect x="880" y="480" width="10" height="190" fill="#000000" opacity="0.2" />
+  <rect x="880" y="710" width="10" height="25" fill="#000000" opacity="0.2" />
 
-  <!-- 1. Fill transfer form -->
-  <g>
-    <path d="M 102 155 L 290 155" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrowActive)" />
-    <text x="196" y="148" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="11">1. Llenar formulario de transferencia</text>
-  </g>
+  <!-- 1. Submit form -->
+  <line x1="92" y1="140" x2="275" y2="140" stroke="#000000" stroke-width="1" />
+  <polygon points="272,137 280,140 272,143" fill="#000000" />
+  <text x="183" y="132" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">1. Llenar y enviar formulario</text>
 
   <!-- 2. POST /api/transferencias -->
-  <g>
-    <path d="M 300 180 L 490 180" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowActive)" />
-    <text x="395" y="173" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">2. POST /api/transferencias {codigo, cantidad, origen, destino}</text>
-  </g>
+  <line x1="285" y1="165" x2="465" y2="165" stroke="#000000" stroke-width="1" />
+  <polygon points="462,162 470,165 462,168" fill="#000000" />
+  <text x="375" y="158" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10" font-weight="bold">2. POST /api/transferencias</text>
 
-  <!-- 3. Crear registro PENDIENTE en BD -->
-  <g>
-    <path d="M 500 200 L 935 200" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-    <text x="717" y="193" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">3. INSERT INTO transferencias (estado='PENDIENTE')</text>
-  </g>
-  <g>
-    <path d="M 935 235 L 500 235" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="717" y="230" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">transferId</text>
-  </g>
+  <!-- 3. INSERT PENDIENTE -->
+  <line x1="475" y1="190" x2="880" y2="190" stroke="#000000" stroke-width="1" />
+  <polygon points="877,187 885,190 877,193" fill="#000000" />
+  <text x="677" y="183" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">3. INSERT transferencias (estado='PENDIENTE')</text>
 
-  <!-- 4. Encolar en MessageQueue -->
-  <g>
-    <path d="M 500 260 L 690 260" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrowAsync)" />
-    <text x="595" y="253" text-anchor="middle" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="11">4. transferQueue.push(job)</text>
-  </g>
-  <g>
-    <path d="M 690 280 L 500 280" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="595" y="276" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">job queued</text>
-  </g>
+  <!-- Response -->
+  <line x1="880" y1="220" x2="475" y2="220" stroke="#000000" stroke-width="0.5" stroke-dasharray="4 4" />
+  <polygon points="478,217 470,220 478,223" fill="#000000" />
+  <text x="677" y="215" text-anchor="middle" fill="#333333" font-family="sans-serif" font-size="9">transferId</text>
 
-  <!-- 5. HTTP 202 Accepted -->
-  <g>
-    <path d="M 490 310 L 300 310" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="395" y="303" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">5. Response 202 Accepted { id, estado: 'PENDIENTE' }</text>
-  </g>
+  <!-- 4. Queue push -->
+  <line x1="475" y1="250" x2="645" y2="250" stroke="#000000" stroke-width="1" />
+  <polygon points="642,247 650,250 642,253" fill="#000000" />
+  <text x="560" y="243" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">4. transferQueue.push(job)</text>
 
-  <!-- 6. Mostrar "Transferencia encolada" -->
-  <g>
-    <path d="M 290 330 L 102 330" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="196" y="324" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">6. Mostrar "Transferencia #N encolada exitosamente"</text>
-  </g>
+  <!-- 5. 202 Accepted -->
+  <line x1="465" y1="290" x2="285" y2="290" stroke="#000000" stroke-width="0.5" stroke-dasharray="4 4" />
+  <polygon points="288,287 280,290 288,293" fill="#000000" />
+  <text x="375" y="283" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10" font-weight="bold">5. 202 Accepted { id, estado }</text>
 
-  <!-- ================= PROCESSING IN BACKGROUND ================= -->
-  <g transform="translate(180, 360)">
-    <rect width="770" height="460" rx="4" fill="none" stroke="#f59e0b" stroke-dasharray="4 4" stroke-width="1.5" />
-    <rect width="180" height="20" rx="2" fill="#451a03" stroke="#f59e0b" stroke-width="1" />
-    <text x="8" y="14" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">Procesamiento en Segundo Plano (3s después)</text>
-  </g>
+  <!-- 6. Mostrar mensaje -->
+  <line x1="275" y1="310" x2="92" y2="310" stroke="#000000" stroke-width="0.5" stroke-dasharray="4 4" />
+  <polygon points="95,307 87,310 95,313" fill="#000000" />
+  <text x="183" y="303" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">6. Mostrar "Transferencia #N encolada"</text>
 
-  <!-- 7. MQ procesa: pool.connect() -->
-  <g>
-    <path d="M 700 400 L 935 400" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-    <text x="817" y="393" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">7. pool.connect()</text>
-  </g>
-  <g>
-    <path d="M 935 420 L 700 420" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="817" y="417" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">client instance</text>
-  </g>
+  <!-- Background processing box -->
+  <rect x="160" y="340" width="690" height="420" fill="none" stroke="#000000" stroke-width="1" stroke-dasharray="5 5" />
+  <rect x="160" y="340" width="130" height="20" fill="#ffffff" stroke="#000000" stroke-width="0.5" />
+  <text x="170" y="354" fill="#000000" font-family="sans-serif" font-size="9" font-weight="bold">Procesamiento en 2do plano (3s)</text>
 
-  <!-- 8. BEGIN Transaction -->
-  <g>
-    <path d="M 700 440 L 935 440" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
-    <text x="817" y="433" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">8. client.query('BEGIN')</text>
-  </g>
-  <g>
-    <path d="M 935 455 L 700 455" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="817" y="452" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK (Transaction Started)</text>
-  </g>
+  <!-- 7. pool.connect -->
+  <line x1="655" y1="380" x2="880" y2="380" stroke="#000000" stroke-width="1" />
+  <polygon points="877,377 885,380 877,383" fill="#000000" />
+  <text x="767" y="373" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">7. pool.connect()</text>
 
-  <!-- 9. SELECT FOR UPDATE - origen -->
-  <g>
-    <path d="M 700 480 L 935 480" fill="none" stroke="#fb7185" stroke-width="1.5" marker-end="url(#arrow)" />
-    <text x="817" y="473" text-anchor="middle" fill="#fecdd3" font-family="system-ui, sans-serif" font-size="11">9. SELECT FROM productos WHERE codigo=$1 AND sucursal=origen FOR UPDATE</text>
-  </g>
-  <g>
-    <path d="M 935 500 L 700 500" fill="none" stroke="#fb7185" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="817" y="496" text-anchor="middle" fill="#fb7185" font-family="system-ui, sans-serif" font-size="10">product row (stock locked)</text>
-  </g>
+  <!-- 8. BEGIN -->
+  <line x1="655" y1="410" x2="880" y2="410" stroke="#000000" stroke-width="1" />
+  <polygon points="877,407 885,410 877,413" fill="#000000" />
+  <text x="767" y="403" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10" font-weight="bold">8. BEGIN</text>
 
-  <!-- 10. Descontar stock origen -->
-  <g>
-    <path d="M 700 530 L 935 530" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
-    <text x="817" y="523" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">10. UPDATE productos SET stock = stock - cantidad (origen)</text>
-  </g>
-  <g>
-    <path d="M 935 550 L 700 550" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="817" y="546" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK</text>
-  </g>
+  <!-- 9. SELECT FOR UPDATE -->
+  <line x1="655" y1="440" x2="880" y2="440" stroke="#000000" stroke-width="1" />
+  <polygon points="877,437 885,440 877,443" fill="#000000" />
+  <text x="767" y="433" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">9. SELECT ... FOR UPDATE (origen)</text>
 
-  <!-- 11. Aumentar stock destino (o crear) -->
-  <g>
-    <path d="M 700 580 L 935 580" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
-    <text x="817" y="573" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">11. INSERT/UPDATE productos (destino) stock + cantidad</text>
-  </g>
-  <g>
-    <path d="M 935 600 L 700 600" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="817" y="596" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK</text>
-  </g>
+  <!-- 10. UPDATE origen -->
+  <line x1="655" y1="490" x2="880" y2="490" stroke="#000000" stroke-width="1" />
+  <polygon points="877,487 885,490 877,493" fill="#000000" />
+  <text x="767" y="483" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">10. UPDATE stock = stock - cantidad (origen)</text>
 
-  <!-- 12. Marcar COMPLETADO -->
-  <g>
-    <path d="M 700 630 L 935 630" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
-    <text x="817" y="623" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">12. UPDATE transferencias SET estado='COMPLETADO'</text>
-  </g>
-  <g>
-    <path d="M 935 650 L 700 650" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="817" y="646" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK</text>
-  </g>
+  <!-- 11. INSERT/UPDATE destino -->
+  <line x1="655" y1="530" x2="880" y2="530" stroke="#000000" stroke-width="1" />
+  <polygon points="877,527 885,530 877,533" fill="#000000" />
+  <text x="767" y="523" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">11. INSERT/UPDATE productos (destino)</text>
+
+  <!-- 12. UPDATE estado COMPLETADO -->
+  <line x1="655" y1="570" x2="880" y2="570" stroke="#000000" stroke-width="1" />
+  <polygon points="877,567 885,570 877,573" fill="#000000" />
+  <text x="767" y="563" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">12. UPDATE transferencias SET estado='COMPLETADO'</text>
 
   <!-- 13. COMMIT -->
-  <g>
-    <path d="M 700 680 L 935 680" fill="none" stroke="#10b981" stroke-width="1.8" marker-end="url(#arrowCreate)" />
-    <text x="817" y="673" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">13. client.query('COMMIT')</text>
-  </g>
-  <g>
-    <path d="M 935 700 L 700 700" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="817" y="696" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK (Persisted)</text>
-  </g>
+  <line x1="655" y1="610" x2="880" y2="610" stroke="#000000" stroke-width="1" />
+  <polygon points="877,607 885,610 877,613" fill="#000000" />
+  <text x="767" y="603" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10" font-weight="bold">13. COMMIT</text>
 
-  <!-- 14. client.release() -->
-  <g>
-    <path d="M 700 730 L 935 730" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-    <text x="817" y="724" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">14. client.release()</text>
-  </g>
+  <!-- 14. client.release -->
+  <line x1="655" y1="650" x2="880" y2="650" stroke="#000000" stroke-width="1" />
+  <polygon points="877,647 885,650 877,653" fill="#000000" />
+  <text x="767" y="643" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">14. client.release()</text>
 
-  <!-- Rollback alt path -->
-  <g transform="translate(30, 770)">
-    <rect width="900" height="60" rx="4" fill="none" stroke="#f43f5e" stroke-dasharray="3 3" stroke-width="1.2" />
-    <rect width="70" height="18" rx="2" fill="#4c0519" stroke="#f43f5e" stroke-width="1" />
-    <text x="8" y="13" fill="#f43f5e" font-family="system-ui, sans-serif" font-size="9" font-weight="bold">alt [error]</text>
-    <text x="20" y="40" fill="#fecdd3" font-family="system-ui, sans-serif" font-size="11">Si ocurre un error (stock insuficiente, producto no existe): ROLLBACK + UPDATE transferencias SET estado='ERROR'</text>
-  </g>
+  <!-- Alt error box -->
+  <rect x="200" y="680" width="600" height="50" fill="none" stroke="#000000" stroke-width="0.5" stroke-dasharray="3 3" />
+  <rect x="200" y="680" width="60" height="18" fill="#ffffff" stroke="#000000" stroke-width="0.5" />
+  <text x="205" y="693" fill="#000000" font-family="sans-serif" font-size="9" font-weight="bold">alt [error]</text>
+  <text x="210" y="720" fill="#000000" font-family="sans-serif" font-size="10">Si hay error: ROLLBACK + UPDATE estado='ERROR' con mensaje</text>
 
-  <!-- 15. Frontend polling -->
-  <g>
-    <path d="M 290 860 L 490 860" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="390" y="853" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11">15. Polling: GET /api/state (cada 2s mientras haya PENDIENTES)</text>
-  </g>
+  <!-- 15. Polling -->
+  <line x1="285" y1="780" x2="465" y2="780" stroke="#000000" stroke-width="0.5" stroke-dasharray="4 4" />
+  <polygon points="462,777 470,780 462,783" fill="#000000" />
+  <text x="375" y="773" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">15. Polling GET /api/state (c/2s mientras haya PENDIENTES)</text>
+
+  <!-- 16. UI update -->
+  <line x1="465" y1="800" x2="285" y2="800" stroke="#000000" stroke-width="0.5" stroke-dasharray="4 4" />
+  <polygon points="288,797 280,800 288,803" fill="#000000" />
+  <text x="375" y="793" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="10">16. Actualizar UI con nuevo estado</text>
 </svg>
