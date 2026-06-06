@@ -1,12 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 950" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1050" width="100%" height="100%">
   <defs>
-    <!-- Background Gradients -->
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0f172a" />
       <stop offset="100%" stop-color="#1e1b4b" />
     </linearGradient>
-    
-    <!-- Actor / Lifeline Header Gradients -->
     <linearGradient id="actorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#0ea5e9" />
       <stop offset="100%" stop-color="#0284c7" />
@@ -19,12 +16,14 @@
       <stop offset="0%" stop-color="#34d399" />
       <stop offset="100%" stop-color="#059669" />
     </linearGradient>
+    <linearGradient id="mqGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
     <linearGradient id="dbGrad" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#fb7185" />
       <stop offset="100%" stop-color="#e11d48" />
     </linearGradient>
-
-    <!-- Arrow markers -->
     <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#94a3b8" />
     </marker>
@@ -34,223 +33,208 @@
     <marker id="arrowCreate" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#10b981" />
     </marker>
-    
-    <!-- Shadow Filter -->
+    <marker id="arrowAsync" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#f59e0b" />
+    </marker>
     <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.4" />
     </filter>
   </defs>
 
-  <!-- Background -->
-  <rect width="1020" height="950" rx="12" fill="url(#bgGrad)" />
-  <rect width="1020" height="950" rx="12" fill="none" stroke="#334155" stroke-width="2" />
+  <rect width="1100" height="1050" rx="12" fill="url(#bgGrad)" />
+  <rect width="1100" height="1050" rx="12" fill="none" stroke="#334155" stroke-width="2" />
 
-  <!-- Title -->
-  <text x="510" y="40" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="bold" letter-spacing="1">
-    DIAGRAMA DE SECUENCIA UML — REGISTRO DE VENTA
+  <text x="550" y="40" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="bold" letter-spacing="1">
+    DIAGRAMA DE SECUENCIA UML — TRANSFERENCIA ASÍNCRONA (MESSAGE QUEUE)
   </text>
-  <text x="510" y="65" text-anchor="middle" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="14">
-    Flujo de Transacción ACID con Bloqueo Concurrente (FOR UPDATE) en FARMABOL
+  <text x="550" y="65" text-anchor="middle" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="14">
+    Flujo de Transferencia de Stock entre Sucursales con Middleware de Cola en Memoria
   </text>
 
-  <!-- ================= LIFELINES (HEADERS) ================= -->
-  
-  <!-- Lifeline 1: Vendedor (Actor) -->
-  <g transform="translate(80, 100)">
-    <line x1="40" y1="40" x2="40" y2="820" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
+  <!-- Lifeline 1: Admin (Actor) -->
+  <g transform="translate(60, 100)">
+    <line x1="40" y1="40" x2="40" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
     <rect x="-10" y="0" width="100" height="40" rx="5" fill="url(#actorGrad)" filter="url(#dropShadow)" />
-    <text x="40" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">:Vendedor</text>
+    <text x="40" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">:Admin</text>
   </g>
 
-  <!-- Lifeline 2: farmabol-screens.jsx (Frontend) -->
-  <g transform="translate(260, 100)">
-    <line x1="65" y1="40" x2="65" y2="820" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
+  <!-- Lifeline 2: Frontend (React) -->
+  <g transform="translate(230, 100)">
+    <line x1="65" y1="40" x2="65" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
     <rect x="-10" y="0" width="150" height="40" rx="5" fill="url(#frontGrad)" filter="url(#dropShadow)" />
     <text x="65" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Frontend (React)</text>
   </g>
 
-  <!-- Lifeline 3: server.js (Express Backend) -->
-  <g transform="translate(480, 100)">
-    <line x1="65" y1="40" x2="65" y2="820" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
+  <!-- Lifeline 3: server.js (Express) -->
+  <g transform="translate(430, 100)">
+    <line x1="65" y1="40" x2="65" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
     <rect x="-10" y="0" width="150" height="40" rx="5" fill="url(#backGrad)" filter="url(#dropShadow)" />
     <text x="65" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">server.js (Express)</text>
   </g>
 
-  <!-- Lifeline 4: db.js (Pool Client) -->
-  <g transform="translate(700, 100)">
-    <line x1="55" y1="40" x2="55" y2="820" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
-    <rect x="-10" y="0" width="130" height="40" rx="5" fill="url(#backGrad)" filter="url(#dropShadow)" />
-    <text x="55" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">db.js (Pool)</text>
+  <!-- Lifeline 4: MessageQueue (In-memory Queue) -->
+  <g transform="translate(630, 100)">
+    <line x1="65" y1="40" x2="65" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
+    <rect x="-10" y="0" width="150" height="40" rx="5" fill="url(#mqGrad)" filter="url(#dropShadow)" />
+    <text x="65" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">MessageQueue</text>
   </g>
 
-  <!-- Lifeline 5: PostgreSQL Database -->
-  <g transform="translate(880, 100)">
-    <line x1="50" y1="40" x2="50" y2="820" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
-    <rect x="-10" y="0" width="120" height="40" rx="5" fill="url(#dbGrad)" filter="url(#dropShadow)" />
-    <text x="50" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">PostgreSQL Engine</text>
+  <!-- Lifeline 5: PostgreSQL -->
+  <g transform="translate(890, 100)">
+    <line x1="50" y1="40" x2="50" y2="880" stroke="#475569" stroke-width="1.5" stroke-dasharray="6 6" />
+    <rect x="-10" y="0" width="130" height="40" rx="5" fill="url(#dbGrad)" filter="url(#dropShadow)" />
+    <text x="55" y="24" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">PostgreSQL Engine</text>
   </g>
 
-  <!-- ================= ACTIVATION BARS ================= -->
-  
-  <!-- Vendedor Actor (Always active or user actions) -->
-  <rect x="118" y="160" width="4" height="630" fill="#0ea5e9" opacity="0.3" />
-  
-  <!-- Frontend active during request -->
-  <rect x="320" y="160" width="10" height="630" fill="#38bdf8" rx="2" />
-  
-  <!-- Express server handling the POST -->
-  <rect x="540" y="180" width="10" height="580" fill="#34d399" rx="2" />
-  
-  <!-- db.js handling pool connections -->
-  <rect x="750" y="195" width="10" height="45" fill="#10b981" rx="2" />
-  <rect x="750" y="720" width="10" height="25" fill="#10b981" rx="2" />
+  <!-- Activation bars -->
+  <rect x="98" y="150" width="4" height="700" fill="#0ea5e9" opacity="0.3" />
+  <rect x="290" y="150" width="10" height="700" fill="#38bdf8" rx="2" />
+  <rect x="490" y="170" width="10" height="680" fill="#34d399" rx="2" />
+  <rect x="690" y="340" width="10" height="470" fill="#f59e0b" rx="2" />
+  <!-- DB activation bars -->
+  <rect x="935" y="220" width="10" height="30" fill="#f43f5e" rx="2" />
+  <rect x="935" y="430" width="10" height="25" fill="#f43f5e" rx="2" />
+  <rect x="935" y="510" width="10" height="190" fill="#f43f5e" rx="2" />
+  <rect x="935" y="750" width="10" height="25" fill="#f43f5e" rx="2" />
 
-  <!-- PostgreSQL executing statements -->
-  <!-- BEGIN -->
-  <rect x="925" y="255" width="10" height="25" fill="#f43f5e" rx="2" />
-  <!-- SELECT FOR UPDATE -->
-  <rect x="925" y="325" width="10" height="35" fill="#f43f5e" rx="2" />
-  <!-- INSERT/UPDATE writes -->
-  <rect x="925" y="475" width="10" height="150" fill="#f43f5e" rx="2" />
-  <!-- COMMIT -->
-  <rect x="925" y="685" width="10" height="25" fill="#f43f5e" rx="2" />
-
-  <!-- ================= INTERACTIONS (MESSAGES) ================= -->
-
-  <!-- 1. Click Registrar Venta -->
+  <!-- 1. Fill transfer form -->
   <g>
-    <path d="M 122 165 L 320 165" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrowActive)" />
-    <text x="221" y="158" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="11">1. Click "Registrar Venta"</text>
+    <path d="M 102 155 L 290 155" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrowActive)" />
+    <text x="196" y="148" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="11">1. Llenar formulario de transferencia</text>
   </g>
 
-  <!-- 2. POST /api/ventas -->
+  <!-- 2. POST /api/transferencias -->
   <g>
-    <path d="M 330 190 L 540 190" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowActive)" />
-    <text x="435" y="182" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">2. POST /api/ventas (items, vendedor)</text>
+    <path d="M 300 180 L 490 180" fill="none" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowActive)" />
+    <text x="395" y="173" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">2. POST /api/transferencias {codigo, cantidad, origen, destino}</text>
   </g>
 
-  <!-- 3. client = pool.connect() -->
+  <!-- 3. Crear registro PENDIENTE en BD -->
   <g>
-    <path d="M 550 205 L 750 205" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-    <text x="650" y="198" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">3. pool.connect()</text>
+    <path d="M 500 200 L 935 200" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+    <text x="717" y="193" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">3. INSERT INTO transferencias (estado='PENDIENTE')</text>
   </g>
-  <!-- Return connection client -->
   <g>
-    <path d="M 750 230 L 550 230" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="650" y="224" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">client instance</text>
+    <path d="M 935 235 L 500 235" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="717" y="230" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">transferId</text>
   </g>
 
-  <!-- 4. BEGIN Transaction -->
+  <!-- 4. Encolar en MessageQueue -->
   <g>
-    <path d="M 550 260 L 925 260" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
-    <text x="737" y="252" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">4. client.query('BEGIN')</text>
+    <path d="M 500 260 L 690 260" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrowAsync)" />
+    <text x="595" y="253" text-anchor="middle" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="11">4. transferQueue.push(job)</text>
   </g>
   <g>
-    <path d="M 925 275 L 550 275" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="737" y="271" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK (Transaction Started)</text>
+    <path d="M 690 280 L 500 280" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="595" y="276" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">job queued</text>
   </g>
 
-  <!-- ================= LOOP OVER ITEMS ================= -->
-  <g transform="translate(180, 295)">
-    <!-- Loop Frame -->
-    <rect width="780" height="150" rx="4" fill="none" stroke="#a1a1aa" stroke-dasharray="3 3" stroke-width="1.2" />
-    <rect width="110" height="20" rx="2" fill="#27272a" stroke="#a1a1aa" stroke-width="1" />
-    <text x="8" y="14" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">loop [para cada ítem]</text>
+  <!-- 5. HTTP 202 Accepted -->
+  <g>
+    <path d="M 490 310 L 300 310" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="395" y="303" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">5. Response 202 Accepted { id, estado: 'PENDIENTE' }</text>
   </g>
 
-  <!-- 5. SELECT FOR UPDATE -->
+  <!-- 6. Mostrar "Transferencia encolada" -->
   <g>
-    <path d="M 550 335 L 925 335" fill="none" stroke="#fb7185" stroke-width="1.5" marker-end="url(#arrow)" />
-    <text x="737" y="327" text-anchor="middle" fill="#fecdd3" font-family="system-ui, sans-serif" font-size="11">5. SELECT ... WHERE codigo = $1 FOR UPDATE</text>
-  </g>
-  <!-- Return locked row -->
-  <g>
-    <path d="M 925 355 L 550 355" fill="none" stroke="#fb7185" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="737" y="349" text-anchor="middle" fill="#fb7185" font-family="system-ui, sans-serif" font-size="10">product row (stock locked)</text>
+    <path d="M 290 330 L 102 330" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="196" y="324" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">6. Mostrar "Transferencia #N encolada exitosamente"</text>
   </g>
 
-  <!-- Self message (Validation) -->
-  <g>
-    <!-- Arrow curve -->
-    <path d="M 550 380 C 590 380, 590 410, 550 410" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
-    <text x="560" y="375" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">6. Validar Stock &amp; Precio</text>
-    <text x="560" y="392" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9">(si stock &lt; cant → ROLLBACK)</text>
+  <!-- ================= PROCESSING IN BACKGROUND ================= -->
+  <g transform="translate(180, 360)">
+    <rect width="770" height="460" rx="4" fill="none" stroke="#f59e0b" stroke-dasharray="4 4" stroke-width="1.5" />
+    <rect width="180" height="20" rx="2" fill="#451a03" stroke="#f59e0b" stroke-width="1" />
+    <text x="8" y="14" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">Procesamiento en Segundo Plano (3s después)</text>
   </g>
 
-  <!-- ================= PERSISTENCE WRITES ================= -->
-  
-  <!-- 7. INSERT INTO ventas -->
+  <!-- 7. MQ procesa: pool.connect() -->
   <g>
-    <path d="M 550 480 L 925 480" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
-    <text x="737" y="472" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">7. INSERT INTO ventas (vendedor, total) RETURNING id</text>
+    <path d="M 700 400 L 935 400" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+    <text x="817" y="393" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">7. pool.connect()</text>
   </g>
   <g>
-    <path d="M 925 500 L 550 500" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="737" y="495" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">ventaId</text>
+    <path d="M 935 420 L 700 420" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="817" y="417" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">client instance</text>
   </g>
 
-  <!-- Loop for detailing and updates -->
-  <g transform="translate(200, 515)">
-    <!-- Loop Frame -->
-    <rect width="750" height="135" rx="4" fill="none" stroke="#a1a1aa" stroke-dasharray="3 3" stroke-width="1.2" />
-    <rect width="110" height="20" rx="2" fill="#27272a" stroke="#a1a1aa" stroke-width="1" />
-    <text x="8" y="14" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="10" font-weight="bold">loop [para cada ítem]</text>
+  <!-- 8. BEGIN Transaction -->
+  <g>
+    <path d="M 700 440 L 935 440" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
+    <text x="817" y="433" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">8. client.query('BEGIN')</text>
+  </g>
+  <g>
+    <path d="M 935 455 L 700 455" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="817" y="452" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK (Transaction Started)</text>
   </g>
 
-  <!-- 8. UPDATE productos -->
+  <!-- 9. SELECT FOR UPDATE - origen -->
   <g>
-    <path d="M 550 545 L 925 545" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
-    <text x="737" y="538" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">8. UPDATE productos SET stock = stock - $1 WHERE id = $2</text>
+    <path d="M 700 480 L 935 480" fill="none" stroke="#fb7185" stroke-width="1.5" marker-end="url(#arrow)" />
+    <text x="817" y="473" text-anchor="middle" fill="#fecdd3" font-family="system-ui, sans-serif" font-size="11">9. SELECT FROM productos WHERE codigo=$1 AND sucursal=origen FOR UPDATE</text>
   </g>
   <g>
-    <path d="M 925 565 L 550 565" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="737" y="561" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK</text>
-  </g>
-
-  <!-- 9. INSERT INTO detalle_ventas -->
-  <g>
-    <path d="M 550 600 L 925 600" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
-    <text x="737" y="593" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">9. INSERT INTO detalle_ventas (venta_id, producto_id, cantidad, ...)</text>
-  </g>
-  <g>
-    <path d="M 925 620 L 550 620" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="737" y="616" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK</text>
+    <path d="M 935 500 L 700 500" fill="none" stroke="#fb7185" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="817" y="496" text-anchor="middle" fill="#fb7185" font-family="system-ui, sans-serif" font-size="10">product row (stock locked)</text>
   </g>
 
-  <!-- ================= TRANSACTION COMMIT ================= -->
-  
-  <!-- 10. COMMIT -->
+  <!-- 10. Descontar stock origen -->
   <g>
-    <path d="M 550 690 L 925 690" fill="none" stroke="#10b981" stroke-width="1.8" marker-end="url(#arrowCreate)" />
-    <text x="737" y="682" text-anchor="middle" fill="#10b981" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">10. client.query('COMMIT')</text>
+    <path d="M 700 530 L 935 530" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
+    <text x="817" y="523" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">10. UPDATE productos SET stock = stock - cantidad (origen)</text>
   </g>
   <g>
-    <path d="M 925 710 L 550 710" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="737" y="706" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK (Persisted)</text>
+    <path d="M 935 550 L 700 550" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="817" y="546" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK</text>
   </g>
 
-  <!-- 11. client.release() -->
+  <!-- 11. Aumentar stock destino (o crear) -->
   <g>
-    <path d="M 550 730 L 750 730" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
-    <text x="650" y="723" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">11. client.release()</text>
+    <path d="M 700 580 L 935 580" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
+    <text x="817" y="573" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">11. INSERT/UPDATE productos (destino) stock + cantidad</text>
   </g>
   <g>
-    <path d="M 750 742 L 550 742" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="650" y="738" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">released</text>
-  </g>
-
-  <!-- ================= RESPONSE ================= -->
-  
-  <!-- 12. HTTP 201 Created Response -->
-  <g>
-    <path d="M 540 765 L 330 765" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="435" y="758" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">12. Response 201 Created { id, total }</text>
+    <path d="M 935 600 L 700 600" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="817" y="596" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK</text>
   </g>
 
-  <!-- 13. Mostrar mensaje "Venta exitosa" -->
+  <!-- 12. Marcar COMPLETADO -->
   <g>
-    <path d="M 320 785 L 122 785" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow)" />
-    <text x="221" y="778" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">13. Mostrar "Venta Exitosa" &amp; Limpiar Carrito</text>
+    <path d="M 700 630 L 935 630" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrowCreate)" />
+    <text x="817" y="623" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11">12. UPDATE transferencias SET estado='COMPLETADO'</text>
+  </g>
+  <g>
+    <path d="M 935 650 L 700 650" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="817" y="646" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK</text>
   </g>
 
+  <!-- 13. COMMIT -->
+  <g>
+    <path d="M 700 680 L 935 680" fill="none" stroke="#10b981" stroke-width="1.8" marker-end="url(#arrowCreate)" />
+    <text x="817" y="673" text-anchor="middle" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">13. client.query('COMMIT')</text>
+  </g>
+  <g>
+    <path d="M 935 700 L 700 700" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="817" y="696" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">OK (Persisted)</text>
+  </g>
+
+  <!-- 14. client.release() -->
+  <g>
+    <path d="M 700 730 L 935 730" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)" />
+    <text x="817" y="724" text-anchor="middle" fill="#cbd5e1" font-family="system-ui, sans-serif" font-size="11">14. client.release()</text>
+  </g>
+
+  <!-- Rollback alt path -->
+  <g transform="translate(30, 770)">
+    <rect width="900" height="60" rx="4" fill="none" stroke="#f43f5e" stroke-dasharray="3 3" stroke-width="1.2" />
+    <rect width="70" height="18" rx="2" fill="#4c0519" stroke="#f43f5e" stroke-width="1" />
+    <text x="8" y="13" fill="#f43f5e" font-family="system-ui, sans-serif" font-size="9" font-weight="bold">alt [error]</text>
+    <text x="20" y="40" fill="#fecdd3" font-family="system-ui, sans-serif" font-size="11">Si ocurre un error (stock insuficiente, producto no existe): ROLLBACK + UPDATE transferencias SET estado='ERROR'</text>
+  </g>
+
+  <!-- 15. Frontend polling -->
+  <g>
+    <path d="M 290 860 L 490 860" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrow)" />
+    <text x="390" y="853" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11">15. Polling: GET /api/state (cada 2s mientras haya PENDIENTES)</text>
+  </g>
 </svg>
