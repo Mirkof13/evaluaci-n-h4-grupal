@@ -6,7 +6,8 @@ const TODAY = '2026-06-05';
 let state = {
   usuarios: [],
   productos: [],
-  ventas: []
+  ventas: [],
+  transferencias: []
 };
 
 let loaded = false;
@@ -132,6 +133,35 @@ const Store = {
     return venta;
   },
 
+  // ---- Transferencias (API Backend Queue) ----
+  async transferirProducto(codigo, cantidad, origen, destino) {
+    const res = await fetch('/api/transferencias', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ codigo, cantidad: parseInt(cantidad), origen, destino })
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || 'Error al iniciar la transferencia');
+    }
+    const data = await res.json();
+    await this.reloadState();
+    return data;
+  },
+
+  async reloadState() {
+    try {
+      const stateData = await fetch('/api/state').then((r) => {
+        if (!r.ok) throw new Error('Error al recargar estado');
+        return r.json();
+      });
+      state = stateData;
+      emit();
+    } catch (e) {
+      console.error('Error al recargar el estado:', e);
+    }
+  },
+
   // ---- Consultas Derivadas (Sincrónicas sobre el estado cacheado) ----
   ventasHoy() {
     return state.ventas.filter((v) => v.fecha.startsWith(TODAY));
@@ -141,12 +171,35 @@ const Store = {
     return this.ventasHoy().reduce((s, v) => s + v.total, 0);
   },
   
-  stockBajo(umbral = 5) {
-    return state.productos.filter((p) => p.stock < umbral).sort((a, b) => a.stock - b.stock);
+  stockBajo(umbral = 5, sucursal = null) {
+    let prods = state.productos;
+    if (sucursal) {
+      prods = prods.filter(p => p.sucursal === sucursal);
+    }
+    return prods.filter((p) => p.stock < umbral).sort((a, b) => a.stock - b.stock);
+  },
+
+  productosProximosVencer(dias = 30, sucursal = null) {
+    let prods = state.productos;
+    if (sucursal) {
+      prods = prods.filter(p => p.sucursal === sucursal);
+    }
+    return prods.filter((p) => {
+      if (!p.fecha_vencimiento) return false;
+      const today = new Date(TODAY);
+      const exp = new Date(p.fecha_vencimiento);
+      const diffTime = exp - today;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays >= 0 && diffDays <= dias;
+    }).sort((a, b) => new Date(a.fecha_vencimiento) - new Date(b.fecha_vencimiento));
   },
   
-  valorInventario() {
-    return state.productos.reduce((s, p) => s + p.precio * p.stock, 0);
+  valorInventario(sucursal = null) {
+    let prods = state.productos;
+    if (sucursal) {
+      prods = prods.filter(p => p.sucursal === sucursal);
+    }
+    return prods.reduce((s, p) => s + p.precio * p.stock, 0);
   },
   
   unidadesVendidasHoy() {
