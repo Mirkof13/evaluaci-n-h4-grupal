@@ -1,5 +1,6 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
@@ -156,12 +157,14 @@ export async function initDatabase() {
     if (parseInt(userCheck.rows[0].count) === 0) {
       console.log('Sembrando datos iniciales en las tablas...');
 
-      // Sembrar usuarios
+      // Sembrar usuarios (con contraseñas hasheadas)
+      const adminHash = await bcrypt.hash('admin123', 10);
+      const vendHash = await bcrypt.hash('venta123', 10);
       await client.query(`
         INSERT INTO usuarios (usuario, pass, nombre, rol, sucursal) VALUES
-        ('admin', 'admin123', 'Carlos Mendoza', 'ADMIN', 'Central La Paz'),
-        ('vendedor', 'venta123', 'Ana Quispe', 'VENDEDOR', 'Sucursal Miraflores')
-      `);
+        ('admin', $1, 'Carlos Mendoza', 'ADMIN', 'Central La Paz'),
+        ('vendedor', $2, 'Ana Quispe', 'VENDEDOR', 'Sucursal Miraflores')
+      `, [adminHash, vendHash]);
 
       // Sembrar productos con fecha_vencimiento y sucursal
       await client.query(`

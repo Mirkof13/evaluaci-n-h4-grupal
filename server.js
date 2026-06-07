@@ -5,6 +5,10 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import { body, validationResult } from 'express-validator';
+import bcrypt from 'bcryptjs';
 import pool, { initDatabase, query } from './db.js';
 
 dotenv.config();
@@ -31,8 +35,19 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Middleware
-app.use(cors());
+app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
+app.use(cors({ origin: '*' }));
 app.use(express.json({ limit: '50mb' }));
+
+// Rate limiting
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Demasiadas solicitudes. Intente nuevamente en 15 minutos.' }
+});
+app.use('/api/', apiLimiter);
 
 // Servir archivos estáticos del frontend
 app.use(express.static(__dirname));
@@ -55,17 +70,26 @@ try {
 // ----------------------------------------------------------------
 app.post('/api/auth/login', async (req, res) => {
   const { usuario, pass } = req.body;
+  if (!usuario || !pass) {
+    return res.status(400).json({ message: 'Usuario y contraseña son requeridos.' });
+  }
   try {
     const result = await query(
-      'SELECT id, usuario, nombre, rol, sucursal FROM usuarios WHERE usuario = $1 AND pass = $2',
-      [usuario, pass]
+      'SELECT id, usuario, pass, nombre, rol, sucursal FROM usuarios WHERE usuario = $1',
+      [usuario]
     );
 
     if (result.rows.length === 0) {
       return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' });
     }
 
-    res.json(result.rows[0]);
+    const user = result.rows[0];
+    const valid = await bcrypt.compare(pass, user.pass);
+    if (!valid) {
+      return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' });
+    }
+
+    res.json({ id: user.id, usuario: user.usuario, nombre: user.nombre, rol: user.rol, sucursal: user.sucursal });
   } catch (err) {
     res.status(500).json({ message: 'Error en el servidor al intentar autenticar.', error: err.message });
   }
@@ -164,7 +188,27 @@ app.get('/api/state', async (req, res) => {
 // ----------------------------------------------------------------
 // 3. Productos CRUD (ADMIN)
 // ----------------------------------------------------------------
-app.post('/api/productos', async (req, res) => {
+const validate = (validations) => async (req, res, next) => {
+  for (const v of validations) await v.run(req);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: 'Datos inválidos.', errors: errors.array() });
+  }
+  next();
+};
+
+app.post('/api/productos',
+  validate([
+    body('codigo').trim().notEmpty().withMessage('Código requerido'),
+    body('nombre').trim().notEmpty().withMessage('Nombre requerido'),
+    body('precio').isFloat({ min: 0 }).withMessage('Precio debe ser número positivo'),
+    body('stock').isInt({ min: 0 }).withMessage('Stock debe ser entero >= 0'),
+    body('laboratorio').trim().notEmpty(),
+    body('categoria').trim().notEmpty(),
+    body('fecha_vencimiento').matches(/^\d{4}-\d{2}-\d{2}$/).withMessage('Fecha debe ser YYYY-MM-DD'),
+    body('sucursal').trim().notEmpty(),
+  ]),
+  async (req, res) => {
   const { codigo, nombre, precio, stock, laboratorio, categoria, fecha_vencimiento, sucursal } = req.body;
   try {
     const checkRes = await query('SELECT 1 FROM productos WHERE codigo = $1 AND sucursal = $2', [codigo, sucursal]);
@@ -226,12 +270,15 @@ app.delete('/api/productos/:id', async (req, res) => {
 // ----------------------------------------------------------------
 // 4. Registro de Ventas (Código Refactorizado / DESPUÉS de Refactorizar)
 // ----------------------------------------------------------------
-app.post('/api/ventas', async (req, res) => {
+app.post('/api/ventas',
+  validate([
+    body('items').isArray({ min: 1 }).withMessage('La venta debe contener al menos un producto'),
+    body('vendedor').trim().notEmpty().withMessage('Vendedor requerido'),
+    body('items.*.codigo').trim().notEmpty(),
+    body('items.*.cantidad').isInt({ min: 1 }),
+  ]),
+  async (req, res) => {
   const { items, vendedor } = req.body;
-  
-  if (!items || items.length === 0) {
-    return res.status(400).json({ message: 'La venta debe contener al menos un producto.' });
-  }
 
   const client = await pool.connect();
   try {
@@ -410,12 +457,15 @@ class MessageQueue {
 const transferQueue = new MessageQueue();
 
 // Endpoint para solicitar transferencia (encolar asíncronamente)
-app.post('/api/transferencias', async (req, res) => {
+app.post('/api/transferencias',
+  validate([
+    body('codigo').trim().notEmpty(),
+    body('cantidad').isInt({ min: 1 }),
+    body('origen').trim().notEmpty(),
+    body('destino').trim().notEmpty(),
+  ]),
+  async (req, res) => {
   const { codigo, cantidad, origen, destino } = req.body;
-  
-  if (!codigo || !cantidad || !origen || !destino) {
-    return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
-  }
 
   if (origen === destino) {
     return res.status(400).json({ message: 'Origen y destino deben ser diferentes.' });
