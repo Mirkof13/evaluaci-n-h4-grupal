@@ -157,7 +157,7 @@ const FarmaSidebar = ({ active, onNav, user }) => {
   );
 };
 
-const FarmaTopbar = ({ crumbs, user, onLogout }) => (
+const FarmaTopbar = ({ crumbs, user, onLogout, searchQuery, onSearchChange }) => (
   <header className="topbar">
     <div className="crumbs">
       {crumbs.map((c, i) => (
@@ -169,7 +169,7 @@ const FarmaTopbar = ({ crumbs, user, onLogout }) => (
     </div>
     <div className="search" style={{ marginLeft: 'auto' }}>
       <AI2.Search size={14} />
-      <input placeholder="Buscar…" />
+      <input placeholder="Buscar productos, ventas..." value={searchQuery} onChange={(e) => onSearchChange(e.target.value)} />
     </div>
     <div className="topbar-actions">
       <span className="role-badge">
@@ -190,6 +190,8 @@ const FarmaApp = () => {
   const [active, setActive] = aS('dashboard');
   const [tweaksOpen, setTweaksOpen] = aS(false);
   const [tweaks, setTweaks] = aS({ accent: 'default', theme: 'dark', density: 'normal' });
+  const [searchQuery, setSearchQuery] = aS('');
+  window.FarmaAppSearchQuery = searchQuery;
   const setTweak = (patch) => setTweaks((t) => ({ ...t, ...patch }));
 
   aE(() => {
@@ -246,7 +248,7 @@ const FarmaApp = () => {
     <window.ToastProvider>
       <div className="app">
         <FarmaSidebar active={active} onNav={nav} user={user} />
-        <FarmaTopbar crumbs={crumbs} user={user} onLogout={() => setUser(null)} />
+        <FarmaTopbar crumbs={crumbs} user={user} onLogout={() => setUser(null)} searchQuery={searchQuery} onSearchChange={setSearchQuery} />
         <main className="main">
           <div key={active}>{screen}</div>
         </main>

@@ -163,6 +163,33 @@ const POSScreen = ({ user }) => {
 };
 
 // ============================================================
+// Comprobantes Link (usa endpoint /api/comprobantes/venta/:ventaId)
+// ============================================================
+const ComprobantesLink = ({ ventaId }) => {
+  const [comps, setComps] = pS(null);
+  const toast = window.useToast();
+  if (comps === null) {
+    fetch(`/api/comprobantes/venta/${ventaId}`)
+      .then(r => r.json())
+      .then(data => setComps(data))
+      .catch(() => setComps([]));
+  }
+  if (comps === null) return null;
+  if (comps.length === 0) return <span className="muted-2">Sin comprobantes</span>;
+  return (
+    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      <span className="muted-2" style={{ fontSize: 11 }}>Comprobantes:</span>
+      {comps.map(c => (
+        <a key={c.id} href={c.url} target="_blank" rel="noopener noreferrer"
+           style={{ fontSize: 11, color: 'var(--accent)', textDecoration: 'underline' }}>
+          {c.nombre_archivo}
+        </a>
+      ))}
+    </div>
+  );
+};
+
+// ============================================================
 // Ventas — historial
 // ============================================================
 const VentasScreen = ({ user }) => {
@@ -171,16 +198,32 @@ const VentasScreen = ({ user }) => {
   const Bs = window.Bs;
   const [open, setOpen] = pS(null);
   const [scope, setScope] = pS('todas');
+  const sq = (window.FarmaAppSearchQuery || '').toLowerCase();
 
-  const list = scope === 'hoy' ? store.ventasHoy() : s.ventas;
+  const list = (scope === 'hoy' ? store.ventasHoy() : s.ventas).filter(v =>
+    !sq || v.vendedor.toLowerCase().includes(sq) || v.id.toString().includes(sq) || Bs(v.total).includes(sq)
+  );
   const totalRango = list.reduce((a, v) => a + v.total, 0);
+
+  const exportCSV = () => {
+    const header = 'Folio,Fecha,Vendedor,Productos,Unidades,Total\n';
+    const rows = list.map(v =>
+      `#${v.id},${v.fecha},${v.vendedor},${v.items.length},${v.items.reduce((a, it) => a + it.cantidad, 0)},${v.total}`
+    ).join('\n');
+    const blob = new Blob([header + rows], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `ventas-${scope}-${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  };
 
   return (
     <>
       <PShell.PageHeader
         title="Historial de ventas"
         sub={`${s.ventas.length} ventas registradas · ${store.ventasHoy().length} hoy`}
-        actions={<button className="btn"><PI.Download size={14} /> Exportar</button>}
+        actions={<button className="btn" onClick={exportCSV}><PI.Download size={14} /> Exportar</button>}
       />
 
       <div className="grid-3" style={{ marginBottom: 18 }}>
@@ -229,6 +272,9 @@ const VentasScreen = ({ user }) => {
                           ))}
                         </tbody>
                       </table>
+                      <div style={{ marginTop: 6, fontSize: 12 }}>
+                        <ComprobantesLink ventaId={v.id} />
+                      </div>
                     </td>
                   </tr>
                 )}
@@ -346,8 +392,8 @@ const TransferenciasScreen = ({ user }) => {
                 <td className="muted" style={{ fontSize: 12 }}>{t.destino}</td>
                 <td>
                   {t.estado === 'COMPLETADO' && <span className="chip ok" style={{ fontSize: 11 }}><PI.Check size={11} /> Completado</span>}
-                  {t.estado === 'PENDIENTE' && <span className="chip warn" style={{ fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 4 }}><span className="spinner" /> Pendiente</span>}
-                  {t.estado === 'ERROR' && <span className="chip danger" style={{ fontSize: 11 }}><PI.X size={11} /> {t.mensaje ? 'Error' : 'Error'}</span>}
+                  {t.estado === 'PENDIENTE' && <span className="chip warn" style={{ fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 4 }}><span className="spinner" /> Pendiente <button className="icon-btn" style={{ width: 18, height: 18 }} title="Verificar estado" onClick={async (e) => { e.stopPropagation(); try { const r = await fetch(`/api/transferencias/status/${t.id}`); const d = await r.json(); toast(`Estado: ${d.estado}${d.mensaje ? ' - ' + d.mensaje : ''}`, d.estado === 'COMPLETADO' ? 'ok' : 'warn'); } catch (e) { toast('Error al consultar estado', 'danger'); } }}><PI.Check size={11} /></button></span>}
+                  {t.estado === 'ERROR' && <span className="chip danger" style={{ fontSize: 11 }}><PI.X size={11} /> {t.mensaje || 'Error'}</span>}
                 </td>
               </tr>
             ))}

@@ -2,7 +2,6 @@
 
 const FarmaTweaks = ({ tweaks, setTweak, onClose }) => {
   const TI = window.Icons;
-  const toast = window.useToast ? null : null;
   const accents = [
     { id: 'default', color: '#d97757', label: 'Claude' },
     { id: 'teal', color: '#5a9e93', label: 'Farmacia' },

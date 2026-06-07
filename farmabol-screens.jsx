@@ -222,10 +222,12 @@ const ProductosScreen = ({ user }) => {
   const cats = ['todas', ...Array.from(new Set(s.productos.map((p) => p.categoria)))];
   const sucursales = ['todas', ...Array.from(new Set(s.productos.map((p) => p.sucursal)))];
   
+  const sq = (window.FarmaAppSearchQuery || '').toLowerCase();
   const list = s.productos.filter((p) =>
     (cat === 'todas' || p.categoria === cat) &&
     (sucFilter === 'todas' || p.sucursal === sucFilter) &&
-    (q === '' || p.nombre.toLowerCase().includes(q.toLowerCase()) || p.codigo.toLowerCase().includes(q.toLowerCase()))
+    (q === '' || p.nombre.toLowerCase().includes(q.toLowerCase()) || p.codigo.toLowerCase().includes(q.toLowerCase())) &&
+    (sq === '' || p.nombre.toLowerCase().includes(sq) || p.codigo.toLowerCase().includes(sq) || p.laboratorio.toLowerCase().includes(sq))
   );
 
   return (
