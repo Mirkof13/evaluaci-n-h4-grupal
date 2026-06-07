@@ -1,21 +1,37 @@
 services:
   - type: web
-    name: farmabol
+    name: farmabol-backend
     env: node
     buildCommand: npm install
-    startCommand: npm start
+    startCommand: node server.js
     envVars:
+      - key: NODE_VERSION
+        value: 20
       - key: PORT
         value: 3000
       - key: PGUSER
-        value: postgres
+        fromDatabase:
+          name: farmabol-db
+          property: user
       - key: PGPASSWORD
-        sync: false
+        fromDatabase:
+          name: farmabol-db
+          property: password
       - key: PGHOST
-        sync: false
+        fromDatabase:
+          name: farmabol-db
+          property: host
       - key: PGPORT
-        value: 5432
+        fromDatabase:
+          name: farmabol-db
+          property: port
       - key: PGDATABASE
-        value: farmabol
-      - key: NODE_VERSION
-        value: 18.18.0
+        fromDatabase:
+          name: farmabol-db
+          property: database
+
+databases:
+  - name: farmabol-db
+    plan: free
+    databaseName: farmabol
+    user: farmabol_user
