@@ -85,7 +85,7 @@ http://localhost:3000
 
 ## Base de Datos (PostgreSQL)
 
-El sistema gestiona **5 tablas relacionales**:
+El sistema gestiona **6 tablas relacionales**:
 
 | Tabla | Descripción |
 |-------|-------------|
@@ -94,6 +94,7 @@ El sistema gestiona **5 tablas relacionales**:
 | `ventas` | Cabecera de transacciones de venta |
 | `detalle_ventas` | Ítems de cada venta (relación N:M) |
 | `transferencias` | Cola de mensajes para transferencia asíncrona entre sucursales |
+| `comprobantes` | Metadatos de archivos subidos (comprobantes, fotos, QR) |
 
 ## API REST — Endpoints
 
@@ -107,6 +108,9 @@ El sistema gestiona **5 tablas relacionales**:
 | `POST` | `/api/ventas` | Registrar venta (transacción atómica con FOR UPDATE) |
 | `POST` | `/api/transferencias` | Encolar transferencia asíncrona (retorna 202 Accepted) |
 | `GET` | `/api/transferencias/status/:id` | Consultar estado de transferencia |
+| `POST` | `/api/comprobantes/upload` | Subir comprobante (ADMIN, VENDEDOR) |
+| `GET` | `/api/comprobantes` | Listar comprobantes |
+| `GET` | `/api/comprobantes/venta/:ventaId` | Comprobantes de una venta |
 | `POST` | `/api/reset` | Restablecer datos de demostración |
 
 ## Message Queue (Cola de Mensajes Asíncrona)
@@ -146,11 +150,12 @@ Resultado: **0 errores, 0 advertencias** — Quality Gate: Passed
 ## Diagramas UML
 
 Los diagramas se encuentran en la carpeta [`docs/`](./docs/):
-- [Diagrama de Arquitectura](./docs/diagrama-arquitectura.svg)
-- [Diagrama de Clases](./docs/diagrama-clases.svg)
-- [Diagrama Entidad-Relación](./docs/diagrama-er.svg)
-- [Diagrama de Casos de Uso](./docs/diagrama-casos-uso.svg)
-- [Diagrama de Secuencia — Transferencia Asíncrona](./docs/diagrama-secuencia.svg)
+- [Diagrama de Arquitectura](./docs/diagrama-arquitectura.svg) (800x650)
+- [Diagrama de Clases UML](./docs/diagrama-clases.svg) (1000x750)
+- [Diagrama Entidad-Relación](./docs/diagrama-er.svg) (1000x900)
+- [Diagrama de Casos de Uso](./docs/diagrama-casos-uso.svg) (1000x750)
+- [Diagrama de Secuencia](./docs/diagrama-secuencia.svg) (1000x950)
+- [Reporte ESLint](./docs/eslint-report.svg) (700x500)
 
 ## Despliegue en la Nube
 
