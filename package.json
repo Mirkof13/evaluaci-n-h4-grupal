@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "node --test test/db.test.js",
+    "test:api": "node --test test/api.test.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
