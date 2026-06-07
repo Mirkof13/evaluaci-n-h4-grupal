@@ -12,9 +12,9 @@
     <line x1="0" y1="28" x2="280" y2="28" stroke="#000000" stroke-width="1" />
     <text x="10" y="48" fill="#000000" font-family="monospace" font-size="10">┌────────────────────────────┐</text>
     <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">│ id          INT  (PK)  🔑  │</text>
-    <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ usuario     VARCHAR(100) UK │</text>
+    <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ usuario     VARCHAR(50)  UK │</text>
     <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ pass        VARCHAR(255)    │</text>
-    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ nombre      VARCHAR(200)    │</text>
+    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ nombre      VARCHAR(100)    │</text>
     <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ rol         VARCHAR(20)     │</text>
     <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">│ sucursal    VARCHAR(100)    │</text>
     <text x="10" y="153" fill="#000000" font-family="monospace" font-size="10">└────────────────────────────┘</text>
@@ -29,7 +29,7 @@
     <text x="10" y="48" fill="#000000" font-family="monospace" font-size="10">┌──────────────────────────────────┐</text>
     <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">│ id               INT  (PK)  🔑  │</text>
     <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ codigo           VARCHAR(50)  UK │</text>
-    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ nombre           VARCHAR(200)    │</text>
+    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ nombre           VARCHAR(100)    │</text>
     <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ precio           DECIMAL(10,2)   │</text>
     <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ stock            INT             │</text>
     <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">│ laboratorio      VARCHAR(100)    │</text>
@@ -42,18 +42,17 @@
 
   <!-- ENTITY: ventas -->
   <g transform="translate(600, 100)">
-    <rect width="260" height="190" fill="#ffffff" stroke="#000000" stroke-width="1.5" rx="3" ry="3" />
+    <rect width="260" height="175" fill="#ffffff" stroke="#000000" stroke-width="1.5" rx="3" ry="3" />
     <rect width="260" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" rx="3" ry="3" />
     <text x="130" y="19" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold">ventas</text>
     <line x1="0" y1="28" x2="260" y2="28" stroke="#000000" stroke-width="1" />
     <text x="10" y="48" fill="#000000" font-family="monospace" font-size="10">┌───────────────────────────┐</text>
     <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">│ id         INT  (PK)  🔑 │</text>
     <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ fecha      TIMESTAMP      │</text>
-    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ vendedor   VARCHAR(200)   │</text>
+    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ vendedor   VARCHAR(100)   │</text>
     <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ total      DECIMAL(10,2)  │</text>
-    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ sucursal   VARCHAR(100)   │</text>
-    <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">└───────────────────────────┘</text>
-    <text x="10" y="158" fill="#666666" font-family="monospace" font-size="9">FK: usuarios(id) implícita</text>
+    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">└───────────────────────────┘</text>
+    <text x="10" y="143" fill="#666666" font-family="monospace" font-size="9">FK: usuarios(id) implícita</text>
   </g>
 
   <!-- ENTITY: detalle_ventas -->
@@ -67,7 +66,7 @@
     <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ venta_id     INT  (FK) ➡     │</text>
     <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ producto_id  INT  (FK) ➡     │</text>
     <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ codigo       VARCHAR(50)      │</text>
-    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ nombre       VARCHAR(200)     │</text>
+    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ nombre       VARCHAR(100)     │</text>
     <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">│ cantidad     INT              │</text>
     <text x="10" y="153" fill="#000000" font-family="monospace" font-size="10">│ precio       DECIMAL(10,2)   │</text>
     <text x="10" y="168" fill="#000000" font-family="monospace" font-size="10">└────────────────────────────────┘</text>
@@ -84,13 +83,13 @@
     <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">│ id          INT  (PK)  🔑    │</text>
     <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ fecha       TIMESTAMP         │</text>
     <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ codigo      VARCHAR(50)       │</text>
-    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ nombre      VARCHAR(200)      │</text>
+    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ nombre      VARCHAR(100)      │</text>
     <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ cantidad    INT               │</text>
     <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">│ origen      VARCHAR(100)      │</text>
     <text x="10" y="153" fill="#000000" font-family="monospace" font-size="10">│ destino     VARCHAR(100)      │</text>
     <text x="10" y="168" fill="#000000" font-family="monospace" font-size="10">│ estado      VARCHAR(20)       │</text>
     <text x="10" y="183" fill="#666666" font-family="monospace" font-size="9">[PENDIENTE|COMPLETADO|ERROR]    │</text>
-    <text x="10" y="198" fill="#000000" font-family="monospace" font-size="10">│ mensaje     TEXT              │</text>
+    <text x="10" y="198" fill="#000000" font-family="monospace" font-size="10">│ mensaje     VARCHAR(255)      │</text>
     <text x="10" y="210" fill="#000000" font-family="monospace" font-size="10">└────────────────────────────────┘</text>
   </g>
 

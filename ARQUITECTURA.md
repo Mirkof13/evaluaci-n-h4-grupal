@@ -169,7 +169,6 @@ classDiagram
         -timestamp fecha
         -string vendedor
         -numeric total
-        -string sucursal
         +crearVenta() int
         +calcularTotal() numeric
     }

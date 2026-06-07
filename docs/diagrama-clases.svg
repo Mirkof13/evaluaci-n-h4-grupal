@@ -23,7 +23,7 @@
 
   <!-- CLASS: Venta -->
   <g transform="translate(380, 90)">
-    <rect width="240" height="180" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+    <rect width="240" height="165" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
     <rect width="240" height="30" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
     <text x="120" y="20" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold">Venta</text>
     <line x1="0" y1="30" x2="240" y2="30" stroke="#000000" stroke-width="1" />
@@ -31,10 +31,9 @@
     <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">- fecha: timestamp</text>
     <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">- vendedor: string</text>
     <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">- total: numeric</text>
-    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">- sucursal: string</text>
-    <line x1="0" y1="120" x2="240" y2="120" stroke="#000000" stroke-width="1" />
-    <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">+ crearVenta(): int</text>
-    <text x="10" y="153" fill="#000000" font-family="monospace" font-size="10">+ calcularTotal(): numeric</text>
+    <line x1="0" y1="105" x2="240" y2="105" stroke="#000000" stroke-width="1" />
+    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">+ crearVenta(): int</text>
+    <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">+ calcularTotal(): numeric</text>
   </g>
 
   <!-- CLASS: DetalleVenta -->
