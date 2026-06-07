@@ -388,7 +388,7 @@ const ArquitecturaScreen = () => {
                 { c: "Presentación", d: "SPA React 18 + TypeScript · esta interfaz" },
                 { c: "Lógica de negocio", d: "Servicios: validación de stock, cálculo de totales, control de roles" },
                 { c: "Acceso a datos", d: "Capa de repositorios / ORM" },
-                { c: "Persistencia", d: "PostgreSQL — 3 tablas: usuarios, productos, ventas" },
+                { c: "Persistencia", d: "PostgreSQL — 6 tablas: usuarios, productos, ventas, detalle_ventas, transferencias, comprobantes" },
               ].map((l, i) => (
                 <div key={l.c} style={{ display: 'grid', gridTemplateColumns: '130px 1fr', gap: 10, padding: '7px 10px', background: 'var(--bg-2)', borderRadius: 'var(--radius-sm)', borderLeft: '3px solid var(--accent)' }}>
                   <span style={{ fontWeight: 600, fontSize: 12.5 }}>{l.c}</span>
@@ -399,17 +399,20 @@ const ArquitecturaScreen = () => {
           </div>
         </PShell.Card>
 
-        <PShell.Card title="Modelo de datos" sub="3 tablas relacionales">
+        <PShell.Card title="Modelo de datos" sub="6 tablas relacionales">
           <table className="table">
-            <thead><tr><th>Tabla</th><th>Campos clave</th><th>Relación</th></tr></thead>
+            <thead><tr><th>Tabla</th><th>Campos clave / atributos</th><th>Relación</th></tr></thead>
             <tbody>
-              <tr><td className="mono" style={{ color: 'var(--accent)' }}>usuarios</td><td className="muted" style={{ fontSize: 12 }}>id, usuario, pass_hash, rol, sucursal</td><td className="muted">1 → N ventas</td></tr>
-              <tr><td className="mono" style={{ color: 'var(--accent)' }}>productos</td><td className="muted" style={{ fontSize: 12 }}>id, codigo, nombre, precio, stock, laboratorio</td><td className="muted">N ↔ N ventas</td></tr>
-              <tr><td className="mono" style={{ color: 'var(--accent)' }}>ventas</td><td className="muted" style={{ fontSize: 12 }}>id, fecha, vendedor_id, items[], total</td><td className="muted">N → 1 usuario</td></tr>
+              <tr><td className="mono" style={{ color: 'var(--accent)' }}>usuarios</td><td className="muted" style={{ fontSize: 12 }}>id, usuario, pass, nombre, rol, sucursal</td><td className="muted">1 → N ventas (vendedor)</td></tr>
+              <tr><td className="mono" style={{ color: 'var(--accent)' }}>productos</td><td className="muted" style={{ fontSize: 12 }}>id, codigo, nombre, precio, stock, lab, cat, vencimiento, sucursal</td><td className="muted">Clave compuesta UNIQUE(codigo, sucursal)</td></tr>
+              <tr><td className="mono" style={{ color: 'var(--accent)' }}>ventas</td><td className="muted" style={{ fontSize: 12 }}>id, fecha, vendedor, total</td><td className="muted">1 → N detalle_ventas, 1 → N comprobantes</td></tr>
+              <tr><td className="mono" style={{ color: 'var(--accent)' }}>detalle_ventas</td><td className="muted" style={{ fontSize: 12 }}>id, venta_id (FK), producto_id (FK), cant, precio</td><td className="muted">Detalle de transacción (ruptura N:M)</td></tr>
+              <tr><td className="mono" style={{ color: 'var(--accent)' }}>transferencias</td><td className="muted" style={{ fontSize: 12 }}>id, fecha, codigo, cant, origen, destino, estado, mensaje</td><td className="muted">Historial de cola asíncrona de stock</td></tr>
+              <tr><td className="mono" style={{ color: 'var(--accent)' }}>comprobantes</td><td className="muted" style={{ fontSize: 12 }}>id, venta_id (FK), nombre_archivo, url, tipo, fecha</td><td className="muted">Metadatos de Cloud Storage de ventas</td></tr>
             </tbody>
           </table>
           <div className="muted-2" style={{ fontSize: 11.5, marginTop: 10 }}>
-            La tabla <span className="mono">ventas</span> referencia productos mediante detalle (items), descontando stock vía trigger / transacción atómica.
+            Esquema relacional íntegro en PostgreSQL que soporta transacciones ACID, bloqueo concurrente <span className="mono">FOR UPDATE</span> y la persistencia de colas y almacenamiento.
           </div>
         </PShell.Card>
       </div>

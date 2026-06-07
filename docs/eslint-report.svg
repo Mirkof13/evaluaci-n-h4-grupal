@@ -1,53 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="100%" height="100%">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a" />
-      <stop offset="100%" stop-color="#1e1b4b" />
-    </linearGradient>
     <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.4" />
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.15" />
     </filter>
   </defs>
-  <rect width="700" height="500" rx="12" fill="url(#bgGrad)" />
-  <rect width="700" height="500" rx="12" fill="none" stroke="#334155" stroke-width="2" />
-  <text x="350" y="40" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="20" font-weight="bold">Reporte de Análisis Estático — ESLint</text>
-  <text x="350" y="60" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13">Herramienta: ESLint 9 · Config: Flat Config · ECMA 2024</text>
+  <rect width="700" height="500" rx="12" fill="#ffffff" />
+  <rect width="700" height="500" rx="12" fill="none" stroke="#000000" stroke-width="2" />
+  <text x="350" y="40" text-anchor="middle" fill="#000000" font-family="system-ui, sans-serif" font-size="20" font-weight="bold">Reporte de Análisis Estático — ESLint</text>
+  <text x="350" y="60" text-anchor="middle" fill="#555555" font-family="system-ui, sans-serif" font-size="13">Herramienta: ESLint 9 · Config: Flat Config · ECMA 2024</text>
 
   <!-- Antes section -->
   <g transform="translate(30, 90)" filter="url(#dropShadow)">
-    <rect width="300" height="170" rx="8" fill="#1e293b" stroke="#f43f5e" stroke-width="1.5" />
-    <rect width="300" height="30" rx="8" fill="#4c0519" />
-    <text x="150" y="20" text-anchor="middle" fill="#f43f5e" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">ANTES — Con Issues</text>
-    <text x="15" y="52" fill="#fecdd3" font-family="monospace" font-size="11">C:\FARMABOL\server.js:181:24</text>
-    <text x="15" y="68" fill="#f1f5f9" font-family="monospace" font-size="11">warning  'pool' is not defined  no-undef</text>
-    <line x1="15" y1="80" x2="285" y2="80" stroke="#334155" stroke-width="1" stroke-dasharray="3 3" />
-    <text x="15" y="100" fill="#fecdd3" font-family="monospace" font-size="11">C:\FARMABOL\farmabol-data.jsx:1:1</text>
-    <text x="15" y="116" fill="#f1f5f9" font-family="monospace" font-size="11">warning  'TODAY' is assigned but never used  no-unused-vars</text>
-    <line x1="15" y1="128" x2="285" y2="128" stroke="#334155" stroke-width="1" stroke-dasharray="3 3" />
-    <text x="15" y="148" fill="#fecdd3" font-family="monospace" font-size="11">C:\FARMABOL\server.js:45:12</text>
-    <text x="15" y="164" fill="#f1f5f9" font-family="monospace" font-size="11">warning  'result' is assigned but never used  no-unused-vars</text>
+    <rect width="300" height="170" rx="8" fill="#f9f9f9" stroke="#000000" stroke-width="1.5" />
+    <rect width="300" height="30" rx="8" fill="#333333" />
+    <text x="150" y="20" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">ANTES — Con Issues</text>
+    <text x="15" y="52" fill="#666666" font-family="monospace" font-size="11">C:\FARMABOL\server.js:181:24</text>
+    <text x="15" y="68" fill="#000000" font-family="monospace" font-size="11">warning  'pool' is not defined  no-undef</text>
+    <line x1="15" y1="80" x2="285" y2="80" stroke="#cccccc" stroke-width="1" stroke-dasharray="3 3" />
+    <text x="15" y="100" fill="#666666" font-family="monospace" font-size="11">C:\FARMABOL\farmabol-data.jsx:1:1</text>
+    <text x="15" y="116" fill="#000000" font-family="monospace" font-size="11">warning  'TODAY' is assigned but never used  no-unused-vars</text>
+    <line x1="15" y1="128" x2="285" y2="128" stroke="#cccccc" stroke-width="1" stroke-dasharray="3 3" />
+    <text x="15" y="148" fill="#666666" font-family="monospace" font-size="11">C:\FARMABOL\server.js:45:12</text>
+    <text x="15" y="164" fill="#000000" font-family="monospace" font-size="11">warning  'result' is assigned but never used  no-unused-vars</text>
   </g>
 
   <!-- Después section -->
   <g transform="translate(370, 90)" filter="url(#dropShadow)">
-    <rect width="300" height="170" rx="8" fill="#1e293b" stroke="#7ea66e" stroke-width="1.5" />
-    <rect width="300" height="30" rx="8" fill="#14532d" />
-    <text x="150" y="20" text-anchor="middle" fill="#7ea66e" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">DESPUÉS — 0 Issues</text>
-    <text x="150" y="65" text-anchor="middle" fill="#f1f5f9" font-family="system-ui, sans-serif" font-size="14">✓ 0 errores</text>
-    <text x="150" y="90" text-anchor="middle" fill="#f1f5f9" font-family="system-ui, sans-serif" font-size="14">✓ 0 advertencias</text>
-    <text x="150" y="115" text-anchor="middle" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">Quality Gate: PASSED</text>
-    <text x="150" y="145" text-anchor="middle" fill="#7ea66e" font-family="system-ui, sans-serif" font-size="40">✓</text>
+    <rect width="300" height="170" rx="8" fill="#f9f9f9" stroke="#000000" stroke-width="1.5" />
+    <rect width="300" height="30" rx="8" fill="#222222" />
+    <text x="150" y="20" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">DESPUÉS — 0 Issues</text>
+    <text x="150" y="65" text-anchor="middle" fill="#000000" font-family="system-ui, sans-serif" font-size="14">✓ 0 errores</text>
+    <text x="150" y="90" text-anchor="middle" fill="#000000" font-family="system-ui, sans-serif" font-size="14">✓ 0 advertencias</text>
+    <text x="150" y="115" text-anchor="middle" fill="#555555" font-family="system-ui, sans-serif" font-size="12">Quality Gate: PASSED</text>
+    <text x="150" y="145" text-anchor="middle" fill="#000000" font-family="system-ui, sans-serif" font-size="40">✓</text>
   </g>
 
   <!-- Issues corregidos -->
   <g transform="translate(30, 290)" filter="url(#dropShadow)">
-    <rect width="640" height="180" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
-    <rect width="640" height="30" rx="8" fill="#0f172a" />
+    <rect width="640" height="180" rx="8" fill="#f9f9f9" stroke="#000000" stroke-width="1.5" />
+    <rect width="640" height="30" rx="8" fill="#333333" />
     <text x="15" y="20" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Issues Corregidos (mínimo 3)</text>
-    <text x="15" y="55" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">1. <tspan fill="#f1f5f9">'pool' is not defined</tspan> → Se agregó 'pool' a la importación en server.js línea 6</text>
-    <text x="15" y="80" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">2. <tspan fill="#f1f5f9">'TODAY' assigned but never used</tspan> → Se eliminó variable no utilizada</text>
-    <text x="15" y="105" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">3. <tspan fill="#f1f5f9">'result' assigned but never used</tspan> → Se eliminó asignación no utilizada</text>
-    <text x="15" y="130" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="12">4. <tspan fill="#f1f5f9">Variables globales no definidas</tspan> → Se configuraron globals en eslint.config.js</text>
-    <text x="15" y="160" fill="#7ea66e" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Comando: npm run lint → 0 errores, 0 advertencias</text>
+    <text x="15" y="55" fill="#555555" font-family="system-ui, sans-serif" font-size="12">1. <tspan fill="#000000">'pool' is not defined</tspan> → Se agregó 'pool' a la importación en server.js línea 6</text>
+    <text x="15" y="80" fill="#555555" font-family="system-ui, sans-serif" font-size="12">2. <tspan fill="#000000">'TODAY' assigned but never used</tspan> → Se eliminó variable no utilizada</text>
+    <text x="15" y="105" fill="#555555" font-family="system-ui, sans-serif" font-size="12">3. <tspan fill="#000000">'result' assigned but never used</tspan> → Se eliminó asignación no utilizada</text>
+    <text x="15" y="130" fill="#555555" font-family="system-ui, sans-serif" font-size="12">4. <tspan fill="#000000">Variables globales no definidas</tspan> → Se configuraron globals en eslint.config.js</text>
+    <text x="15" y="160" fill="#000000" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Comando: npm run lint → 0 errores, 0 advertencias</text>
   </g>
 </svg>

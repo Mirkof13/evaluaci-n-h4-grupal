@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" width="100%" height="100%">
   <rect width="1000" height="750" fill="#ffffff" stroke="#000000" stroke-width="2" />
   <text x="500" y="35" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold">DIAGRAMA DE CLASES (UML) — FARMABOL</text>
@@ -94,6 +95,23 @@
     <text x="10" y="218" fill="#666666" font-family="monospace" font-size="9">Cola asíncrona (MessageQueue)</text>
   </g>
 
+  <!-- CLASS: Comprobante -->
+  <g transform="translate(720, 90)">
+    <rect width="240" height="180" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
+    <rect width="240" height="30" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
+    <text x="120" y="20" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold">Comprobante</text>
+    <line x1="0" y1="30" x2="240" y2="30" stroke="#000000" stroke-width="1" />
+    <text x="10" y="48" fill="#000000" font-family="monospace" font-size="10">- id: int {PK}</text>
+    <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">- venta_id: int {FK}</text>
+    <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">- nombre_archivo: string</text>
+    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">- url: string</text>
+    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">- tipo: string</text>
+    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">- fecha: timestamp</text>
+    <line x1="0" y1="135" x2="240" y2="135" stroke="#000000" stroke-width="1" />
+    <text x="10" y="153" fill="#000000" font-family="monospace" font-size="10">+ obtenerURL(): string</text>
+    <text x="10" y="168" fill="#000000" font-family="monospace" font-size="10">+ asociarVenta(id): bool</text>
+  </g>
+
   <!-- ASSOCIATIONS -->
   <!-- Usuario 1 --- 0..* Venta -->
   <line x1="290" y1="180" x2="380" y2="180" stroke="#000000" stroke-width="1" />
@@ -123,4 +141,11 @@
   <text x="680" y="522" fill="#000000" font-family="sans-serif" font-size="10">1</text>
   <text x="710" y="518" fill="#000000" font-family="sans-serif" font-size="10">0..*</text>
   <text x="700" y="505" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="9">transfiere</text>
+
+  <!-- Venta 1 --- 0..* Comprobante -->
+  <line x1="620" y1="180" x2="720" y2="180" stroke="#000000" stroke-width="1" />
+  <polygon points="712,176 720,180 712,184" fill="none" stroke="#000000" stroke-width="1" />
+  <text x="630" y="172" fill="#000000" font-family="sans-serif" font-size="10">1</text>
+  <text x="705" y="172" fill="#000000" font-family="sans-serif" font-size="10">0..*</text>
+  <text x="670" y="198" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="9">tiene</text>
 </svg>

@@ -8,17 +8,35 @@ Este documento detalla el diseño arquitectónico, el modelo de datos, la estrat
 
 Se ha seleccionado el **Estilo de Arquitectura por Capas (Layered Architecture)**, complementado con un enfoque **MVC (Model-View-Controller)** para estructurar el backend y un **Middleware de Cola de Mensajes Asíncrona** para operaciones de transferencia de stock entre sucursales.
 
-```
-┌───────────────────────────────────────┐
-│  Presentación: SPA React 18 / Babel   │
-├───────────────────────────────────────┤
-│  Controladores: server.js Routes      │
-│  + MessageQueue (Cola Asíncrona)      │
-├───────────────────────────────────────┤
-│  Acceso a Datos: db.js (pg Pool)      │
-├───────────────────────────────────────┤
-│  Persistencia: PostgreSQL Database    │
-└───────────────────────────────────────┘
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+flowchart TD
+    subgraph Presentacion ["Capa de Presentación (Frontend)"]
+        React["React SPA (FARMABOL.html / farmabol-app.jsx)"]
+        UI["farmabol-screens.jsx & farmabol-screens2.jsx"]
+        CSS["farmabol-ui.jsx & styles.css"]
+    end
+
+    subgraph Backend ["Capa de Negocio (Backend)"]
+        Express["Express Server (server.js)"]
+        MQ["MessageQueue (Cola en memoria)"]
+        Multer["Multer (Carga de comprobantes)"]
+    end
+
+    subgraph Datos ["Capa de Datos y Persistencia"]
+        DB["Adaptador pg.Pool (db.js)"]
+        Postgres[(PostgreSQL Engine)]
+        Storage["Cloud Storage Simulado (/uploads)"]
+    end
+
+    %% Relaciones y Flujos de Datos
+    React -->|"Peticiones HTTP REST / JSON"| Express
+    Express -->|"Encola trabajos de transferencia"| MQ
+    Express -->|"Guarda comprobantes en disco"| Multer
+    Express -->|"Consultas SQL y Transacciones ACID"| DB
+    MQ -->|"Procesamiento asíncrono en BD (SELECT FOR UPDATE)"| DB
+    Multer -->|"Almacena archivos locales"| Storage
+    DB -->|"Persistencia física"| Postgres
 ```
 
 ### Justificación Técnica frente a Alternativas:
@@ -49,12 +67,14 @@ La persistencia del sistema está modelada sobre **5 tablas normalizadas** en Po
 ### Diagrama Entidad-Relación:
 
 ```mermaid
+%%{init: {'theme': 'neutral'}}%%
 erDiagram
     usuarios ||--o{ ventas : "registra"
     ventas ||--|{ detalle_ventas : "contiene"
     productos ||--o{ detalle_ventas : "se vende en"
     productos ||--o{ transferencias : "origen"
     productos ||--o{ transferencias : "destino"
+    ventas ||--o{ comprobantes : "posee"
 
     usuarios {
         int id PK
@@ -105,6 +125,15 @@ erDiagram
         varchar estado "PENDIENTE|COMPLETADO|ERROR"
         varchar mensaje
     }
+
+    comprobantes {
+        int id PK
+        int venta_id FK
+        varchar nombre_archivo
+        varchar url
+        varchar tipo
+        timestamp fecha
+    }
 ```
 
 ### Diccionario de Datos:
@@ -113,6 +142,88 @@ erDiagram
 3. **`ventas`**: Cabecera de transacción financiera con vendedor y total.
 4. **`detalle_ventas`**: Tabla de ruptura N:M entre ventas y productos, almacenando datos históricos.
 5. **`transferencias`**: Registro de la cola de mensajes para transferencias asíncronas con estados `PENDIENTE`, `COMPLETADO` y `ERROR`.
+6. **`comprobantes`**: Metadatos de archivos subidos al Cloud Storage (comprobantes de venta, fotos, códigos QR) vinculados opcionalmente a ventas.
+
+---
+
+## 2.1 Diagrama de Clases UML
+
+El siguiente diagrama de clases UML muestra la estructura lógica de los componentes de dominio, sus relaciones de cardinalidad y sus métodos/atributos clave:
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+classDiagram
+    direction TD
+    class Usuario {
+        -int id
+        -string usuario
+        -string pass
+        -string nombre
+        -string rol
+        -string sucursal
+        +validarCredenciales() bool
+        +obtenerSucursal() string
+    }
+    class Venta {
+        -int id
+        -timestamp fecha
+        -string vendedor
+        -numeric total
+        -string sucursal
+        +crearVenta() int
+        +calcularTotal() numeric
+    }
+    class DetalleVenta {
+        -int id
+        -int venta_id
+        -int producto_id
+        -string codigo
+        -string nombre
+        -int cantidad
+        -numeric precio
+        +calcularSubtotal() numeric
+    }
+    class Producto {
+        -int id
+        -string codigo
+        -string nombre
+        -numeric precio
+        -int stock
+        -string laboratorio
+        -string categoria
+        -date fecha_vencimiento
+        -string sucursal
+        +verificarStock() bool
+        +descontarStock(cant) int
+    }
+    class Transferencia {
+        -int id
+        -timestamp fecha
+        -string codigo
+        -string nombre
+        -int cantidad
+        -string origen
+        -string destino
+        -string estado
+        -string mensaje
+    }
+    class Comprobante {
+        -int id
+        -int venta_id
+        -string nombre_archivo
+        -string url
+        -string tipo
+        -timestamp fecha
+        +obtenerURL() string
+        +asociarVenta(id) bool
+    }
+
+    Usuario "1" --> "0..*" Venta : registra
+    Venta "1" *-- "1..*" DetalleVenta : contiene
+    Producto "1" --> "0..*" DetalleVenta : se vende en
+    Producto "1" --> "0..*" Transferencia : transfiere
+    Venta "1" --> "0..*" Comprobante : tiene
+```
 
 ---
 
@@ -180,6 +291,102 @@ class MessageQueue {
 - **Tolerancia a fallos:** Si ocurre un error, la transacción hace ROLLBACK automático y el estado se marca como ERROR.
 - **Escalabilidad:** La cola puede procesar múltiples trabajos secuencialmente sin bloquear el servidor.
 - **Persistencia:** El estado de cada transferencia queda registrado en BD para auditoría.
+
+---
+
+## 3.1 Diagrama de Secuencia (Caso de Uso Crítico: Transferencia de Stock)
+
+El siguiente diagrama de secuencia detalla el flujo asíncrono para transferir stock entre sucursales de FARMABOL utilizando el middleware de cola de mensajes (`MessageQueue`) y el procesamiento en segundo plano transaccional con PostgreSQL:
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+sequenceDiagram
+    autonumber
+    actor Admin as Administrador
+    participant UI as Frontend React
+    participant Server as Servidor (server.js)
+    participant MQ as MessageQueue
+    participant DB as PostgreSQL
+
+    Admin->>UI: Llenar y enviar formulario transferencia
+    UI->>Server: POST /api/transferencias (datos)
+    Server->>DB: INSERT INTO transferencias (estado='PENDIENTE')
+    DB-->>Server: Retorna transferId
+    Server->>MQ: push(job {id, codigo, cantidad, origen, destino})
+    Server-->>UI: 202 Accepted {id, estado: 'PENDIENTE'}
+    UI-->>Admin: Muestra "Transferencia encolada"
+    
+    Note over MQ, DB: Procesamiento asíncrono en segundo plano (3s)
+    activate MQ
+    MQ->>DB: pool.connect() y BEGIN
+    DB-->>MQ: Transacción iniciada
+    MQ->>DB: SELECT stock FROM productos WHERE codigo y sucursal=origen FOR UPDATE
+    DB-->>MQ: Retorna stock disponible
+    alt Stock suficiente
+        MQ->>DB: UPDATE productos SET stock = stock - cant WHERE origen
+        MQ->>DB: UPDATE productos SET stock = stock + cant WHERE destino
+        MQ->>DB: UPDATE transferencias SET estado='COMPLETADO'
+        MQ->>DB: COMMIT y release()
+    else Stock insuficiente
+        MQ->>DB: UPDATE transferencias SET estado='ERROR', mensaje='Stock insuficiente'
+        MQ->>DB: ROLLBACK y release()
+    end
+    deactivate MQ
+
+    Note over UI, Server: Polling cada 2 segundos
+    UI->>Server: GET /api/state (consultar transferencias)
+    Server->>DB: SELECT * FROM transferencias
+    DB-->>Server: Lista de transferencias
+    Server-->>UI: Respuesta con transferencias actualizadas
+    UI-->>Admin: Actualiza estado en UI (COMPLETADO o ERROR)
+```
+
+---
+
+## 3.2 Diagrama de Casos de Uso (RBAC)
+
+El control de acceso basado en roles (RBAC) está modelado mediante los siguientes casos de uso del sistema:
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+flowchart LR
+    %% Actores
+    subgraph Actores
+        Admin["Actor: Administrador"]
+        Vendedor["Actor: Vendedor"]
+    end
+
+    %% Límite del Sistema
+    subgraph Sistema ["Sistema FARMABOL"]
+        UC1(["Iniciar Sesión"])
+        UC2(["Gestionar Productos (CRUD)"])
+        UC3(["Realizar Venta (POS)"])
+        UC4(["Ver Dashboard & Alertas"])
+        UC5(["Transferir Stock Asíncronamente"])
+        UC6(["Subir Comprobante de Pago"])
+        UC7(["Ver Historial de Ventas / Reportes"])
+        UC8(["Verificar Rol"])
+    end
+
+    %% Relaciones Admin
+    Admin --> UC1
+    Admin --> UC2
+    Admin --> UC3
+    Admin --> UC4
+    Admin --> UC5
+    Admin --> UC6
+    Admin --> UC7
+
+    %% Relaciones Vendedor
+    Vendedor --> UC1
+    Vendedor --> UC3
+    Vendedor --> UC4
+    Vendedor --> UC7
+
+    %% Relaciones entre Casos de Uso
+    UC1 -.->|"<<include>>"| UC8
+    UC4 -.->|"<<extend>>"| UC7
+```
 
 ---
 
