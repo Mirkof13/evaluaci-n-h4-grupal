@@ -1,142 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900" width="1000" height="900">
   <rect width="1000" height="900" fill="#ffffff" stroke="#000000" stroke-width="2" />
-  <text x="500" y="35" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="18" font-weight="bold">DIAGRAMA ENTIDAD-RELACIÓN (E-R) — FARMABOL</text>
-  <text x="500" y="55" text-anchor="middle" fill="#333333" font-family="sans-serif" font-size="12">Modelo Relacional de Base de Datos PostgreSQL</text>
+  <text x="500" y="35" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold">DIAGRAMA ENTIDAD-RELACION (E-R) - FARMABOL</text>
+  <text x="500" y="55" text-anchor="middle" fill="#333333" font-family="Arial, Helvetica, sans-serif" font-size="12">Modelo Relacional de Base de Datos PostgreSQL</text>
 
   <!-- ENTITY: usuarios -->
   <g transform="translate(80, 100)">
     <rect width="280" height="190" fill="#ffffff" stroke="#000000" stroke-width="1.5" rx="3" ry="3" />
     <rect width="280" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" rx="3" ry="3" />
-    <text x="140" y="19" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold">usuarios</text>
+    <text x="140" y="19" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">usuarios</text>
     <line x1="0" y1="28" x2="280" y2="28" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="monospace" font-size="10">┌────────────────────────────┐</text>
-    <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">│ id          INT  (PK)  🔑  │</text>
-    <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ usuario     VARCHAR(50)  UK │</text>
-    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ pass        VARCHAR(255)    │</text>
-    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ nombre      VARCHAR(100)    │</text>
-    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ rol         VARCHAR(20)     │</text>
-    <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">│ sucursal    VARCHAR(100)    │</text>
-    <text x="10" y="153" fill="#000000" font-family="monospace" font-size="10">└────────────────────────────┘</text>
+    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">id          INT  [PK]</text>
+    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">usuario     VARCHAR(50)  [UK]</text>
+    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">pass        VARCHAR(255)</text>
+    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">nombre      VARCHAR(100)</text>
+    <text x="10" y="108" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">rol         VARCHAR(20)</text>
+    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">sucursal    VARCHAR(100)</text>
   </g>
 
   <!-- ENTITY: productos -->
   <g transform="translate(80, 360)">
     <rect width="320" height="260" fill="#ffffff" stroke="#000000" stroke-width="1.5" rx="3" ry="3" />
     <rect width="320" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" rx="3" ry="3" />
-    <text x="160" y="19" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold">productos</text>
+    <text x="160" y="19" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">productos</text>
     <line x1="0" y1="28" x2="320" y2="28" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="monospace" font-size="10">┌──────────────────────────────────┐</text>
-    <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">│ id               INT  (PK)  🔑  │</text>
-    <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ codigo           VARCHAR(50)  UK │</text>
-    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ nombre           VARCHAR(100)    │</text>
-    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ precio           DECIMAL(10,2)   │</text>
-    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ stock            INT             │</text>
-    <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">│ laboratorio      VARCHAR(100)    │</text>
-    <text x="10" y="153" fill="#000000" font-family="monospace" font-size="10">│ categoria        VARCHAR(100)    │</text>
-    <text x="10" y="168" fill="#000000" font-family="monospace" font-size="10">│ fecha_vencimiento DATE           │</text>
-    <text x="10" y="183" fill="#000000" font-family="monospace" font-size="10">│ sucursal         VARCHAR(100)  UK │</text>
-    <text x="10" y="198" fill="#000000" font-family="monospace" font-size="10">└──────────────────────────────────┘</text>
-    <text x="10" y="220" fill="#666666" font-family="monospace" font-size="9">UNIQUE(codigo, sucursal)</text>
+    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">id               INT  [PK]</text>
+    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">codigo           VARCHAR(50)  [UK]</text>
+    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">nombre           VARCHAR(100)</text>
+    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">precio           DECIMAL(10,2)</text>
+    <text x="10" y="108" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">stock            INT</text>
+    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">laboratorio      VARCHAR(100)</text>
+    <text x="10" y="138" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">categoria        VARCHAR(100)</text>
+    <text x="10" y="153" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">fecha_vencimiento DATE</text>
+    <text x="10" y="168" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">sucursal         VARCHAR(100)  [UK]</text>
+    <text x="10" y="190" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="9">UNIQUE(codigo, sucursal)</text>
   </g>
 
   <!-- ENTITY: ventas -->
   <g transform="translate(600, 100)">
     <rect width="260" height="175" fill="#ffffff" stroke="#000000" stroke-width="1.5" rx="3" ry="3" />
     <rect width="260" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" rx="3" ry="3" />
-    <text x="130" y="19" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold">ventas</text>
+    <text x="130" y="19" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">ventas</text>
     <line x1="0" y1="28" x2="260" y2="28" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="monospace" font-size="10">┌───────────────────────────┐</text>
-    <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">│ id         INT  (PK)  🔑 │</text>
-    <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ fecha      TIMESTAMP      │</text>
-    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ vendedor   VARCHAR(100)   │</text>
-    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ total      DECIMAL(10,2)  │</text>
-    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">└───────────────────────────┘</text>
-    <text x="10" y="143" fill="#666666" font-family="monospace" font-size="9">FK: usuarios(id) implícita</text>
+    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">id         INT  [PK]</text>
+    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">fecha      TIMESTAMP</text>
+    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">vendedor   VARCHAR(100)</text>
+    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">total      DECIMAL(10,2)</text>
+    <text x="10" y="118" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="9">FK: usuarios(id)</text>
   </g>
 
   <!-- ENTITY: detalle_ventas -->
   <g transform="translate(600, 350)">
     <rect width="280" height="220" fill="#ffffff" stroke="#000000" stroke-width="1.5" rx="3" ry="3" />
     <rect width="280" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" rx="3" ry="3" />
-    <text x="140" y="19" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold">detalle_ventas</text>
+    <text x="140" y="19" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">detalle_ventas</text>
     <line x1="0" y1="28" x2="280" y2="28" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="monospace" font-size="10">┌────────────────────────────────┐</text>
-    <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">│ id           INT  (PK)  🔑   │</text>
-    <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ venta_id     INT  (FK) ➡     │</text>
-    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ producto_id  INT  (FK) ➡     │</text>
-    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ codigo       VARCHAR(50)      │</text>
-    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ nombre       VARCHAR(100)     │</text>
-    <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">│ cantidad     INT              │</text>
-    <text x="10" y="153" fill="#000000" font-family="monospace" font-size="10">│ precio       DECIMAL(10,2)   │</text>
-    <text x="10" y="168" fill="#000000" font-family="monospace" font-size="10">└────────────────────────────────┘</text>
-    <text x="10" y="190" fill="#666666" font-family="monospace" font-size="9">FK: ventas(id), productos(id)</text>
+    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">id           INT  [PK]</text>
+    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">venta_id     INT  [FK]</text>
+    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">producto_id  INT  [FK]</text>
+    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">codigo       VARCHAR(50)</text>
+    <text x="10" y="108" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">nombre       VARCHAR(100)</text>
+    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">cantidad     INT</text>
+    <text x="10" y="138" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">precio       DECIMAL(10,2)</text>
+    <text x="10" y="163" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="9">FK: ventas(id), productos(id)</text>
   </g>
 
   <!-- ENTITY: transferencias -->
   <g transform="translate(600, 630)">
     <rect width="280" height="220" fill="#ffffff" stroke="#000000" stroke-width="1.5" rx="3" ry="3" />
     <rect width="280" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" rx="3" ry="3" />
-    <text x="140" y="19" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold">transferencias</text>
+    <text x="140" y="19" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">transferencias</text>
     <line x1="0" y1="28" x2="280" y2="28" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="monospace" font-size="10">┌────────────────────────────────┐</text>
-    <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">│ id          INT  (PK)  🔑    │</text>
-    <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ fecha       TIMESTAMP         │</text>
-    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ codigo      VARCHAR(50)       │</text>
-    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ nombre      VARCHAR(100)      │</text>
-    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ cantidad    INT               │</text>
-    <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">│ origen      VARCHAR(100)      │</text>
-    <text x="10" y="153" fill="#000000" font-family="monospace" font-size="10">│ destino     VARCHAR(100)      │</text>
-    <text x="10" y="168" fill="#000000" font-family="monospace" font-size="10">│ estado      VARCHAR(20)       │</text>
-    <text x="10" y="183" fill="#666666" font-family="monospace" font-size="9">[PENDIENTE|COMPLETADO|ERROR]    │</text>
-    <text x="10" y="198" fill="#000000" font-family="monospace" font-size="10">│ mensaje     VARCHAR(255)      │</text>
-    <text x="10" y="210" fill="#000000" font-family="monospace" font-size="10">└────────────────────────────────┘</text>
+    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">id          INT  [PK]</text>
+    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">fecha       TIMESTAMP</text>
+    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">codigo      VARCHAR(50)</text>
+    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">nombre      VARCHAR(100)</text>
+    <text x="10" y="108" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">cantidad    INT</text>
+    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">origen      VARCHAR(100)</text>
+    <text x="10" y="138" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">destino     VARCHAR(100)</text>
+    <text x="10" y="153" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">estado      VARCHAR(20)</text>
+    <text x="10" y="168" fill="#666666" font-family="'Courier New', Courier, monospace" font-size="9">[PENDIENTE|COMPLETADO|ERROR]</text>
+    <text x="10" y="183" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">mensaje     VARCHAR(255)</text>
   </g>
 
   <!-- ENTITY: comprobantes -->
   <g transform="translate(80, 700)">
     <rect width="320" height="200" fill="#ffffff" stroke="#000000" stroke-width="1.5" rx="3" ry="3" />
     <rect width="320" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" rx="3" ry="3" />
-    <text x="160" y="19" text-anchor="middle" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold">comprobantes</text>
+    <text x="160" y="19" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">comprobantes</text>
     <line x1="0" y1="28" x2="320" y2="28" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="monospace" font-size="10">┌──────────────────────────────────────┐</text>
-    <text x="10" y="63" fill="#000000" font-family="monospace" font-size="10">│ id               INT  (PK)  🔑      │</text>
-    <text x="10" y="78" fill="#000000" font-family="monospace" font-size="10">│ venta_id         INT  (FK) ➡        │</text>
-    <text x="10" y="93" fill="#000000" font-family="monospace" font-size="10">│ nombre_archivo   VARCHAR(255)        │</text>
-    <text x="10" y="108" fill="#000000" font-family="monospace" font-size="10">│ url              VARCHAR(500)        │</text>
-    <text x="10" y="123" fill="#000000" font-family="monospace" font-size="10">│ tipo             VARCHAR(50)         │</text>
-    <text x="10" y="138" fill="#000000" font-family="monospace" font-size="10">│ fecha            TIMESTAMP           │</text>
-    <text x="10" y="153" fill="#000000" font-family="monospace" font-size="10">└──────────────────────────────────────┘</text>
+    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">id               INT  [PK]</text>
+    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">venta_id         INT  [FK]</text>
+    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">nombre_archivo   VARCHAR(255)</text>
+    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">url              VARCHAR(500)</text>
+    <text x="10" y="108" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">tipo             VARCHAR(50)</text>
+    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">fecha            TIMESTAMP</text>
   </g>
 
   <!-- RELATIONS -->
   <!-- usuarios 1 --- N ventas -->
   <line x1="220" y1="290" x2="600" y2="195" stroke="#000000" stroke-width="1" />
   <polygon points="596,192 605,195 596,198" stroke="#000000" stroke-width="1" fill="none" />
-  <text x="370" y="230" fill="#000000" font-family="sans-serif" font-size="11">1</text>
-  <text x="540" y="220" fill="#000000" font-family="sans-serif" font-size="11">N</text>
+  <text x="370" y="230" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11">1</text>
+  <text x="540" y="220" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11">N</text>
 
   <!-- ventas 1 --- N detalle_ventas -->
   <line x1="730" y1="290" x2="740" y2="350" stroke="#000000" stroke-width="1" />
   <polygon points="737,347 743,350 737,353" stroke="#000000" stroke-width="1" fill="none" />
-  <text x="738" y="310" fill="#000000" font-family="sans-serif" font-size="11">1</text>
-  <text x="748" y="340" fill="#000000" font-family="sans-serif" font-size="11">N</text>
+  <text x="738" y="310" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11">1</text>
+  <text x="748" y="340" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11">N</text>
 
   <!-- productos 1 --- N detalle_ventas -->
   <line x1="400" y1="490" x2="600" y2="460" stroke="#000000" stroke-width="1" />
   <polygon points="596,457 605,460 596,463" stroke="#000000" stroke-width="1" fill="none" />
-  <text x="480" y="480" fill="#000000" font-family="sans-serif" font-size="11">1</text>
-  <text x="560" y="470" fill="#000000" font-family="sans-serif" font-size="11">N</text>
+  <text x="480" y="480" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11">1</text>
+  <text x="560" y="470" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11">N</text>
 
   <!-- productos 1 --- N transferencias -->
   <line x1="400" y1="550" x2="600" y2="700" stroke="#000000" stroke-width="1" />
   <polygon points="596,697 605,700 596,703" stroke="#000000" stroke-width="1" fill="none" />
-  <text x="480" y="610" fill="#000000" font-family="sans-serif" font-size="11">1</text>
-  <text x="560" y="660" fill="#000000" font-family="sans-serif" font-size="11">N</text>
+  <text x="480" y="610" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11">1</text>
+  <text x="560" y="660" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11">N</text>
 
   <!-- ventas 1 --- N comprobantes -->
   <line x1="600" y1="190" x2="380" y2="710" stroke="#000000" stroke-width="1" />
   <polygon points="383,707 377,710 383,713" stroke="#000000" stroke-width="1" fill="none" />
-  <text x="560" y="410" fill="#000000" font-family="sans-serif" font-size="11">1</text>
-  <text x="430" y="690" fill="#000000" font-family="sans-serif" font-size="11">N</text>
+  <text x="560" y="410" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11">1</text>
+  <text x="430" y="690" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="11">N</text>
 </svg>
