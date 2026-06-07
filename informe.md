@@ -1,26 +1,22 @@
-<title>Informe Técnico Completo — FARMABOL</title>
-
 <div class="cover-page">
 
-# INFORME TECNICO COMPLETO
+<img src="docs/para%20documneto/logo%20poprtada.png" alt="Logo FARMABOL" class="logo" style="max-width:550px;">
+
+# EVALUACION GRUPAL HITO 4
+
 ## Sistema de Control de Inventarios y Ventas — FARMABOL
+
 ### Farmacias Bolivianas Unidas (12 sucursales)
-### Hitos 3 y 4 — Arquitectura, Middleware, Control de Calidad y Cloud
 
----
+<div class="cover-info">
 
-## DATOS DEL PROYECTO
+<p><strong>Carrera:</strong> Ingenieria de Sistemas</p>
+<p><strong>Materia:</strong> Software II</p>
+<p><strong>Docente:</strong> Ing. [Nombre del Docente]</p>
+<p><strong>Grupo:</strong> [Numero de Grupo]</p>
+<p><strong>Gestion:</strong> I/2026</p>
 
-| Campo | Detalle |
-|-------|---------|
-| **Proyecto** | Sistema de Control de Inventarios y Ventas |
-| **Empresa** | Farmacias Bolivianas Unidas (FARMABOL) — 12 sucursales |
-| **Repositorio** | https://github.com/Mirkof13/evalacionh4 |
-| **Tecnologias** | Node.js + Express + PostgreSQL + React 18 |
-| **Analisis estatico** | ESLint 9 (Flat Config) |
-| **Despliegue cloud** | Render + Supabase (Recomendado) |
-
----
+</div>
 
 </div>
 
@@ -1025,18 +1021,51 @@ const { data: { publicUrl } } = supabase.storage
 | 9 | Panel Arquitectura | ✓ | Documentacion tecnica integrada en la UI |
 | 10 | Restablecer BD | ✓ | Reset a datos semilla |
 
-### Capturas de Pantalla Recomendadas para el PDF
+### Evidencia Visual del Sistema
 
-1. Pantalla de login con credenciales
-2. Dashboard con KPIs y alertas de stock bajo
-3. CRUD de productos (lista + formulario)
-4. POS con carrito de compras
-5. Confirmacion de venta con total
-6. Historial de ventas con detalle expandido
-7. Formulario de transferencia con estado PENDIENTE
-8. Transferencia completada con check verde
-9. Upload de comprobantes
-10. Panel de arquitectura con metricas ESLint
+A continuacion se presentan las capturas de pantalla del sistema FARMABOL en funcionamiento, demostrando cada una de las funcionalidades implementadas.
+
+**Figura 1: Pantalla de inicio de sesion**
+
+<img src="docs/para%20documneto/Captura%20de%20pantalla%202026-06-06%20215624.png" alt="Login" />
+
+*Captura 1 — Interfaz de autenticacion con campos de usuario y contrasena*
+
+**Figura 2: Dashboard principal con KPIs**
+
+<img src="docs/para%20documneto/Captura%20de%20pantalla%202026-06-06%20215643.png" alt="Dashboard" />
+
+*Captura 2 — Panel principal con indicadores de ventas, stock bajo y alertas de vencimiento*
+
+**Figura 3: Gestion de productos (CRUD)**
+
+<img src="docs/para%20documneto/Captura%20de%20pantalla%202026-06-06%20215655.png" alt="Productos" />
+
+*Captura 3 — Listado de productos con formulario de creacion y edicion*
+
+**Figura 4: Punto de Venta (POS)**
+
+<img src="docs/para%20documneto/Captura%20de%20pantalla%202026-06-06%20215703.png" alt="POS" />
+
+*Captura 4 — Terminal POS con carrito de compras y seleccion de productos*
+
+**Figura 5: Historial de ventas**
+
+<img src="docs/para%20documneto/Captura%20de%20pantalla%202026-06-06%20215714.png" alt="Historial Ventas" />
+
+*Captura 5 — Historial de ventas con detalle expandible por transaccion*
+
+**Figura 6: Transferencia de stock asincrona**
+
+<img src="docs/para%20documneto/Captura%20de%20pantalla%202026-06-06%20215725.png" alt="Transferencia" />
+
+*Captura 6 — Formulario de transferencia entre sucursales con estado PENDIENTE*
+
+**Figura 7: Cloud Storage — Subida de comprobantes**
+
+<img src="docs/para%20documneto/Captura%20de%20pantalla%202026-06-06%20215747.png" alt="Upload" />
+
+*Captura 7 — Pantalla de carga de comprobantes de pago con listado de archivos*
 
 ---
 

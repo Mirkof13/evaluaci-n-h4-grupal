@@ -1,50 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 520" width="750" height="520">
   <defs>
-    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.15" />
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#000000" flood-opacity="0.12" />
     </filter>
   </defs>
-  <rect width="700" height="500" rx="12" fill="#ffffff" />
-  <rect width="700" height="500" rx="12" fill="none" stroke="#000000" stroke-width="2" />
-  <text x="350" y="40" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold">Reporte de Análisis Estático — ESLint</text>
-  <text x="350" y="60" text-anchor="middle" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="13">Herramienta: ESLint 9 · Config: Flat Config · ECMA 2024</text>
+  <rect width="750" height="520" fill="#ffffff" stroke="#000000" stroke-width="2" rx="6" />
+  <text x="375" y="40" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="bold">Reporte de Analisis Estatico — ESLint</text>
+  <text x="375" y="60" text-anchor="middle" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="13">Herramienta: ESLint 9 · Config: Flat Config · ECMA 2024</text>
 
-  <!-- Antes section -->
-  <g transform="translate(30, 90)" filter="url(#dropShadow)">
-    <rect width="300" height="170" rx="8" fill="#f9f9f9" stroke="#000000" stroke-width="1.5" />
-    <rect width="300" height="30" rx="8" fill="#333333" />
-    <text x="150" y="20" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">ANTES — Con Issues</text>
-    <text x="15" y="52" fill="#666666" font-family="'Courier New', Courier, monospace" font-size="11">C:\FARMABOL\server.js:181:24</text>
-    <text x="15" y="68" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="11">warning  'pool' is not defined  no-undef</text>
-    <line x1="15" y1="80" x2="285" y2="80" stroke="#cccccc" stroke-width="1" stroke-dasharray="3 3" />
-    <text x="15" y="100" fill="#666666" font-family="'Courier New', Courier, monospace" font-size="11">C:\FARMABOL\farmabol-data.jsx:1:1</text>
-    <text x="15" y="116" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="11">warning  'TODAY' is assigned but never used  no-unused-vars</text>
-    <line x1="15" y1="128" x2="285" y2="128" stroke="#cccccc" stroke-width="1" stroke-dasharray="3 3" />
-    <text x="15" y="148" fill="#666666" font-family="'Courier New', Courier, monospace" font-size="11">C:\FARMABOL\server.js:45:12</text>
-    <text x="15" y="164" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="11">warning  'result' is assigned but never used  no-unused-vars</text>
+  <!-- Panel ANTES -->
+  <g transform="translate(30, 90)" filter="url(#shadow)">
+    <rect width="330" height="180" fill="#f9f9f9" stroke="#000000" stroke-width="1.5" rx="6" />
+    <rect width="330" height="30" fill="#444444" rx="6" />
+    <text x="165" y="20" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">ANTES — Con Issues</text>
+
+    <text x="15" y="55" fill="#777777" font-family="'Courier New', Courier, monospace" font-size="10">C:\FARMABOL\server.js:181:24</text>
+    <text x="15" y="70" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">warning  'pool' is not defined  no-undef</text>
+    <line x1="15" y1="80" x2="315" y2="80" stroke="#dddddd" stroke-width="1" stroke-dasharray="4 4" />
+
+    <text x="15" y="100" fill="#777777" font-family="'Courier New', Courier, monospace" font-size="10">C:\FARMABOL\farmabol-data.jsx:1:1</text>
+    <text x="15" y="115" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">warning  'TODAY' unused  no-unused-vars</text>
+    <line x1="15" y1="125" x2="315" y2="125" stroke="#dddddd" stroke-width="1" stroke-dasharray="4 4" />
+
+    <text x="15" y="145" fill="#777777" font-family="'Courier New', Courier, monospace" font-size="10">C:\FARMABOL\server.js:45:12</text>
+    <text x="15" y="160" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">warning  'result' unused  no-unused-vars</text>
   </g>
 
-  <!-- Después section -->
-  <g transform="translate(370, 90)" filter="url(#dropShadow)">
-    <rect width="300" height="170" rx="8" fill="#f9f9f9" stroke="#000000" stroke-width="1.5" />
-    <rect width="300" height="30" rx="8" fill="#222222" />
-    <text x="150" y="20" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">DESPUÉS — 0 Issues</text>
-    <text x="150" y="65" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="14">✓ 0 errores</text>
-    <text x="150" y="90" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="14">✓ 0 advertencias</text>
-    <text x="150" y="115" text-anchor="middle" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">Quality Gate: PASSED</text>
-    <text x="150" y="145" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="40">✓</text>
+  <!-- Panel DESPUES -->
+  <g transform="translate(390, 90)" filter="url(#shadow)">
+    <rect width="330" height="180" fill="#f9f9f9" stroke="#000000" stroke-width="1.5" rx="6" />
+    <rect width="330" height="30" fill="#444444" rx="6" />
+    <text x="165" y="20" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">DESPUES — 0 Issues</text>
+
+    <circle cx="165" cy="70" r="22" fill="none" stroke="#000000" stroke-width="2" />
+    <text x="165" y="76" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="28">V</text>
+
+    <text x="165" y="115" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="14">0 errores</text>
+    <text x="165" y="138" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="14">0 advertencias</text>
+    <text x="165" y="165" text-anchor="middle" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">Quality Gate: PASSED</text>
   </g>
 
-  <!-- Issues corregidos -->
-  <g transform="translate(30, 290)" filter="url(#dropShadow)">
-    <rect width="640" height="180" rx="8" fill="#f9f9f9" stroke="#000000" stroke-width="1.5" />
-    <rect width="640" height="30" rx="8" fill="#333333" />
-    <text x="15" y="20" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">Issues Corregidos (mínimo 3)</text>
-    <text x="15" y="55" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">1. <tspan fill="#000000">'pool' is not defined</tspan> → Se agregó 'pool' a la importación en server.js línea 6</text>
-    <text x="15" y="80" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">2. <tspan fill="#000000">'TODAY' assigned but never used</tspan> → Se eliminó variable no utilizada</text>
-    <text x="15" y="105" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">3. <tspan fill="#000000">'result' assigned but never used</tspan> → Se eliminó asignación no utilizada</text>
-    <text x="15" y="130" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">4. <tspan fill="#000000">Variables globales no definidas</tspan> → Se configuraron globals en eslint.config.js</text>
-    <text x="15" y="160" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">Comando: npm run lint → 0 errores, 0 advertencias</text>
+  <!-- Panel Issues Corregidos -->
+  <g transform="translate(30, 300)" filter="url(#shadow)">
+    <rect width="690" height="190" fill="#f9f9f9" stroke="#000000" stroke-width="1.5" rx="6" />
+    <rect width="690" height="30" fill="#444444" rx="6" />
+    <text x="15" y="20" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">Issues Corregidos (minimo 3)</text>
+
+    <text x="15" y="58" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">1.</text>
+    <text x="35" y="58" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12">'pool' is not defined</text>
+    <text x="250" y="58" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">-> Se agrego 'pool' a importacion en server.js</text>
+
+    <text x="15" y="88" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">2.</text>
+    <text x="35" y="88" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12">'TODAY' sin uso</text>
+    <text x="250" y="88" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">-> Se elimino variable no utilizada</text>
+
+    <text x="15" y="118" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">3.</text>
+    <text x="35" y="118" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12">'result' sin uso</text>
+    <text x="250" y="118" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">-> Se elimino asignacion no utilizada</text>
+
+    <text x="15" y="148" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">4.</text>
+    <text x="35" y="148" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12">Globals no definidas</text>
+    <text x="250" y="148" fill="#555555" font-family="Arial, Helvetica, sans-serif" font-size="12">-> Se configuraron globals en eslint.config.js</text>
+
+    <text x="15" y="178" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">Comando: npm run lint -> 0 errores, 0 advertencias</text>
   </g>
 </svg>

@@ -1,95 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 650" width="800" height="650">
-  <rect width="800" height="650" fill="#ffffff" stroke="#000000" stroke-width="2" />
-  <text x="400" y="35" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold">DIAGRAMA DE ARQUITECTURA — FARMABOL</text>
-  <text x="400" y="55" text-anchor="middle" fill="#333333" font-family="Arial, Helvetica, sans-serif" font-size="12">Arquitectura por Capas con Middleware Message Queue</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 580" width="820" height="580">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+    </marker>
+  </defs>
 
-  <!-- CAPA 1: Presentación -->
-  <g transform="translate(50, 90)">
-    <rect width="700" height="110" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
-    <rect width="700" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
-    <text x="10" y="19" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">CAPA DE PRESENTACIÓN</text>
-    <text x="690" y="19" text-anchor="end" fill="#333333" font-family="Arial, Helvetica, sans-serif" font-size="10">Navegador Web</text>
+  <!-- Title -->
+  <text x="410" y="26" text-anchor="middle" font-family="Arial" font-size="15" font-weight="bold">DIAGRAMA DE ARQUITECTURA DE SOFTWARE (UML)</text>
+  <text x="410" y="44" text-anchor="middle" font-family="Arial" font-size="10">Arquitectura Monolítica por Capas — Sistema FARMABOL</text>
 
-    <g transform="translate(20, 40)">
-      <rect width="300" height="55" fill="#ffffff" stroke="#000000" stroke-width="1" />
-      <text x="10" y="20" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">React SPA (Babel Standalone)</text>
-      <text x="10" y="38" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">farmabol-app.jsx · screens · ui</text>
-      <text x="10" y="50" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="9">Componentes: Dashboard, POS, Transferencias, Uploads</text>
-    </g>
-    <g transform="translate(360, 40)">
-      <rect width="300" height="55" fill="#ffffff" stroke="#000000" stroke-width="1" />
-      <text x="10" y="20" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">Diseño y Estilos</text>
-      <text x="10" y="38" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">styles.css · icons.jsx · shell.jsx</text>
-      <text x="10" y="50" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="9">Interfaz oscura premium, iconos SVG, layout responsivo</text>
-    </g>
-  </g>
+  <!-- LAYER 1: PRESENTATION -->
+  <rect x="20" y="55" width="780" height="145" rx="4" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="410" y="74" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">CAPA DE PRESENTACIÓN (CLIENTE)</text>
+  <text x="790" y="69" text-anchor="end" font-family="Arial" font-size="9" font-style="italic">Navegador Web / React SPA</text>
 
-  <!-- Flecha -->
-  <line x1="400" y1="200" x2="400" y2="225" stroke="#000000" stroke-width="1.5" />
-  <polygon points="396,222 400,230 404,222" fill="#000000" />
-  <text x="410" y="218" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">HTTP REST JSON</text>
+  <!-- Component: React SPA -->
+  <rect x="40" y="83" width="355" height="102" rx="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="40" y="83" width="355" height="18" rx="3" fill="#000"/>
+  <text x="218" y="96" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#fff">React SPA (Babel Standalone)</text>
+  <text x="50" y="116" font-family="Arial" font-size="8.5">· farmabol-app.jsx  ·  screens  ·  farmabol-ui.jsx</text>
+  <text x="50" y="130" font-family="Arial" font-size="8.5">· Componentes: Dashboard, POS, Productos</text>
+  <text x="50" y="144" font-family="Arial" font-size="8.5">· Transferencias, Uploads, Historial de Ventas</text>
+  <text x="50" y="158" font-family="Arial" font-size="8.5">· Estado reactivo global (store)</text>
+  <text x="50" y="172" font-family="Arial" font-size="8.5">· Routing basado en roles (RBAC)</text>
 
-  <!-- CAPA 2: Backend -->
-  <g transform="translate(50, 235)">
-    <rect width="700" height="150" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
-    <rect width="700" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
-    <text x="10" y="19" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">CAPA DE LÓGICA DE NEGOCIO (BACKEND)</text>
-    <text x="690" y="19" text-anchor="end" fill="#333333" font-family="Arial, Helvetica, sans-serif" font-size="10">Node.js + Express</text>
+  <!-- Component: Styles -->
+  <rect x="415" y="83" width="365" height="102" rx="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="415" y="83" width="365" height="18" rx="3" fill="#000"/>
+  <text x="598" y="96" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#fff">Diseño y Estilos</text>
+  <text x="425" y="116" font-family="Arial" font-size="8.5">· styles.css  ·  icons.jsx  ·  shell.jsx</text>
+  <text x="425" y="130" font-family="Arial" font-size="8.5">· Interfaz oscura premium, variables CSS</text>
+  <text x="425" y="144" font-family="Arial" font-size="8.5">· Iconos SVG propios</text>
+  <text x="425" y="158" font-family="Arial" font-size="8.5">· Layout responsivo adaptable</text>
+  <text x="425" y="172" font-family="Arial" font-size="8.5">· Micro-animaciones de estado</text>
 
-    <g transform="translate(20, 40)">
-      <rect width="320" height="48" fill="#ffffff" stroke="#000000" stroke-width="1" />
-      <text x="10" y="18" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">Servidor Express (server.js)</text>
-      <text x="10" y="35" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">Endpoints REST: /api/ventas, /api/productos, /api/transferencias</text>
-      <text x="10" y="45" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="9">Autenticación (ADMIN/VENDEDOR) · Transacciones ACID con FOR UPDATE</text>
-    </g>
-    <g transform="translate(360, 40)">
-      <rect width="300" height="48" fill="#ffffff" stroke="#000000" stroke-width="1" />
-      <text x="10" y="18" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">Middleware Message Queue</text>
-      <text x="10" y="35" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">Clase MessageQueue (cola FIFO en memoria)</text>
-      <text x="10" y="45" fill="#666666" font-family="Arial, Helvetica, sans-serif" font-size="9">Procesa transferencias asíncronas con retardo simulado de 3s</text>
-    </g>
+  <!-- Arrow L1 → L2 -->
+  <line x1="410" y1="200" x2="410" y2="232" stroke="#000" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="410" y1="232" x2="410" y2="200" stroke="#000" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="297" y="207" width="226" height="19" rx="9" fill="#fff" stroke="#000" stroke-width="1"/>
+  <text x="410" y="220" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">HTTP POST/GET (JSON REST API)</text>
 
-    <g transform="translate(20, 100)">
-      <rect width="640" height="35" fill="#f9f9f9" stroke="#000000" stroke-width="0.5" stroke-dasharray="3 3" />
-      <text x="10" y="22" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10" font-weight="bold">Validación de Stock · Bloqueo FOR UPDATE · BEGIN/COMMIT/ROLLBACK · Rollback automático en errores</text>
-    </g>
-  </g>
+  <!-- LAYER 2: BUSINESS LOGIC -->
+  <rect x="20" y="240" width="780" height="150" rx="4" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="410" y="259" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">CAPA DE LÓGICA DE NEGOCIO Y CONTROLADORES</text>
+  <text x="790" y="254" text-anchor="end" font-family="Arial" font-size="9" font-style="italic">Backend Node.js / Express</text>
 
-  <!-- Flecha -->
-  <line x1="400" y1="385" x2="400" y2="410" stroke="#000000" stroke-width="1.5" />
-  <polygon points="396,407 400,415 404,407" fill="#000000" />
-  <text x="410" y="405" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">pg.Pool Query</text>
+  <!-- Component: Express -->
+  <rect x="40" y="267" width="350" height="108" rx="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="40" y="267" width="350" height="18" rx="3" fill="#000"/>
+  <text x="215" y="280" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#fff">Servidor Express (server.js)</text>
+  <text x="50" y="301" font-family="Arial" font-size="8.5">· Endpoints REST: /api/ventas, /api/productos</text>
+  <text x="50" y="315" font-family="Arial" font-size="8.5">· /api/transferencias, /api/comprobantes</text>
+  <text x="50" y="329" font-family="Arial" font-size="8.5">· Autenticación RBAC (Admin / Vendedor)</text>
+  <text x="50" y="343" font-family="Arial" font-size="8.5">· Transacciones ACID: BEGIN/COMMIT/ROLLBACK</text>
+  <text x="50" y="357" font-family="Arial" font-size="8.5">· Bloqueo concurrente SELECT ... FOR UPDATE</text>
 
-  <!-- CAPA 3: Persistencia -->
-  <g transform="translate(50, 420)">
-    <rect width="700" height="200" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
-    <rect width="700" height="28" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
-    <text x="10" y="19" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">CAPA DE PERSISTENCIA</text>
-    <text x="690" y="19" text-anchor="end" fill="#333333" font-family="Arial, Helvetica, sans-serif" font-size="10">PostgreSQL</text>
+  <!-- Component: MessageQueue + Multer -->
+  <rect x="415" y="267" width="365" height="108" rx="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="415" y="267" width="365" height="18" rx="3" fill="#000"/>
+  <text x="598" y="280" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#fff">Middleware Message Queue + Multer</text>
+  <text x="425" y="301" font-family="Arial" font-size="8.5">· Clase MessageQueue (cola FIFO en memoria)</text>
+  <text x="425" y="315" font-family="Arial" font-size="8.5">· Procesa transferencias asíncronas (retardo 3s)</text>
+  <text x="425" y="329" font-family="Arial" font-size="8.5">· Validación stock · SELECT ... FOR UPDATE</text>
+  <text x="425" y="343" font-family="Arial" font-size="8.5">· ROLLBACK automático ante errores</text>
+  <text x="425" y="357" font-family="Arial" font-size="8.5">· Multer: carga archivos multipart/form-data</text>
 
-    <g transform="translate(20, 40)">
-      <rect width="320" height="145" fill="#ffffff" stroke="#000000" stroke-width="1" />
-      <text x="10" y="18" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">Adaptador BD (db.js)</text>
-      <text x="10" y="35" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">Connection Pool + Sembrado Automático</text>
-      <text x="10" y="55" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">Tablas:</text>
-      <text x="10" y="72" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">• usuarios (ADMIN/VENDEDOR)</text>
-      <text x="10" y="89" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">• productos (UNIQUE codigo+sucursal)</text>
-      <text x="10" y="106" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">• ventas + detalle_ventas</text>
-      <text x="10" y="123" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">• transferencias (cola persistida)</text>
-      <text x="10" y="140" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">• comprobantes (cloud storage)</text>
-    </g>
-    <g transform="translate(360, 40)">
-      <rect width="300" height="145" fill="#ffffff" stroke="#000000" stroke-width="1" />
-      <text x="10" y="18" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="bold">PostgreSQL Engine</text>
-      <text x="10" y="35" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">Transacciones ACID</text>
-      <text x="10" y="52" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">Restricciones: CHECK, UNIQUE, FK</text>
-      <text x="10" y="69" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">Clave compuesta: (codigo, sucursal)</text>
-      <text x="10" y="86" fill="#333333" font-family="'Courier New', Courier, monospace" font-size="10">Row locking: SELECT ... FOR UPDATE</text>
-      <path d="M 270 105 C 270 102, 290 102, 290 105 C 290 108, 270 108, 270 105" fill="none" stroke="#000000" stroke-width="1"/>
-      <path d="M 270 105 L 270 135 C 270 138, 290 138, 290 135 L 290 105" fill="none" stroke="#000000" stroke-width="1"/>
-      <path d="M 270 115 C 270 118, 290 118, 290 115" fill="none" stroke="#000000" stroke-width="0.5"/>
-      <path d="M 270 125 C 270 128, 290 128, 290 125" fill="none" stroke="#000000" stroke-width="0.5"/>
-    </g>
-  </g>
+  <!-- Arrow L2 → L3 -->
+  <line x1="410" y1="390" x2="410" y2="420" stroke="#000" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="410" y1="420" x2="410" y2="390" stroke="#000" stroke-width="1.5" marker-end="url(#arr)"/>
+  <rect x="315" y="396" width="190" height="19" rx="9" fill="#fff" stroke="#000" stroke-width="1"/>
+  <text x="410" y="409" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold">pg.Pool Client Query</text>
+
+  <!-- LAYER 3: PERSISTENCE -->
+  <rect x="20" y="428" width="780" height="135" rx="4" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="410" y="447" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold">CAPA DE PERSISTENCIA Y ACCESO A DATOS</text>
+  <text x="790" y="442" text-anchor="end" font-family="Arial" font-size="9" font-style="italic">Base de Datos Relacional / PostgreSQL</text>
+
+  <!-- Component: DB Adapter -->
+  <rect x="40" y="455" width="350" height="93" rx="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="40" y="455" width="350" height="18" rx="3" fill="#000"/>
+  <text x="215" y="468" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#fff">Adaptador de Base de Datos (db.js)</text>
+  <text x="50" y="490" font-family="Arial" font-size="8.5">· Connection Pool &amp; Sembrado Automático</text>
+  <text x="50" y="504" font-family="Arial" font-size="8.5">· Tablas: usuarios, productos, ventas</text>
+  <text x="50" y="518" font-family="Arial" font-size="8.5">· detalle_ventas, transferencias, comprobantes</text>
+  <text x="50" y="532" font-family="Arial" font-size="8.5">· Crea esquemas si no existen al iniciar</text>
+
+  <!-- Component: PostgreSQL -->
+  <rect x="415" y="455" width="365" height="93" rx="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="415" y="455" width="365" height="18" rx="3" fill="#000"/>
+  <text x="598" y="468" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#fff">PostgreSQL Engine (V18)</text>
+  <text x="425" y="490" font-family="Arial" font-size="8.5">· Transacciones ACID nativas</text>
+  <text x="425" y="504" font-family="Arial" font-size="8.5">· Restricciones: CHECK (stock &gt;= 0), UNIQUE, FK</text>
+  <text x="425" y="518" font-family="Arial" font-size="8.5">· Clave compuesta: (codigo, sucursal)</text>
+  <text x="425" y="532" font-family="Arial" font-size="8.5">· Local o Supabase Cloud DB</text>
 </svg>

@@ -1,150 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 750" width="1000" height="750">
-  <rect width="1000" height="750" fill="#ffffff" stroke="#000000" stroke-width="2" />
-  <text x="500" y="35" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="bold">DIAGRAMA DE CLASES (UML) — FARMABOL</text>
-  <text x="500" y="55" text-anchor="middle" fill="#333333" font-family="Arial, Helvetica, sans-serif" font-size="12">Modelo de Datos con Producto Multi-sucursal y Transferencias Asíncronas</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" width="900" height="660">
+  <defs>
+    <marker id="assoc" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="none" stroke="#000" stroke-width="1.5"/>
+    </marker>
+    <marker id="comp" markerWidth="12" markerHeight="8" refX="1" refY="4" orient="auto">
+      <polygon points="0 4, 6 0, 12 4, 6 8" fill="#000"/>
+    </marker>
+    <marker id="nav" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#000"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="24" text-anchor="middle" font-family="Arial" font-size="15" font-weight="bold">DIAGRAMA DE CLASES (UML)</text>
+  <text x="450" y="42" text-anchor="middle" font-family="Arial" font-size="10">Modelo Entidad-Relación Mapeado a Clases del Negocio FARMABOL</text>
 
   <!-- CLASS: Usuario -->
-  <g transform="translate(50, 90)">
-    <rect width="240" height="210" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
-    <rect width="240" height="30" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
-    <text x="120" y="20" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">Usuario</text>
-    <line x1="0" y1="30" x2="240" y2="30" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- id: int {PK}</text>
-    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- usuario: string {UK}</text>
-    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- pass: string</text>
-    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- nombre: string</text>
-    <text x="10" y="108" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- rol: string</text>
-    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- sucursal: string</text>
-    <line x1="0" y1="135" x2="240" y2="135" stroke="#000000" stroke-width="1" />
-    <text x="10" y="153" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">+ validarCredenciales(): bool</text>
-    <text x="10" y="168" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">+ obtenerSucursal(): string</text>
-  </g>
-
-  <!-- CLASS: Venta -->
-  <g transform="translate(380, 90)">
-    <rect width="240" height="165" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
-    <rect width="240" height="30" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
-    <text x="120" y="20" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">Venta</text>
-    <line x1="0" y1="30" x2="240" y2="30" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- id: int {PK}</text>
-    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- fecha: timestamp</text>
-    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- vendedor: string</text>
-    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- total: numeric</text>
-    <line x1="0" y1="105" x2="240" y2="105" stroke="#000000" stroke-width="1" />
-    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">+ crearVenta(): int</text>
-    <text x="10" y="138" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">+ calcularTotal(): numeric</text>
-  </g>
-
-  <!-- CLASS: DetalleVenta -->
-  <g transform="translate(50, 370)">
-    <rect width="240" height="210" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
-    <rect width="240" height="30" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
-    <text x="120" y="20" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">DetalleVenta</text>
-    <line x1="0" y1="30" x2="240" y2="30" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- id: int {PK}</text>
-    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- venta_id: int {FK}</text>
-    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- producto_id: int {FK}</text>
-    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- codigo: string</text>
-    <text x="10" y="108" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- nombre: string</text>
-    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- cantidad: int</text>
-    <text x="10" y="138" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- precio: numeric</text>
-    <line x1="0" y1="150" x2="240" y2="150" stroke="#000000" stroke-width="1" />
-    <text x="10" y="168" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">+ calcularSubtotal(): numeric</text>
-  </g>
+  <rect x="20" y="55" width="195" height="160" rx="2" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="20" y="55" width="195" height="22" rx="2" fill="#000"/>
+  <text x="118" y="71" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#fff">Usuario</text>
+  <line x1="20" y1="113" x2="215" y2="113" stroke="#000" stroke-width="1"/>
+  <text x="30" y="90" font-family="Arial" font-size="9">+ id: int {PK}</text>
+  <text x="30" y="102" font-family="Arial" font-size="9">+ usuario: string {UK}</text>
+  <text x="30" y="126" font-family="Arial" font-size="9">+ pass: string</text>
+  <text x="30" y="138" font-family="Arial" font-size="9">+ nombre: string</text>
+  <text x="30" y="150" font-family="Arial" font-size="9">+ rol: string</text>
+  <text x="30" y="162" font-family="Arial" font-size="9">+ sucursal: string</text>
+  <line x1="20" y1="170" x2="215" y2="170" stroke="#000" stroke-width="1"/>
+  <text x="30" y="183" font-family="Arial" font-size="9">+ validar(): boolean</text>
+  <text x="30" y="196" font-family="Arial" font-size="9">+ obtenerDatos(): JSON</text>
 
   <!-- CLASS: Producto -->
-  <g transform="translate(380, 370)">
-    <rect width="280" height="240" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
-    <rect width="280" height="30" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
-    <text x="140" y="20" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">Producto</text>
-    <line x1="0" y1="30" x2="280" y2="30" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- id: int {PK}</text>
-    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- codigo: string {UK}</text>
-    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- nombre: string</text>
-    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- precio: numeric</text>
-    <text x="10" y="108" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- stock: int</text>
-    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- laboratorio: string</text>
-    <text x="10" y="138" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- categoria: string</text>
-    <text x="10" y="153" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- fecha_vencimiento: date</text>
-    <text x="10" y="168" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- sucursal: string {UK}</text>
-    <line x1="0" y1="180" x2="280" y2="180" stroke="#000000" stroke-width="1" />
-    <text x="10" y="198" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">+ verificarStock(): bool</text>
-    <text x="10" y="213" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">+ descontarStock(cant): int</text>
-    <text x="10" y="230" fill="#666666" font-family="'Courier New', Courier, monospace" font-size="9">UNIQUE (codigo, sucursal)</text>
-  </g>
+  <rect x="350" y="55" width="210" height="190" rx="2" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="350" y="55" width="210" height="22" rx="2" fill="#000"/>
+  <text x="455" y="71" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#fff">Producto</text>
+  <line x1="350" y1="113" x2="560" y2="113" stroke="#000" stroke-width="1"/>
+  <text x="360" y="90" font-family="Arial" font-size="9">+ id: int {PK}</text>
+  <text x="360" y="102" font-family="Arial" font-size="9">+ codigo: string {UK}</text>
+  <text x="360" y="126" font-family="Arial" font-size="9">+ nombre: string</text>
+  <text x="360" y="138" font-family="Arial" font-size="9">+ precio: numeric</text>
+  <text x="360" y="150" font-family="Arial" font-size="9">+ stock: int</text>
+  <text x="360" y="162" font-family="Arial" font-size="9">+ laboratorio: string</text>
+  <text x="360" y="174" font-family="Arial" font-size="9">+ categoria: string</text>
+  <text x="360" y="186" font-family="Arial" font-size="9">+ fecha_vencimiento: date</text>
+  <text x="360" y="198" font-family="Arial" font-size="9">+ sucursal: string</text>
+  <line x1="350" y1="208" x2="560" y2="208" stroke="#000" stroke-width="1"/>
+  <text x="360" y="221" font-family="Arial" font-size="9">+ verificarStock(): boolean</text>
+  <text x="360" y="234" font-family="Arial" font-size="9">+ descontarStock(): int</text>
+
+  <!-- CLASS: Venta -->
+  <rect x="20" y="295" width="195" height="145" rx="2" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="20" y="295" width="195" height="22" rx="2" fill="#000"/>
+  <text x="118" y="311" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#fff">Venta</text>
+  <line x1="20" y1="353" x2="215" y2="353" stroke="#000" stroke-width="1"/>
+  <text x="30" y="330" font-family="Arial" font-size="9">+ id: int {PK}</text>
+  <text x="30" y="342" font-family="Arial" font-size="9">+ fecha: timestamp</text>
+  <text x="30" y="364" font-family="Arial" font-size="9">+ vendedor: string</text>
+  <text x="30" y="376" font-family="Arial" font-size="9">+ total: numeric</text>
+  <line x1="20" y1="385" x2="215" y2="385" stroke="#000" stroke-width="1"/>
+  <text x="30" y="398" font-family="Arial" font-size="9">+ crearVenta(): int</text>
+  <text x="30" y="410" font-family="Arial" font-size="9">+ calcularTotal(): double</text>
+
+  <!-- CLASS: DetalleVenta -->
+  <rect x="350" y="295" width="210" height="175" rx="2" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="350" y="295" width="210" height="22" rx="2" fill="#000"/>
+  <text x="455" y="311" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#fff">DetalleVenta</text>
+  <line x1="350" y1="369" x2="560" y2="369" stroke="#000" stroke-width="1"/>
+  <text x="360" y="330" font-family="Arial" font-size="9">+ id: int {PK}</text>
+  <text x="360" y="342" font-family="Arial" font-size="9">+ venta_id: int {FK}</text>
+  <text x="360" y="354" font-family="Arial" font-size="9">+ producto_id: int {FK}</text>
+  <text x="360" y="380" font-family="Arial" font-size="9">+ codigo: string</text>
+  <text x="360" y="392" font-family="Arial" font-size="9">+ nombre: string</text>
+  <text x="360" y="404" font-family="Arial" font-size="9">+ cantidad: int</text>
+  <text x="360" y="416" font-family="Arial" font-size="9">+ precio: numeric</text>
+  <line x1="350" y1="425" x2="560" y2="425" stroke="#000" stroke-width="1"/>
+  <text x="360" y="438" font-family="Arial" font-size="9">+ calcularSubtotal(): double</text>
+  <text x="360" y="450" font-family="Arial" font-size="9">+ obtenerProducto(): Producto</text>
 
   <!-- CLASS: Transferencia -->
-  <g transform="translate(720, 370)">
-    <rect width="240" height="230" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
-    <rect width="240" height="30" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
-    <text x="120" y="20" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">Transferencia</text>
-    <line x1="0" y1="30" x2="240" y2="30" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- id: int {PK}</text>
-    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- fecha: timestamp</text>
-    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- codigo: string</text>
-    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- nombre: string</text>
-    <text x="10" y="108" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- cantidad: int</text>
-    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- origen: string</text>
-    <text x="10" y="138" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- destino: string</text>
-    <line x1="0" y1="150" x2="240" y2="150" stroke="#000000" stroke-width="1" />
-    <text x="10" y="168" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- estado: string</text>
-    <text x="20" y="183" fill="#666666" font-family="'Courier New', Courier, monospace" font-size="9">[PENDIENTE, COMPLETADO, ERROR]</text>
-    <text x="10" y="198" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- mensaje: string</text>
-    <text x="10" y="218" fill="#666666" font-family="'Courier New', Courier, monospace" font-size="9">Cola asíncrona (MessageQueue)</text>
-  </g>
+  <rect x="20" y="510" width="195" height="135" rx="2" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="20" y="510" width="195" height="22" rx="2" fill="#000"/>
+  <text x="118" y="526" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#fff">Transferencia</text>
+  <line x1="20" y1="570" x2="215" y2="570" stroke="#000" stroke-width="1"/>
+  <text x="30" y="545" font-family="Arial" font-size="9">+ id: int {PK}</text>
+  <text x="30" y="557" font-family="Arial" font-size="9">+ fecha: timestamp</text>
+  <text x="30" y="579" font-family="Arial" font-size="9">+ codigo, nombre: string</text>
+  <text x="30" y="591" font-family="Arial" font-size="9">+ cantidad: int</text>
+  <text x="30" y="603" font-family="Arial" font-size="9">+ origen, destino: string</text>
+  <text x="30" y="615" font-family="Arial" font-size="9">+ estado: string</text>
+  <text x="30" y="627" font-family="Arial" font-size="9">+ mensaje: string</text>
 
   <!-- CLASS: Comprobante -->
-  <g transform="translate(720, 90)">
-    <rect width="240" height="180" fill="#ffffff" stroke="#000000" stroke-width="1.5" />
-    <rect width="240" height="30" fill="#eeeeee" stroke="#000000" stroke-width="0.5" />
-    <text x="120" y="20" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="bold">Comprobante</text>
-    <line x1="0" y1="30" x2="240" y2="30" stroke="#000000" stroke-width="1" />
-    <text x="10" y="48" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- id: int {PK}</text>
-    <text x="10" y="63" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- venta_id: int {FK}</text>
-    <text x="10" y="78" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- nombre_archivo: string</text>
-    <text x="10" y="93" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- url: string</text>
-    <text x="10" y="108" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- tipo: string</text>
-    <text x="10" y="123" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">- fecha: timestamp</text>
-    <line x1="0" y1="135" x2="240" y2="135" stroke="#000000" stroke-width="1" />
-    <text x="10" y="153" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">+ obtenerURL(): string</text>
-    <text x="10" y="168" fill="#000000" font-family="'Courier New', Courier, monospace" font-size="10">+ asociarVenta(id): bool</text>
-  </g>
+  <rect x="680" y="295" width="200" height="155" rx="2" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <rect x="680" y="295" width="200" height="22" rx="2" fill="#000"/>
+  <text x="780" y="311" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="#fff">Comprobante</text>
+  <line x1="680" y1="370" x2="880" y2="370" stroke="#000" stroke-width="1"/>
+  <text x="690" y="330" font-family="Arial" font-size="9">+ id: int {PK}</text>
+  <text x="690" y="342" font-family="Arial" font-size="9">+ venta_id: int {FK}</text>
+  <text x="690" y="354" font-family="Arial" font-size="9">+ nombre_archivo: string</text>
+  <text x="690" y="379" font-family="Arial" font-size="9">+ url: string</text>
+  <text x="690" y="391" font-family="Arial" font-size="9">+ tipo: string</text>
+  <text x="690" y="403" font-family="Arial" font-size="9">+ fecha: timestamp</text>
+  <line x1="680" y1="413" x2="880" y2="413" stroke="#000" stroke-width="1"/>
+  <text x="690" y="426" font-family="Arial" font-size="9">+ obtenerURL(): string</text>
+  <text x="690" y="438" font-family="Arial" font-size="9">+ asociarVenta(): void</text>
 
-  <!-- ASSOCIATIONS -->
-  <!-- Usuario 1 --- 0..* Venta -->
-  <line x1="290" y1="180" x2="380" y2="180" stroke="#000000" stroke-width="1" />
-  <polygon points="372,176 380,180 372,184" fill="none" stroke="#000000" stroke-width="1" />
-  <text x="310" y="172" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">1</text>
-  <text x="365" y="172" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">0..*</text>
-  <text x="335" y="198" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9">registra</text>
+  <!-- RELATIONSHIPS -->
+  <!-- Usuario 1..* → Venta (registers) -->
+  <line x1="118" y1="215" x2="118" y2="295" stroke="#000" stroke-width="1.5" marker-end="url(#nav)"/>
+  <text x="128" y="258" font-family="Arial" font-size="9">1</text>
+  <text x="128" y="290" font-family="Arial" font-size="9">0..*</text>
+  <text x="65" y="258" font-family="Arial" font-size="9" font-style="italic">registra</text>
 
-  <!-- Venta 1 --- 1..* DetalleVenta (composición) -->
-  <polygon points="500,270 505,278 500,286 495,278" fill="#000000" />
-  <line x1="500" y1="286" x2="170" y2="370" stroke="#000000" stroke-width="1" />
-  <polygon points="162,366 170,370 162,374" fill="none" stroke="#000000" stroke-width="1" />
-  <text x="430" y="302" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">1</text>
-  <text x="230" y="352" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">1..*</text>
-  <text x="350" y="335" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9">contiene</text>
+  <!-- Venta 1 → 1..* DetalleVenta (composición) -->
+  <polygon points="215,372 227,366 215,360" fill="#000"/>
+  <line x1="215" y1="366" x2="350" y2="366" stroke="#000" stroke-width="1.5" marker-end="url(#nav)"/>
+  <text x="222" y="360" font-family="Arial" font-size="9">1</text>
+  <text x="335" y="360" font-family="Arial" font-size="9">1..*</text>
+  <text x="258" y="354" font-family="Arial" font-size="9" font-style="italic">contiene</text>
 
-  <!-- Producto 1 --- 0..* DetalleVenta -->
-  <line x1="380" y1="490" x2="290" y2="490" stroke="#000000" stroke-width="1" />
-  <polygon points="298,486 290,490 298,494" fill="none" stroke="#000000" stroke-width="1" />
-  <text x="370" y="482" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">1</text>
-  <text x="240" y="482" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">0..*</text>
-  <text x="335" y="508" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9">se vende en</text>
+  <!-- Producto 0..* ← DetalleVenta -->
+  <line x1="455" y1="245" x2="455" y2="295" stroke="#000" stroke-width="1.5" marker-end="url(#nav)"/>
+  <text x="462" y="270" font-family="Arial" font-size="9" font-style="italic">se vende en</text>
+  <text x="462" y="248" font-family="Arial" font-size="9">0..*</text>
+  <text x="462" y="290" font-family="Arial" font-size="9">1</text>
 
-  <!-- Producto 1 --- 0..* Transferencia -->
-  <line x1="660" y1="530" x2="720" y2="510" stroke="#000000" stroke-width="1" />
-  <polygon points="713,507 720,510 713,513" fill="none" stroke="#000000" stroke-width="1" />
-  <text x="680" y="522" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">1</text>
-  <text x="710" y="518" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">0..*</text>
-  <text x="700" y="505" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9">transfiere</text>
+  <!-- Producto 0..* → Transferencia -->
+  <line x1="455" y1="475" x2="455" y2="570" stroke="#000" stroke-width="1"/>
+  <line x1="455" y1="570" x2="215" y2="570" stroke="#000" stroke-width="1" marker-end="url(#nav)"/>
+  <text x="310" y="562" font-family="Arial" font-size="9" font-style="italic">se transfiere</text>
+  <text x="424" y="485" font-family="Arial" font-size="9">0..*</text>
 
-  <!-- Venta 1 --- 0..* Comprobante -->
-  <line x1="620" y1="180" x2="720" y2="180" stroke="#000000" stroke-width="1" />
-  <polygon points="712,176 720,180 712,184" fill="none" stroke="#000000" stroke-width="1" />
-  <text x="630" y="172" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">1</text>
-  <text x="705" y="172" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="10">0..*</text>
-  <text x="670" y="198" text-anchor="middle" fill="#000000" font-family="Arial, Helvetica, sans-serif" font-size="9">tiene</text>
+  <!-- Venta 0..* → Comprobante -->
+  <line x1="215" y1="362" x2="630" y2="362" stroke="#000" stroke-width="1"/>
+  <line x1="630" y1="362" x2="680" y2="362" stroke="#000" stroke-width="1" marker-end="url(#nav)"/>
+  <text x="420" y="354" font-family="Arial" font-size="9" font-style="italic">adjunta</text>
+  <text x="648" y="354" font-family="Arial" font-size="9">0..*</text>
 </svg>

@@ -1,0 +1,272 @@
+@page {
+  size: Letter;
+  margin: 25mm 25mm 25mm 30mm;
+  @top-right {
+    content: counter(page);
+    font-size: 10pt;
+    font-family: 'Times New Roman', Times, serif;
+    vertical-align: top;
+  }
+}
+
+@page:first {
+  margin: 25mm 25mm 25mm 30mm;
+  @top-right {
+    content: none;
+  }
+}
+
+body {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 12pt;
+  line-height: 1.5;
+  color: #000;
+  margin: 0;
+  padding: 0;
+  text-align: justify;
+  orphans: 3;
+  widows: 3;
+}
+
+/* Cover page */
+.cover-page {
+  text-align: center;
+  padding-top: 100px;
+  page-break-after: always;
+}
+
+.cover-page .logo {
+  max-width: 550px;
+  height: auto;
+  display: block;
+  margin: 0 auto 60px;
+}
+
+.cover-page h1 {
+  font-size: 26pt;
+  font-weight: bold;
+  margin: 40px 0 20px;
+  border: none;
+  page-break-before: avoid;
+}
+
+.cover-page h2 {
+  font-size: 18pt;
+  font-weight: normal;
+  margin-bottom: 40px;
+  border: none;
+}
+
+.cover-page .cover-info {
+  margin-top: 80px;
+  font-size: 14pt;
+  line-height: 2.2;
+}
+
+.cover-page .cover-info p {
+  text-align: center;
+  margin: 0;
+}
+
+/* No lines under headings (APA 7) */
+h1, h2, h3, h4, h5, h6 {
+  color: #000;
+  border: none;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  page-break-after: avoid;
+}
+
+h1 {
+  font-size: 22pt;
+  font-weight: bold;
+  page-break-before: always;
+  text-align: center;
+  margin-top: 48px;
+}
+
+h1:first-of-type {
+  page-break-before: avoid;
+}
+
+h2 {
+  font-size: 16pt;
+  font-weight: bold;
+  margin-top: 28px;
+}
+
+h3 {
+  font-size: 14pt;
+  font-weight: bold;
+  margin-top: 22px;
+  font-style: italic;
+}
+
+h4 {
+  font-size: 12pt;
+  font-weight: bold;
+  margin-top: 16px;
+}
+
+/* Paragraphs */
+p {
+  margin: 6px 0 10px;
+  text-indent: 0;
+}
+
+/* Tables - APA 7 with red borders */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 10pt;
+}
+
+th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+  border: 1px solid #cc0000;
+  padding: 6px 8px;
+  text-align: left;
+}
+
+td {
+  border: 1px solid #cc0000;
+  padding: 6px 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #fef2f2;
+}
+
+/* Code blocks */
+pre {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 8.5pt;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 9pt;
+  background-color: #f0f0f0;
+  padding: 1px 4px;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 3px solid #000;
+  padding-left: 12px;
+  margin: 10px 0;
+  font-style: italic;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 16px auto;
+}
+
+/* Image figure captions (APA 7: bold label, italic title) */
+img + em, p img + em, figure figcaption {
+  display: block;
+  text-align: center;
+  font-size: 9pt;
+  margin-top: 4px;
+  margin-bottom: 16px;
+}
+
+/* Lists */
+ul, ol {
+  margin: 8px 0;
+  padding-left: 28px;
+}
+
+li {
+  margin: 3px 0;
+}
+
+/* Horizontal rules */
+hr {
+  border: none;
+  border-top: 1px solid #000;
+  margin: 20px 0;
+}
+
+/* Links - APA 7 uses plain black, no underline */
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Page breaks */
+.page-break {
+  page-break-before: always;
+}
+
+/* Table of contents */
+.toc {
+  page-break-after: always;
+}
+
+.toc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc li {
+  padding: 3px 0;
+  font-size: 12pt;
+}
+
+.toc a {
+  text-decoration: none;
+}
+
+/* Footer - page numbers only */
+@page {
+  @bottom-center {
+    content: none;
+  }
+  @top-right {
+    content: none;
+  }
+}
+
+/* Figures */
+figure {
+  margin: 20px auto;
+  text-align: center;
+}
+
+figure img {
+  margin: 0 auto;
+}
+
+figure figcaption {
+  font-size: 10pt;
+  margin-top: 6px;
+  text-align: center;
+  font-style: italic;
+}
+
+/* No header or footer lines */
+header, footer {
+  display: none;
+}
