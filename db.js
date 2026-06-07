@@ -262,6 +262,30 @@ export async function initDatabase() {
       console.log('Siembra de datos completada.');
     }
 
+    // 7. Crear tabla de version de esquema
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS _schema_version (
+        version INT PRIMARY KEY,
+        applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        description VARCHAR(255)
+      )
+    `);
+
+    // 8. Indices en columnas FK para mejorar performance
+    await client.query('CREATE INDEX IF NOT EXISTS idx_detalle_ventas_venta_id ON detalle_ventas(venta_id)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_detalle_ventas_producto_id ON detalle_ventas(producto_id)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_comprobantes_venta_id ON comprobantes(venta_id)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_transferencias_estado ON transferencias(estado)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_productos_sucursal ON productos(sucursal)');
+    await client.query('CREATE INDEX IF NOT EXISTS idx_usuarios_usuario ON usuarios(usuario)');
+
+    // Registrar version de esquema
+    await client.query(`
+      INSERT INTO _schema_version (version, description)
+      VALUES (2, 'Hito 4: 6 tablas + mensajes.hasheados + indices FK')
+      ON CONFLICT (version) DO NOTHING
+    `);
+
     await client.query('COMMIT');
   } catch (err) {
     await client.query('ROLLBACK');
